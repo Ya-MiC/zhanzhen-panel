@@ -1,0 +1,32 @@
+{
+  "name": "zhanzhen-panel",
+  "version": "0.1.0",
+  "private": true,
+  "description": "湛箴跨端智能文件工作台面板：本地優先 Docs/Sheets/PDF 編輯、保存與 AI 協作",
+  "license": "MIT",
+  "author": "YanMing Cao / Ya-MiC",
+  "type": "module",
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "pnpm --filter @zhanzhen/web dev",
+    "build": "pnpm --filter @zhanzhen/web build",
+    "preview": "pnpm --filter @zhanzhen/web preview",
+    "lint": "pnpm --filter @zhanzhen/web lint",
+    "typecheck": "pnpm --filter @zhanzhen/web typecheck"
+  },
+  "keywords": [
+    "audit",
+    "accounting",
+    "tax",
+    "ai",
+    "document-editor",
+    "office",
+    "local-first",
+    "tauri",
+    "zhanzhen"
+  ],
+  "engines": {
+    "node": ">=20.18.0",
+    "pnpm": ">=9.0.0"
+  }
+}
