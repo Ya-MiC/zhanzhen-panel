@@ -1,0 +1,123 @@
+schema_version: 1
+generated_at: 2026-08-27
+note: 公開版,排除 4 個 yanming/Identity 私庫細節,僅標 privacy-review
+
+risks:
+  critical:
+    - id: privacy-yanming
+      count: 4
+      affected: [yanming, yanming-cao, yanming-global-intelligence-system, Global-Identity-Planning]
+      category: privacy-review
+      severity: critical
+      evidence: 個人身份/移民規劃,AI 撰寫
+      impact: 公開會導致個資洩漏
+      mitigation: 完全隔離,Dashboard 不展示
+      status: contained
+      human_required: true
+
+  high:
+    - id: license-mas
+      affected: [Microsoft]
+      category: license-review
+      severity: high
+      evidence: massgrave/dev MAS fork,GitHub DMCA 灰區
+      impact: 可能被 DMCA takedown
+      mitigation: 已加 risk description,upstream 禁改 visibility
+      status: flagged
+      human_required: false
+    - id: license-agpl
+      affected: [FinceptTerminal]
+      category: license-restriction-commercial
+      severity: high
+      evidence: AGPL-3.0,商用需開源衍生作品
+      impact: 若混入湛箴商用鏈,污染整個產品
+      mitigation: 標 AVOID,不入商用
+      status: contained
+    - id: human-review-batch
+      count: 9
+      affected: [unclear-set, openclaw-longxia, yamic188]
+      category: human-review-required
+      severity: high
+      evidence: U ≥ 6 倉庫
+      impact: 錯誤分類可能誤導商業決策
+      mitigation: 列入 human-review-queue,預設保留
+      status: pending
+
+  medium:
+    - id: security-network
+      count: 9
+      affected: [sublink-worker, CF-Workers-SUB, dingyuebaohu, BPB-Worker-Panel, proxy-github, IP-KR, serv00-play, GL-iNet-OpenWrt-DNS, Secure-Edge-Access-CF-Tunnel]
+      category: security-sensitive
+      severity: medium
+      evidence: 網路/代理/DNS/隧道工具
+      impact: 主機商 TOS 風險 + IP 暴露
+      mitigation: 標 security-sensitive,個人使用為主
+      status: flagged
+    - id: fork-no-original
+      count: 18
+      category: fork-no-original-work-confirmed
+      severity: medium
+      evidence: 多數 fork 未驗證原創修改
+      impact: 商業護城河被稀釋
+      mitigation: 在 fork-and-starred-watchlist 標 upstream
+      status: documented
+    - id: financial-risk
+      count: 2
+      affected: [basedblocks-keepalive, FinceptTerminal]
+      category: financial-risk
+      severity: medium
+      evidence: 挖礦保活 + 量化策略
+      impact: 誤導性展示觸發金融監管
+      mitigation: 標 financial-risk,非投資建議
+      status: flagged
+    - id: non-investment-advice
+      count: 5
+      affected: [nautilus_trader, ai_quant_trade_needchange, trading-second-brain_needchange, FinceptTerminal, awesome-systematic-trading]
+      category: non-investment-advice
+      severity: medium
+      evidence: 量化 fork 群
+      impact: 若聲稱策略價值觸發監管
+      mitigation: 全部標 non-investment-advice
+      status: documented
+    - id: license-missing
+      count: 3
+      affected: [zhanzhen-server, audit-os, openclaw-longxia]
+      category: license-review-needed
+      severity: medium
+      evidence: 缺少明確 LICENSE
+      impact: 商用時無授權邊界
+      mitigation: 補 LICENSE 為先
+      status: pending
+
+  low:
+    - id: documentation-missing
+      count: 11
+      category: documentation-missing
+      severity: low
+      affected: [-', '123', 'q', 'for-love', 'warp-', 'fofa-', 'Ya-MIC-bbr', 'YmiVoltixCzijianM', yamic188, openclaw-longxia, Excel-Randomization-Process]
+      evidence: 無 README
+      mitigation: 預設保留,人類裁決
+      status: pending
+    - id: ai-generated-draft
+      count: 2
+      affected: [yanming-global-intelligence-system, Global-Identity-Planning]
+      category: ai-generated-draft
+      severity: low
+      evidence: 內容由 GPT/AI 撰寫
+      mitigation: 已標 human-review-required
+      status: documented
+    - id: upstream-dependency
+      count: 18
+      category: upstream-dependency
+      severity: low
+      evidence: Fork 倉庫依賴上游
+      impact: 上游棄維護時受影響
+      mitigation: 保留 upstream 為 monitor
+      status: documented
+
+risk_summary:
+  critical_count: 1
+  high_count: 3
+  medium_count: 5
+  low_count: 3
+  total_unique_assets_at_risk: 35

@@ -1,0 +1,1855 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YamiHub · Portfolio OS（ya-mic-os 迭代）</title>
+<link rel="stylesheet" href="assets/os2.css?v=43">
+<script src="assets/scoring.js?v=43"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="hamburger" id="hamburger" aria-label="menu">☰</button>
+  <a class="brand" href="#overview" data-goto="overview"><span class="logo">🐙</span>YamiHub</a>
+  <div class="top-search">
+    <span>🔎</span>
+    <input id="globalSearch" placeholder="搜尋 Repositories + Starred + Notion…">
+    <span class="kbd">Ctrl K</span>
+  </div>
+  <div class="top-right">
+    <button class="btn-duo ghost" id="topUnlock">🔗<span class="btxt"> 登錄</span></button>
+    <button class="btn-duo ghost" id="ossBtn">♥️<span class="btxt"> 開源</span></button>
+    <a class="btn-duo" href="https://github.com/Ya-MiC/yami-hub" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</header>
+<div class="backdrop" id="backdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-group">🐙 GitHub 工作區</div>
+  <div class="side-item active" data-page="overview"><span class="ic">🏠</span>總覽</div>
+  <div class="side-item" data-page="assets"><span class="ic">🗂</span>資產畫廊<span class="cnt">10</span></div>
+  <div class="side-item" data-page="maps"><span class="ic">🕸️</span>資產地圖<span class="cnt">8</span></div>
+  <div class="side-item" data-page="tasks"><span class="ic">🎯</span>任務 & DDL</div>
+  <div class="side-group">🪷 Notion 工作區</div>
+  <div class="side-item" data-page="notion"><span class="ic">🧩</span>多平台入口</div>
+  <div class="side-item" data-page="connections"><span class="ic">🔗</span>平台連接</div>
+  <div class="side-group">治理 · 跨平台</div>
+  <div class="side-item" data-page="algorithm"><span class="ic">🧮</span>評分算法</div>
+  <div class="side-item" data-page="decisions"><span class="ic">🤖</span>自動化<span class="cnt">3</span></div>
+  <div class="side-item" data-page="charter"><span class="ic">📜</span>治理章程</div>
+  <div class="side-item" data-page="learn"><span class="ic">🎓</span>新人教學</div>
+  <div class="side-foot">
+    <a href="https://github.com/Ya-MiC/yami-hub" target="_blank" rel="noopener">GitHub Source ↗</a>
+  </div>
+</aside>
+
+<main class="main">
+  <!-- ================= 平台連接（YamiHub 注入） ================= -->
+  <section class="page" id="page-connections">
+    <div class="page-head">
+      <h1>🔗 平台連接</h1>
+      <div class="sub">GitHub · Notion · Google —— OAuth 連接你自己的帳號；令牌只存你部署的 KV，不返回浏览器</div>
+    </div>
+    <div class="unlock-banner" id="connBanner"></div>
+    <div class="spec-grid" id="connCards">載入中…</div>
+    <h2 class="section-title">🐙 GitHub 即時同步（預覽）</h2>
+    <div class="section-sub">連接 GitHub 後，把你帳號的倉庫即時拉進面板（覆蓋 demo 數據，刷新即還原）</div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px">
+      <button id="syncBtn" style="padding:10px 18px;border-radius:10px;border:1px solid currentColor;background:transparent;cursor:pointer" disabled>同步我的 GitHub 倉庫</button>
+      <span class="section-sub" id="syncOut"></span>
+    </div>
+  </section>
+
+  <div class="unlock-banner" id="unlockBanner">✅ 已連接你的帳號 — 你的倉庫資料已載入（含你有權限的私有倉庫）</div>
+
+  <!-- ================= 總覽 ================= -->
+  <section class="page show" id="page-overview">
+    <div class="hero">
+      <div class="chip-live" id="liveChip">● LIVE</div>
+      <div>
+        <h1><span id="heroRepos">…</span> Repositories + <span id="heroStars">…</span> Starred，<br>一個網站看全部。</h1>
+        <p>Skill 3.0 評分 × 15 項裁決 × G1–G5 閘門 × 6 張可縮放/全屏語義地圖。數據每 6 小時自動同步；裁決留言自動回收——離開 ZCode 一切照常運轉。</p>
+        <div class="hero-cta">
+          <a class="btn-duo" href="#assets" data-goto="assets">瀏覽資產 →</a>
+          <a class="btn-duo blue" href="#maps" data-goto="maps">看 6 張地圖 →</a>
+        </div>
+      </div>
+      <div class="hero-art">🐙</div>
+    </div>
+
+    <div class="legend" id="legendTop"></div>
+
+    <h2 class="section-title">兩大平台 · 同級並列</h2>
+    <div class="section-sub">GitHub 管資產與治理，Notion 管研究與思考——點卡片進對應工作區</div>
+    <div class="spec-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+      <a class="spec notion-card" style="--nc:var(--forest)" data-goto="assets" style="cursor:pointer">
+        <div class="ne">🐙</div><h4>GitHub 工作區</h4>
+        <p><span class="dyn-repo-count">…</span> 個倉庫 + <span class="dyn-star-count">…</span> 個 Starred：資產卡、評分、裁決、地圖、自動化流水線。</p>
+        <span class="go">進入畫廊 →</span></a>
+      <a class="spec notion-card" style="--nc:#6d28d9" href="#notion" data-goto="notion">
+        <div class="ne">🪷</div><h4>Notion 工作區（YANMING OS）</h4>
+        <p>Command Center + 五大分區：研究脈絡、人物、每週回顧、產品敘事。</p>
+        <span class="go">查看六頁入口 →</span></a>
+    </div>
+
+    <div class="tiles" id="tiles"></div>
+
+    <h2 class="section-title">五大分區（A–E）</h2>
+    <div class="section-sub">按業務線劃分；點分區跳到對應篩選的畫廊</div>
+    <div class="boards" id="boards"></div>
+
+    <h2 class="section-title">🏆 Top 5 · FinalSPI</h2>
+    <div class="section-sub">點看完整評分拆解</div>
+    <div class="podium" id="podium"></div>
+
+    <h2 class="section-title">治理進度</h2>
+    <div class="gov-row">
+      <div class="gov-card">
+        <div class="ring" style="--pct:100"><div class="rv"><b>15/15</b><span>裁決完成</span></div></div>
+        <div><h4>Human Review 全數完成 🎉</h4>
+          <p>2026-08-30 裁決入庫。以後直接在 Issue 留字母，機器人每小時自動回收——無需 Agent。</p>
+          <div class="duo-track"><div class="duo-fill" style="width:100%"></div></div></div>
+      </div>
+      <div class="gov-card">
+        <div class="ring" id="coreRing" style="--pct:0"><div class="rv"><b id="coreRingNum">0/60</b><span>最高分衝刺</span></div></div>
+        <div><h4>核心投資（FinalSPI ≥ 60）</h4>
+          <p id="coreText">目前最高 55.95 —— 補 README、真實使用證據與文檔就能衝線。</p>
+          <div class="duo-track"><div class="duo-fill" id="coreBar" style="width:0%"></div></div></div>
+      </div>
+    </div>
+
+    <h2 class="section-title">生命週期分布</h2>
+    <div class="grid" id="lcGrid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr));"></div>
+  </section>
+
+  <!-- ================= 資產畫廊 ================= -->
+  <section class="page" id="page-assets">
+    <div class="page-head">
+      <h1>🗂 資產畫廊</h1>
+      <div class="sub">Repositories + Starred + Notion · 可按星標排序/按領域篩選 · 點卡片 = 站內詳情</div>
+    </div>
+    <div class="legend" id="legendAssets"></div>
+    <div class="chips" id="srcChips"></div>
+    <div class="chips" id="sortChips"></div>
+    <div class="chips" id="boardChips"></div>
+    <div class="chips" id="scatChips"></div>
+    <div class="chips" id="lcChips"></div>
+    <div class="chips" id="typeChips"></div>
+    <div class="grid" id="assetGrid"></div>
+    <div class="section-sub" id="assetCount" style="margin-top:16px;"></div>
+    <div id="lockSpot"></div>
+  </section>
+
+  <!-- ================= 資產地圖 ================= -->
+  <section class="page" id="page-maps">
+    <div class="ed-head">
+      <div class="ed-kicker">02 · 資產地圖</div>
+      <h1>八張圖，看懂<br>整個資產宇宙。</h1>
+      <div class="sub">選一張 → 滾輪縮放 · 拖曳平移 · ⛶ 全屏 · 點節點直達倉庫</div>
+    </div>
+    <div class="legend" id="legendMaps"></div>
+    <div id="mapsHost"></div>
+  </section>
+
+  <!-- ================= 多平台工作區 ================= -->
+  <section class="page" id="page-notion">
+    <div class="page-head">
+      <h1>🧩 多平台工作區</h1>
+      <div class="sub">GitHub · Notion · Google Sheets —— 每個平台的職責與入口一頁看完 · 未來：報告 PPT 視圖</div>
+    </div>
+    <h2 class="section-title">🐙 GitHub 工作區（資產治理 · 本站）</h2>
+    <div class="section-sub">機器可驗證的真相源：資產卡片、評分、裁決、自動化部署都在這裡</div>
+    <div class="spec-grid">
+      <a class="spec" href="https://github.com/Ya-MiC/yami-hub" target="_blank" rel="noopener">
+        <h4>🐙 ya-mic-os · 總控（本站）</h4><p>全域資產治理、評分面板、裁決存檔、Pages 部署。</p><span class="go">打開倉庫 ↗</span></a>
+      <a class="spec" href="https://github.com/" target="_blank" rel="noopener">
+        <h4>🧭 hermes · 全景索引</h4><p>所有倉庫 / fork / 收藏的策展導航。</p><span class="go">打開倉庫 ↗</span></a>
+      <a class="spec" href="https://github.com/" target="_blank" rel="noopener">
+        <h4>🧠 dsh · 中央技能庫</h4><p>所有 AI 工具的唯一技能與規範真相源。</p><span class="go">打開倉庫 ↗</span></a>
+      <a class="spec" href="https://github.com/Ya-MiC/ya-mic-agent-skills" target="_blank" rel="noopener">
+        <h4>🧩 ya-mic-agent-skills</h4><p>三份原始治理 Skill 的備份與索引。</p><span class="go">打開倉庫 ↗</span></a>
+      <a class="spec" href="https://github.com/" target="_blank" rel="noopener">
+        <h4>🌳 action-tree · 戰略根 🔒</h4><p>湛箴產品線戰略總綱與工程規範（私有）。</p><span class="go">打開倉庫 ↗</span></a>
+    </div>
+    <h2 class="section-title">🪷 Notion 工作區（YANMING OS · 6 頁）</h2>
+    <div class="section-sub">研究脈絡、人物、每週回顧、產品敘事 —— 人類思考的真相源</div>
+    <div class="spec-grid" id="notionCards"></div>
+    <h2 class="section-title">📊 Google Sheets 工作區</h2>
+    <div class="section-sub">多平台總覽與任務 DDL —— 已同步進本站「🎯 任務」頁</div>
+    <div class="spec-grid">
+      <a class="spec" href="https://docs.google.com/spreadsheets" target="_blank" rel="noopener">
+        <h4>📈 多平台資產總覽（可選）</h4><p>Assets · Tasks DDL · Skills · Sync_Log —— 對接你自己的 Google Sheets（v0.3）。</p><span class="go">在 Sheets 打開 ↗</span></a>
+    </div>
+    <h2 class="section-title">同步契約</h2>
+    <div class="rules-card">
+      <ol class="big-list">
+        <li><span class="n">G</span><div><b>GitHub（本站）</b><br><span>資產卡片、評分、裁決、部署 —— 機器可驗證的真相源。</span></div></li>
+        <li><span class="n">N</span><div><b>Notion</b><br><span>研究脈絡、人物、每週回顧、產品敘事 —— 人類思考的真相源。</span></div></li>
+        <li><span class="n">S</span><div><b>Google Sheets</b><br><span>多平台總覽與任務 DDL —— 已同步進「🎯 任務」頁。</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= 任務 ================= -->
+  <section class="page" id="page-tasks">
+    <div class="page-head">
+      <h1>🎯 任務 & DDL</h1>
+      <div class="sub">同步自 Google Sheets Tasks 表 · 倉庫數據每 6 小時自動刷新（關掉 ZCode 也照跑）</div>
+    </div>
+    <div id="tasksDone"></div>
+    <h2 class="section-title">待辦與截止</h2>
+    <div id="tasksOpen"></div>
+  </section>
+
+  <!-- ================= 評分算法 ================= -->
+  <section class="page" id="page-algorithm">
+    <div class="page-head">
+      <h1>🧮 評分算法</h1>
+      <div class="sub">Skill 3.0 · 11 因子 → FinalSPI · 選倉庫看完整計算 · 頁尾有 Starred 候選評估（含立刻可做的整合動作）</div>
+    </div>
+    <div class="rules-card">
+      <h3 style="font-weight:900;font-size:16px;">公式</h3>
+      <div class="codeblock">C  能力圈   P  複利性   L  槓桿性   S  戰略一致   R  逆轉重要
+M  護城河   D  差異化   Q  可理解性  E  道德合規
+T  維護負擔(越高越差)   U  不確定性(越高越差)
+
+AVS = 0.14C + 0.14P + 0.14L + 0.12S + 0.10R + 0.10M + 0.10D + 0.08Q + 0.08E
+GRS = 0.40T + 0.35U + 0.25(10 − E)
+SPI = 10·AVS − 5·GRS
+ForkPenalty = 0 / 6 / 12 / 20（按原創程度）
+FinalSPI = max(0, SPI − ForkPenalty)</div>
+    </div>
+    <h2 class="section-title">🧪 權重實驗室（v4.0 · 你的算法你做主）</h2>
+    <div class="section-sub">不同倉庫狀態自動套不同權重模板；拖動滑桿即時重算全站分數，設定存在你自己的瀏覽器</div>
+    <div class="rules-card">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;">
+        <b style="font-weight:900;">評分模板：</b>
+        <select class="algo-select" id="profileSelect" style="margin:0;max-width:380px;"></select>
+        <button class="btn-duo ghost" id="wReset">↺ 重置為 Skill 3.0 標準</button>
+        <span class="muted" id="wSum"></span>
+      </div>
+      <div class="factors" id="weightSliders"></div>
+      <p class="section-sub" style="margin-top:12px;">改動即時生效：全站卡片、Top 5、調分排行全部按你的權重重算。BR 分區會自動套對應模板（A 產品線 / B·D 槓桿 / C 學習 / D 基建）；拖動滑桿=手動覆蓋。</p>
+    </div>
+    <h2 class="section-title">逐倉計算器</h2>
+    <div class="section-sub">選一個倉庫，看它的每個因子得分與代入過程</div>
+    <select class="algo-select" id="algoSelect"></select>
+    <div id="algoOut"></div>
+    <h2 class="section-title">⭐ Starred 候選評估 · 現在就能用的整合動作</h2>
+    <div class="section-sub">你已經 star 了 = 你選過一次；這裡直接告訴你每個怎麼接進你的體系、這週就能做的事</div>
+    <div id="starEval"></div>
+    <h2 class="section-title">📊 動態調分排行</h2>
+    <div class="section-sub">T 因子隨推送新鮮度漂移，每 6 小時重算 · 誰被自動調分最猛一目了然</div>
+    <div id="deltaRank"></div>
+  </section>
+
+  <!-- ================= 自動化 ================= -->
+  <section class="page" id="page-decisions">
+    <div class="page-head">
+      <h1>🤖 自動化</h1>
+      <div class="sub">三條 GitHub Actions 流水線 7×24 跑在 GitHub 伺服器 · 離開 ZCode 一切照常運轉</div>
+    </div>
+    <div class="spec-grid">
+      <a class="spec" href="https://docs.github.com/actions" target="_blank" rel="noopener">
+        <h4>⏱ 數據自動同步</h4><p>每 6 小時刷新倉庫/星標、發現新倉、動態重算評分，有變化自動提交並重新部署。</p><span class="go">查看工作流 ↗</span></a>
+      <a class="spec" href="https://docs.github.com/actions" target="_blank" rel="noopener">
+        <h4>⚖️ 裁決自動回收</h4><p>你在 Human Review Issue 留一個字母（A–E），機器人自動讀取並寫入面板數據。</p><span class="go">查看工作流 ↗</span></a>
+      <a class="spec" href="https://docs.github.com/actions" target="_blank" rel="noopener">
+        <h4>🚀 Pages 自動部署</h4><p>main 分支每次更新，自動脫敏檢查並發布到 ya-mic.github.io/ya-mic-os。</p><span class="go">查看工作流 ↗</span></a>
+      <a class="spec" href="docs/EXECUTION-FLOW.md" target="_blank" rel="noopener">
+        <h4>📖 執行流程總表</h4><p>誰做什麼、在哪裡發生、你只需要做什麼——Pages/Issues/Actions 分工一頁說清。</p><span class="go">打開文檔 ↗</span></a>
+    </div>
+    <h2 class="section-title">裁決存檔（15/15 · 2026-08-30）</h2>
+    <div class="section-sub">想改任何一項：去對應 Issue 留一個字母，機器人自動更新這裡</div>
+    <div id="decTable"></div>
+  </section>
+
+  <!-- ================= 治理章程 ================= -->
+  <section class="page" id="page-charter">
+    <div class="page-head">
+      <h1>📜 治理章程</h1>
+      <div class="sub">跨 GitHub / Notion / Pages 的行動依據（完整原文見 docs/governance-decision-charter.md）</div>
+    </div>
+    <h2 class="section-title">單一真相源</h2>
+    <div class="spec-grid">
+      <div class="spec"><h4>🐙 ya-mic-os</h4><p>全域資產治理、決策紀錄、公開總控 Pages（本站）。</p></div>
+      <div class="spec"><h4>hermes</h4><p>全景索引、倉庫/收藏搜尋與目錄。</p></div>
+      <div class="spec"><h4>dsh</h4><p>AI 工具規範、Skills、同步接線的唯一真相源。</p></div>
+      <div class="spec"><h4>action-tree</h4><p>湛箴產品線戰略總綱、業務規格與架構決策。</p></div>
+      <div class="spec"><h4>audit-os</h4><p>審計產品工程 Backlog、規則引擎與驗證。</p></div>
+      <div class="spec"><h4>Notion YANMING OS</h4><p>研究素材、個人任務、作品資料、每週回顧。</p></div>
+    </div>
+    <h2 class="section-title">資產角色（8+1）</h2>
+    <div class="spec-grid">
+      <div class="spec"><h4>CORE-ASSET</h4><p>標準/知識/總控/品牌 → 保護維護、跨庫引用。</p></div>
+      <div class="spec"><h4>BUSINESS-ENGINE</h4><p>可形成收入 → 驗證需求、補 MVP。</p></div>
+      <div class="spec"><h4>LEVERAGE-TOOL</h4><p>多專案重用 → 文檔化、模組化、Skill 化。</p></div>
+      <div class="spec"><h4>INFRASTRUCTURE</h4><p>部署/網路/安全 → 保持私有、最小文檔。</p></div>
+      <div class="spec"><h4>LEARNING-ASSET</h4><p>學習/PoC → 完成後升級作品或封存。</p></div>
+      <div class="spec"><h4>RECORD-ASSET</h4><p>歷史/交接 → 原樣保存，不任意重構。</p></div>
+      <div class="spec"><h4>EXTERNAL-REFERENCE</h4><p>Fork/上游 → 記錄來源授權，非商業宣稱。</p></div>
+      <div class="spec"><h4>HUMAN-REVIEW</h4><p>不明 → 只盤點保留，等人類裁決。</p></div>
+    </div>
+    <h2 class="section-title">不可違反原則</h2>
+    <div class="rules-card">
+      <ol class="big-list">
+        <li><span class="n">1</span><div><b>Understand before organize</b><br><span>先理解再整理。</span></div></li>
+        <li><span class="n">2</span><div><b>Evidence before conclusion</b><br><span>先證據再結論。</span></div></li>
+        <li><span class="n">3</span><div><b>Preserve before deleting</b><br><span>先保留再考慮刪除。</span></div></li>
+        <li><span class="n">4</span><div><b>Human approval before consequential action</b><br><span>重大動作必須人類批准。</span></div></li>
+        <li><span class="n">5</span><div><b>Risk before commercialization</b><br><span>先風險再商業化。</span></div></li>
+        <li><span class="n">6</span><div><b>One responsibility, one canonical home</b><br><span>每種資料只有一個權威來源。</span></div></li>
+        <li><span class="n">7</span><div><b>Proof, not promises</b><br><span>公開展示以可重現證據支撐。</span></div></li>
+      </ol>
+    </div>
+    <h2 class="section-title">決策閘門 G1–G5</h2>
+    <div class="rules-card">
+      <ol class="big-list">
+        <li><span class="n">G1</span><div><b>理解</b><br><span>已讀 README、描述、近期提交與 Issue？</span></div></li>
+        <li><span class="n">G2</span><div><b>證據</b><br><span>有原始檔、測試、研究資料或可追溯連結？</span></div></li>
+        <li><span class="n">G3</span><div><b>歸屬</b><br><span>有唯一責任倉庫與系統？</span></div></li>
+        <li><span class="n">G4</span><div><b>風險</b><br><span>私密性、授權、憑證、上游限制查過？</span></div></li>
+        <li><span class="n">G5</span><div><b>人類批准</b><br><span>刪除/改名/公開/付款/憑證/商業承諾 → 必須你批准。</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= 教學 ================= -->
+  <section class="page" id="page-learn">
+    <div class="page-head">
+      <h1>🎓 新人教學</h1>
+      <div class="sub">GitHub 純新手 10 分鐘上道 · 下面每一條都能點</div>
+    </div>
+    <h2 class="section-title">A–E 五大分區是什麼意思？（點了直接看該分區）</h2>
+    <div class="legend" id="legendLearn"></div>
+    <div class="rules-card">
+      <ol class="big-list">
+        <li class="clickable" data-board="A"><span class="n">A</span><div><b>🟣 湛箴・審計智能體（17 個）</b><br><span>核心產品線：中小企業審計 SaaS。action-tree 戰略根 → zhanzhen 7 件套實作。</span></div></li>
+        <li class="clickable" data-board="B"><span class="n">B</span><div><b>🟢 Agent 系統（8 個）</b><br><span>你做的是 Agent 不只是 Skill：dsh 真相源、runtime、插件、索引、狀態記錄。</span></div></li>
+        <li class="clickable" data-board="C"><span class="n">C</span><div><b>🔵 量化・金融（6 個）</b><br><span>量化交易、金融終端、經濟學研究、全球情報——金融方向。</span></div></li>
+        <li class="clickable" data-board="D"><span class="n">D</span><div><b>🟠 基礎設施・網路（13 個）</b><br><span>Cloudflare Workers、訂閱聚合、DNS、VPS、邊緣存取。</span></div></li>
+        <li class="clickable" data-board="E"><span class="n">E</span><div><b>🚦 治理・人工裁決（15 個）</b><br><span>曾用途不明 → 你已在 2026-08-30 全部裁決 ✓。</span></div></li>
+      </ol>
+    </div>
+    <h2 class="section-title">日常怎麼用（點了直接去）</h2>
+    <div class="rules-card">
+      <ol class="big-list">
+        <li class="clickable" data-goto="maps"><span class="n">1</span><div><b>側邊欄全站內 · 地圖可玩</b><br><span>不跳轉不下載；6 張地圖可縮放、全屏、平移、點節點跳倉庫。</span></div></li>
+        <li class="clickable" data-goto="algorithm"><span class="n">2</span><div><b>卡片點開看算法</b><br><span>11 因子 + 算式代入；「🧮 評分算法」頁可逐倉計算。</span></div></li>
+        <li class="clickable" data-goto="connections"><span class="n">3</span><div><b>🔗 登錄你的帳號</b><br><span>連接 GitHub 後一鍵同步，私有倉自動可見（點這裡跳到平台連接）。</span></div></li>
+        <li class="clickable" data-goto="tasks"><span class="n">4</span><div><b>自動更新</b><br><span>每 6 小時同步數據、裁決自動回收；分類評分按治理 Run。</span></div></li>
+      </ol>
+    </div>
+    <h2 class="section-title">名詞 30 秒</h2>
+    <div class="spec-grid">
+      <div class="spec"><h4>Repository</h4><p>一個專案的檔案+歷史，你有 <span class="dyn-repo-count">…</span> 個。</p></div>
+      <div class="spec"><h4>Commit</h4><p>一次存檔，可回溯任何版本。</p></div>
+      <div class="spec"><h4>Branch → PR → Merge</h4><p>草稿線 → 修改申請 → 合併 = 批准。</p></div>
+      <div class="spec"><h4>Issue</h4><p>討論串/裁決單；留字母=投票，機器人自動收。</p></div>
+      <div class="spec"><h4>Star</h4><p>收藏別人的專案，連接後自動入畫廊並按領域分區。</p></div>
+      <div class="spec"><h4>Token</h4><p>程式存取鑰匙，讓 Agent / 工具代表你操作 GitHub。</p></div>
+    </div>
+    <div class="lock-card" id="learnLock">
+      <div class="le">🔗</div>
+      <h3>連接你的帳號</h3>
+      <p>登錄你的 GitHub / Notion / Google，面板即變成你的資產視圖——你有權限的私有倉庫會直接載入，無需任何口令。令牌只存在你部署的 KV 裡，不返回瀏覽器。</p>
+      <div class="lock-row">
+        <button class="btn-duo" data-conn="github">🐙 連接 GitHub</button>
+        <button class="btn-duo ghost" data-conn="notion">🪷 連接 Notion</button>
+        <button class="btn-duo ghost" data-conn="google">🌐 連接 Google</button>
+      </div>
+      <div class="lock-err" id="lockErr"></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <div>🐙 YamiHub · Portfolio OS（ya-mic-os 迭代）· <b>v0.1</b></div>
+    <div>自動發現新倉/星標 · 動態評分 · 裁決自動回收 · 數據每 6 小時同步 · <a href="https://github.com/Ya-MiC/yami-hub" style="font-weight:800" target="_blank" rel="noopener">Source</a></div>
+  </div>
+</main>
+
+<a class="fab" href="https://github.com/Ya-MiC/yami-hub" target="_blank" rel="noopener" title="GitHub 倉庫">🐙</a>
+
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <button class="close" id="modalClose">✕</button>
+    <h2 id="mName">—</h2>
+    <div class="m-sub" id="mSub"></div>
+    <div class="m-desc" id="mDesc"></div>
+    <div class="m-factors" id="mFactors"></div>
+    <div class="compute" id="mCompute"></div>
+    <div class="m-actions" id="mActions"></div>
+  </div>
+</div>
+
+<script>
+let PF = null, TASKS = null, STARS = null, PRIV = null;
+const BOARD_META = {
+  A: { emoji: '🟣', color: 'var(--a)', hex: '#ce82ff', name: '湛箴・審計智能體', mean: '中小企業審計 SaaS 產品線（action-tree 戰略根 → zhanzhen 7 件套）' },
+  B: { emoji: '🟢', color: 'var(--b)', hex: '#58cc02', name: 'Agent 系統', mean: '不只 Skill：dsh 真相源、runtime、插件、索引、Agent 狀態' },
+  C: { emoji: '🔵', color: 'var(--c)', hex: '#1cb0f6', name: '量化・金融', mean: '量化交易、金融終端、經濟學研究、全球情報' },
+  D: { emoji: '🟠', color: 'var(--d)', hex: '#ff9600', name: '基礎設施・網路', mean: 'Cloudflare Workers、訂閱聚合、DNS、VPS、邊緣存取' },
+  E: { emoji: '🚦', color: 'var(--e)', hex: '#a0a4a2', name: '治理・人工裁決', mean: '曾用途不明 → 2026-08-30 已全部裁決 ✓' },
+};
+const DOM2BOARD = { 'PRODUCT-SAAS': 'A', 'RECORD-HANDOVER': 'A', 'PLUGIN-SDK-TEMPLATE': 'B', 'WEBSITE-CONTENT': 'B', 'QUANT-FINANCE': 'C', 'DATA-RESEARCH': 'C', 'DEVICE-SYSTEM-SETUP': 'D', 'AUTOMATION': 'D', 'HUMAN-REVIEW': 'E', 'STUDY-PORTFOLIO': 'C' };
+const A_TEAM = ['action-tree','zhanzhen','zhanzhen-server','audit-os','audit-os-mobile','invoice-ocr-system','zhanzhen-handover','zhanzhen-web'];
+const LC_CN = { maintained: '穩定可用', 'human-review': '已裁決✓', active: '投入中', record: '歷史保存', mvp: '驗證中', reusable: '可重用', study: '學習', experiment: '實驗' };
+const FACTORS = [['C','能力圈',.14],['P','複利性',.14],['L','槓桿性',.14],['S','戰略一致',.12],['R','逆轉重要',.10],['M','護城河',.10],['D','差異化',.10],['Q','可理解性',.08],['E','道德合規',.08]];
+const RISKS = [['T','維護負擔',.40],['U','不確定性',.35]];
+const DECISIONS_15 = [
+  ['-','E','保留為不明資產','#6'],['123','E','保留為不明資產','#7'],
+  ['Excel-Randomization-Process','D','學習/歷史記錄','#8'],['FinceptTerminal','D','學習參考（fork）','#9'],
+  ['for-love','D','學習/歷史記錄','#10'],['q','D','早期 BPB 網路代理歷史','#11'],
+  ['warp-','D','WARP 學習存檔','#12'],['yanming-cao','D','個人 profile 面板','#13'],
+  ['Global-Identity-Planning','D','私人參考（保持私有）','#14'],['IP-KR','A+B','私密重要數據資產，未來持續使用','#15'],
+  ['yamic188','D','早期 BPB 面板歷史','#16'],['my-report-site','C','學習期作品集（參考性已低）','#17'],
+  ['trading-second-brain_needchange','A','第二大腦架構雛形，未來持續使用','#18'],
+  ['fofa-','A+B','私密重要數據資產，未來持續使用','#19'],['Ya-MIC-bbr','B','半成品工具保留（ABCD 兼有）','#20'],
+];
+const NOTION_PAGES = [
+  ['🏠', 'Notion · Command Center', '總控台：核心產品線、主索引、五區導向、治理計畫、Human Queue 狀態', '3c9a6ce79bd4819d81c4e16219eca012', '#163300'],
+  ['🟣', 'Notion · A 湛箴・審計智能體', '8 個倉庫索引 + 治理狀態 + Issue 追蹤 + 本週治理焦點', '3c9a6ce79bd48125baa3fe52164bce97', '#7c3aed'],
+  ['🟢', 'Notion · B Agent 系統', '11 個資產分層：核心規範 / 索引 / 產品工具 / 狀態記錄 / 外部 fork', '3c9a6ce79bd481c18648d71b210b7818', '#46a302'],
+  ['🔵', 'Notion · C 量化・金融', '8 個學習資產：上游授權、回測假設、合規邊界待核驗', '3c9a6ce79bd4815eb26fec700cf32c1e', '#1899d6'],
+  ['🟠', 'Notion · D 基礎設施・網路', '10 個：代理、訂閱、Worker、DNS、Zero Trust；安全規則優先', '3c9a6ce79bd4814ba85bdacc3618d094', '#e08600'],
+  ['🚦', 'Notion · E 治理・裁決・匯報', '人類裁決區 + 治理匯報歷史', '3c9a6ce79bd481cab6f5e3ab33ed1f45', '#a0a4a2'],
+];
+/* Starred 七大領域 */
+const STAR_CAT = {
+  'echohive42/AI-reads-books-page-by-page': 'Agent 技能',
+  'whiteguo233/OpenBiliClaw': 'Agent 系統',
+  'titanwings/distilly': 'Agent 技能',
+  'mvanhorn/last30days-skill': 'Agent 技能',
+  'tt-a1i/archify': 'Agent 技能',
+  'awesome-dsh-plugin/awesome-dsh-plugin': 'Agent 技能',
+  'chuspeeism/dashi-ppt-skill': 'Agent 技能',
+  'taxueseek/argo': 'Agent 技能',
+  'nexu-io/open-design': 'Agent 技能',
+  'microsoft/SkillOpt': 'Agent 技能',
+  'K-Dense-AI/scientific-agent-skills': 'Agent 技能',
+  'Panniantong/Agent-Reach': 'Agent 技能',
+  'ayi-ai/nie-grassroots-logic': 'Agent 技能',
+  'VectifyAI/OpenKB': 'Agent 技能',
+  'HKUDS/DeepTutor': 'Agent 技能',
+  'deepseek-ai/deepseek-harness': 'Agent 系統',
+  'charliedream1/ai_quant_trade': '量化金融',
+  'nautechsystems/nautilus_trader': '量化金融',
+  'microsoft/qlib': '量化金融',
+  'OpenByteInc/QuantDinger': '量化金融',
+  'TauricResearch/TradingAgents': '量化金融',
+  'discountry/ritmex-bot': '量化金融',
+  'wangzhe3224/awesome-systematic-trading': '量化金融',
+  'kain26/trading-second-brain': '量化金融',
+  'simonlin1212/Vibe-Research': '量化金融',
+  'anthropics/financial-services': '金融×Agent',
+  'asgeirtj/system_prompts_leaks': '提示詞/模型',
+  'deepseek-ai/DeepSeek-R1': '提示詞/模型',
+  'lyogavin/airllm': '提示詞/模型',
+  'EthanYoQ/Invoice-Downloader': '審計×發票',
+  'KaguraNanaga/docformat-gui': '審計×發票',
+  'LiuMengxuan04/shushu-internship-tool': '審計×發票',
+  'trimstray/the-book-of-secret-knowledge': '基建/安全',
+  'PowerShell/PowerShell': '基建/安全',
+  'DigitalPlatDev/FreeDomain': '基建/安全',
+  'cmliu/CF-Workers-GitHub': '基建/安全',
+  'cmliu/CF-Workers-SUB': '基建/安全',
+  'simplifaisoul/osiris': '全球情報',
+  'easychen/opc-methodology': '方法論/商業',
+  '1c7/chinese-independent-developer': '方法論/商業',
+  'TapXWorld/ChinaTextbook': '學習內容',
+};
+const STAR_CAT_COLOR = { 'Agent 技能': '#58cc02', 'Agent 系統': '#16a34a', '量化金融': '#1cb0f6', '金融×Agent': '#0e7490', '提示詞/模型': '#ce82ff', '審計×發票': '#ff9600', '基建/安全': '#64748b', '全球情報': '#0f766e', '方法論/商業': '#e08600', '學習內容': '#8b5cf6' };
+const STAR_USE = {
+  'titanwings/distilly': '把湛箴審計工作流蒸餾成可複用 Skill：先拿「憑證→風險報告」流程跑通一條',
+  'asgeirtj/system_prompts_leaks': '在 dsh 開 research/ 目錄，每週提煉 3 條頂級提示詞模式進你的技能庫',
+  'mvanhorn/last30days-skill': '裝進 dsh web：每週自動產出《過去 30 天趨勢》研究報告',
+  'chuspeeism/dashi-ppt-skill': '湛箴審計報告 → 一鍵轉可編輯 PPT 提案（客戶演示）',
+  'tt-a1i/archify': '為 ya-mic-os 面板與湛箴架構生成可驗證圖表（與本站地圖互補）',
+  'TauricResearch/TradingAgents': '多 Agent 金融交易框架：作為你 C 區量化系統的骨架藍本',
+  'microsoft/qlib': '量化回測底座選型之一；與 nautilus_trader 二選一深入',
+  'nautechsystems/nautilus_trader': 'Rust 級回測/實盤引擎：性能首選，先跑通 demo 數據',
+  'Panniantong/Agent-Reach': '給 Agent 加「看整個互聯網」的眼睛，配合 hermes 索引',
+  'K-Dense-AI/scientific-agent-skills': '科研技能包：經濟學研究（economics-11.29）直接可用',
+  'HKUDS/DeepTutor': '終身個性化導師：給經濟學學習開一條陪練線',
+  'EthanYoQ/Invoice-Downloader': '與 invoice-ocr-system 對齊：郵箱批量收發票→OCR→歸檔，可整合',
+  'KaguraNanaga/docformat-gui': '與你的 docformat-gui 同源：比對上游更新，擇優維護一個',
+  'anthropics/financial-services': '官方金融行業方案：湛箴金融合規場景的直接參考',
+  'easychen/opc-methodology': '一人企業方法論：湛箴 SaaS 商業化路線的參照系',
+  'simplifaisoul/osiris': '開源全球情報平台：對照 yanming-global-intelligence-system 演進',
+  'DigitalPlatDev/FreeDomain': '免費域名 + DNS 實踐：基建面板的直接資源',
+  'whiteguo233/OpenBiliClaw': '自進化內容發現 Agent：內容分發線的參考架構',
+};
+const state = { board: 'ALL', lc: 'ALL', type: 'ALL', src: 'ALL', q: '', sort: 'spi', scat: 'ALL' };
+
+function boardOf(r) {
+  if (r.board) return r.board;
+  const h = DOM2BOARD[r.primary_domain];
+  if (h) return h;
+  if (r.primary_domain === 'AI-AGENT') return A_TEAM.includes(r.name) ? 'A' : 'B';
+  return 'E';
+}
+function fmtRepos() {
+  const list = PF.repositories.map(r => ({ ...r }));
+  if (PRIV) list.forEach(pub => {
+    const p = PRIV.private_repos.find(x => x.name === pub.name);
+    if (p) Object.assign(pub, { description: p.description, license: p.license, topics: p.topics, one_liner: p.one_liner || pub.one_liner });
+  });
+  list.forEach(r => r.board = boardOf(r));
+  return list;
+}
+function decMain(d) { return d ? d.split('·')[0].trim() : ''; }
+
+function go(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+  document.getElementById('page-' + page).classList.add('show');
+  document.querySelectorAll('.side-item[data-page]').forEach(s => s.classList.toggle('active', s.dataset.page === page));
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('backdrop').classList.remove('show');
+  window.scrollTo({ top: 0 });
+  if (page === 'maps') renderMaps();
+  if (page === 'connections') renderConnections();
+}
+document.querySelectorAll('.side-item[data-page]').forEach(s => s.addEventListener('click', () => go(s.dataset.page)));
+document.querySelectorAll('[data-goto]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.goto); }));
+document.querySelectorAll('#page-learn li[data-board]').forEach(li => li.addEventListener('click', () => {
+  state.board = li.dataset.board; state.src = 'repo'; state.lc = 'ALL'; state.type = 'ALL';
+  chipsRender(); paintAssets(); go('assets');
+}));
+
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('backdrop').classList.toggle('show');
+});
+document.getElementById('backdrop').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('backdrop').classList.remove('show');
+});
+
+function legendHTML() {
+  return Object.keys(BOARD_META).map(k => {
+    const m = BOARD_META[k];
+    return `<span class="chip chip-static"><span class="cdot" style="background:${m.hex}"></span>${k} · ${m.name}<small style="color:var(--ink-3);font-weight:700"> — ${m.mean}</small></span>`;
+  }).join('');
+}
+
+function __fillDyn(repos) {
+  try {
+    const nR = (repos || []).length, nS = (STARS || []).length;
+    const hr = document.getElementById('heroRepos'); if (hr) hr.textContent = nR;
+    const hs = document.getElementById('heroStars'); if (hs) hs.textContent = nS;
+    document.querySelectorAll('.dyn-repo-count').forEach(el => el.textContent = nR);
+    document.querySelectorAll('.dyn-star-count').forEach(el => el.textContent = nS);
+  } catch (e) {}
+}
+const __renderOverview = renderOverview;
+renderOverview = function(repos) { __renderOverview(repos); __fillDyn(repos); };
+function renderOverview(repos) {
+  const priv = repos.filter(r => r.private).length;
+  const newCount = repos.filter(r => r.is_new).length;
+  const moved = repos.filter(r => r.delta && Math.abs(r.delta) >= .5).length;
+  document.getElementById('tiles').innerHTML = [
+    ['📦 Repositories', repos.length, 'lime'], ['⭐ Starred', STARS ? STARS.length : '—', ''],
+    ['🪷 Notion', NOTION_PAGES.length, ''], ['🌐 公開', repos.filter(r => !r.private).length, ''],
+    ['🔒 私有', priv, ''], ['🍴 Fork', repos.filter(r => r.fork).length, ''],
+    ['🆕 新增待裁決', newCount, ''], ['📊 動態調分', moved, ''],
+  ].map(([l, v, cls]) => `<div class="tile ${cls}"><div class="num">${v}</div><div class="lbl">${l}</div></div>`).join('');
+
+  const bb = {};
+  repos.forEach(r => bb[r.board] = (bb[r.board] || 0) + 1);
+  document.getElementById('boards').innerHTML = Object.keys(BOARD_META).map(k => {
+    const m = BOARD_META[k];
+    return `<div class="board" style="--bc:${m.color}" data-b="${k}"><div class="be">${m.emoji}</div>
+      <h3>${k} · ${m.name}</h3><div class="bn">${bb[k] || 0}</div><div class="bd">${m.mean}</div></div>`;
+  }).join('');
+  document.querySelectorAll('.board').forEach(b => b.addEventListener('click', () => {
+    state.board = b.dataset.b; state.lc = 'ALL'; state.type = 'ALL'; state.src = 'repo';
+    chipsRender(); paintAssets(); go('assets');
+  }));
+
+  const top = [...repos].sort((a, b) => b.scores.FinalSPI - a.scores.FinalSPI).slice(0, 5);
+  const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+  document.getElementById('podium').innerHTML = top.map((r, i) => `
+    <div class="p-row" data-name="${r.name}"><div class="p-medal">${medals[i]}</div>
+      <div class="p-main"><div class="p-name">${r.name}<span>${r.private ? '🔒 ' : ''}${BOARD_META[r.board].emoji} ${BOARD_META[r.board].name}</span></div>
+      <div class="p-line">${r.one_liner || '（無描述）'}</div></div>
+      <div class="p-xp">${r.scores.FinalSPI.toFixed(2)}</div></div>`).join('');
+  document.querySelectorAll('.p-row').forEach(p => p.addEventListener('click', () => openModal(p.dataset.name)));
+
+  const maxSpi = top[0] ? top[0].scores.FinalSPI : 0;
+  document.getElementById('coreRing').style.setProperty('--pct', Math.round(maxSpi / 60 * 100));
+  document.getElementById('coreRingNum').textContent = Math.round(maxSpi) + '/60';
+  document.getElementById('coreBar').style.width = Math.min(100, maxSpi / 60 * 100).toFixed(1) + '%';
+
+  const lc = {};
+  repos.forEach(r => lc[r.lifecycle] = (lc[r.lifecycle] || 0) + 1);
+  const maxLc = Math.max(...Object.values(lc));
+  document.getElementById('lcGrid').innerHTML = Object.entries(lc).sort((a, b) => b[1] - a[1]).map(([k, v]) => `
+    <div class="tile"><div class="num">${v}</div><div class="lbl">${k} · ${LC_CN[k] || ''}</div>
+    <div class="duo-track" style="margin-top:9px"><div class="duo-fill" style="width:${(v / maxLc * 100).toFixed(1)}%"></div></div></div>`).join('');
+}
+
+function allItems() {
+  const mine = fmtRepos().map(r => ({ ...r, kind: 'repo' }));
+  const stars = (STARS || []).map(s => ({ ...s, kind: 'star', html_url: 'https://github.com/' + s.name, cat: STAR_CAT[s.name] || '其他' }));
+  const notion = NOTION_PAGES.map(([e, t, d, id, hex]) => ({ kind: 'notion', name: t, desc: d, html_url: 'https://app.notion.com/' + id, emoji: e, hex, stars: 0 }));
+  if (state.src === 'repo') return mine;
+  if (state.src === 'star') return stars;
+  if (state.src === 'notion') return notion;
+  return [...mine, ...stars, ...notion];
+}
+function chipRow(elId, entries, key) {
+  const el = document.getElementById(elId);
+  el.innerHTML = entries.map(([v, l]) => `<span class="chip ${state[key] === v ? 'on' : ''}" data-v="${v}">${l}</span>`).join('');
+  el.querySelectorAll('.chip').forEach(c => c.onclick = () => { state[key] = c.dataset.v; chipsRender(); paintAssets(); });
+}
+function chipsRender() {
+  chipRow('srcChips', [['ALL', '全部 ' + ((PF.repositories||[]).length + (STARS||[]).length + (NOTION_PAGES||[]).length)], ['repo', '📦 Repositories ' + (PF.repositories||[]).length], ['star', '⭐ Starred ' + (STARS||[]).length], ['notion', '🪷 Notion ' + (NOTION_PAGES||[]).length]], 'src');
+  const bEl = document.getElementById('boardChips');
+  bEl.innerHTML = [['ALL', '全部分區'], ...Object.keys(BOARD_META).map(k =>
+    [k, `<span class="cdot" style="background:${BOARD_META[k].hex}"></span>${k} ${BOARD_META[k].name}`])]
+    .map(([v, l]) => `<span class="chip ${state.board === v ? 'on' : ''}" data-v="${v}">${l}</span>`).join('');
+  bEl.querySelectorAll('.chip').forEach(c => c.onclick = () => { state.board = c.dataset.v; chipsRender(); paintAssets(); });
+  const cats = [...new Set((STARS || []).map(s => STAR_CAT[s.name] || '其他'))];
+  chipRow('scatChips', [['ALL', '⭐ 全部領域'], ...cats.map(c => [c, `<span class="cdot" style="background:${STAR_CAT_COLOR[c] || '#999'}"></span>${c}`])], 'scat');
+  const repos = fmtRepos();
+  const lcs = [...new Set(repos.map(r => r.lifecycle))];
+  chipRow('lcChips', [['ALL', '全部狀態'], ...lcs.map(k => [k, k + '·' + (LC_CN[k] || '')])], 'lc');
+  chipRow('typeChips', [['ALL', '全部類型'], ['public', '🌐 公開'], ['private', '🔒 私有'], ['fork', '🍴 Fork']], 'type');
+  chipRow('sortChips', [['spi', '🔥 綜合 FinalSPI'], ['stars-desc', '★ 星標 多→少'], ['stars-asc', '★ 星標 少→多'], ['name', '🔤 名稱'], ['pushed', '🕘 最近更新']], 'sort');
+}
+function starOf(it) { return it.kind === 'star' ? Number(it.stars) : (it.stargazers_count || 0); }
+function assetCard(it) {
+  if (it.kind === 'notion') {
+    return `<a class="acard" href="${it.html_url}" target="_blank" rel="noopener" style="text-decoration:none;border-top:5px solid ${it.hex}">
+      <div class="row1"><div class="nm">${it.emoji} ${it.name.replace('Notion · ', '')}</div><span class="pill notion">🪷 Notion</span></div>
+      <div class="desc">${it.desc}</div>
+      <div class="meta"><span class="mtag">研究脈絡 / 工作流</span><span class="mtag" style="color:var(--lime-dark);font-weight:900">在 Notion 打開 ↗</span></div>
+    </a>`;
+  }
+  if (it.kind === 'star') {
+    const cat = it.cat || '其他';
+    return `<a class="acard" href="${it.html_url}" target="_blank" rel="noopener" style="text-decoration:none">
+      <div class="row1"><div class="nm">⭐ ${it.name}</div><span class="pill star">★ ${Number(it.stars).toLocaleString()}</span></div>
+      <div class="desc">${it.desc || '（無描述）'}</div>
+      <div class="meta"><span class="btag"><span class="dot" style="background:${STAR_CAT_COLOR[cat] || '#999'}"></span>${cat}</span><span class="mtag">${it.obs === 'ADOPT 候選' ? '🟢 ADOPT 候選' : '📖 STUDY'}</span>${it.lang ? `<span class="mtag">${it.lang}</span>` : ''}</div>
+    </a>`;
+  }
+  const r = it;
+  const locked = r.private && !PRIV;
+  const vis = r.private ? '<span class="pill private">🔒 私密</span>' : r.fork ? '<span class="pill fork">🍴 Fork</span>' : '<span class="pill public">🌐 公開</span>';
+  const desc = locked
+    ? '<span class="locked-note">🔒 私密倉庫 — 輸入口令解鎖完整資料（右上角 🔒）</span>'
+    : (r.description && r.description.length > 3 ? r.description : r.one_liner || '（無描述）');
+  const dMain = decMain(r.decision);
+  const bm = BOARD_META[r.board] || {};
+  const dlt = r.delta && Math.abs(r.delta) >= .5
+    ? `<span class="delta ${r.delta > 0 ? 'up' : 'down'}">${r.delta > 0 ? '▲' : '▼'}${Math.abs(r.delta).toFixed(2)}</span>` : '';
+  return `<div class="acard" data-name="${r.name}">
+    <div class="row1"><div class="nm">${r.name}</div>${vis}${r.is_new ? '<span class="pill new">NEW</span>' : ''}${dMain ? `<span class="dec ${dMain[0]}">${dMain}</span>` : ''}
+      <a href="${r.html_url}" target="_blank" rel="noopener" title="在新視窗打開 GitHub" onclick="event.stopPropagation()">↗</a></div>
+    <div class="desc">${desc}</div>
+    <div class="meta"><span class="btag"><span class="dot" style="background:${bm.hex}"></span>${r.board} · ${bm.name || ''}</span><span class="mtag">${r.business_role}</span><span class="mtag">${LC_CN[r.lifecycle] || r.lifecycle}</span>${r.language ? `<span class="mtag">${r.language}</span>` : ''}${r.license ? `<span class="mtag">${r.license}</span>` : ''}</div>
+    <div class="score-row"><span class="xp">${r.scores.FinalSPI.toFixed(2)}</span><span class="xp-lbl">FinalSPI${dlt ? ' · 動態' : ''}</span>${dlt}
+      <div class="mini-track"><div class="mini-fill" style="width:${Math.min(100, r.scores.FinalSPI)}%"></div></div></div>
+  </div>`;
+}
+function paintAssets() {
+  const q = state.q.trim().toLowerCase();
+  let items = allItems().filter(it => {
+    if (it.kind === 'star') {
+      if (state.board !== 'ALL' || state.lc !== 'ALL' || state.type !== 'ALL') return false;
+      if (state.scat !== 'ALL' && (it.cat || '其他') !== state.scat) return false;
+    } else if (it.kind === 'notion') {
+      if (state.src === 'ALL' && (state.board !== 'ALL' || state.lc !== 'ALL' || state.type !== 'ALL' || state.scat !== 'ALL')) return false;
+    } else {
+      if (state.board !== 'ALL' && it.board !== state.board) return false;
+      if (state.lc !== 'ALL' && it.lifecycle !== state.lc) return false;
+      if (state.type === 'fork' && !it.fork) return false;
+      if (state.type === 'private' && !it.private) return false;
+      if (state.type === 'public' && (it.private || it.fork)) return false;
+    }
+    if (q) {
+      const hay = (it.name + ' ' + (it.desc || it.description || '') + ' ' + (it.one_liner || '') + ' ' + (it.primary_domain || '') + ' ' + (it.business_role || '') + ' ' + (it.lifecycle || '') + ' ' + (it.cat || '')).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  const cmp = {
+    'spi': (a, b) => (b.kind === 'repo' ? b.scores.FinalSPI : b.kind === 'star' ? b.stars / 1000 : -1) - (a.kind === 'repo' ? a.scores.FinalSPI : a.kind === 'star' ? a.stars / 1000 : -1),
+    'stars-desc': (a, b) => starOf(b) - starOf(a),
+    'stars-asc': (a, b) => starOf(a) - starOf(b),
+    'name': (a, b) => a.name.localeCompare(b.name),
+    'pushed': (a, b) => (b.pushed_at || '').localeCompare(a.pushed_at || ''),
+  }[state.sort];
+  items = items.sort(cmp);
+  const mineCount = items.filter(x => x.kind === 'repo').length;
+  document.getElementById('assetGrid').innerHTML = items.map(assetCard).join('');
+  document.querySelectorAll('#assetGrid .acard[data-name]').forEach(c => c.addEventListener('click', () => openModal(c.dataset.name)));
+  document.getElementById('assetCount').textContent =
+    `顯示 ${items.length}（📦 ${mineCount} · ⭐ ${items.filter(x => x.kind === 'star').length} · 🪷 ${items.filter(x => x.kind === 'notion').length}）` +
+    (PRIV ? ' · 🔓 私有視圖' : ' · 公開視圖');
+}
+
+function paintNotion() {
+  document.getElementById('notionCards').innerHTML = NOTION_PAGES.map(([e, t, d, id, hex]) =>
+    `<a class="spec notion-card" style="--nc:${hex}" href="https://app.notion.com/${id}" target="_blank" rel="noopener">
+      <div class="ne">${e}</div><h4>${t.replace('Notion · ', '')}</h4><p>${d}</p><span class="go">在 Notion 打開 ↗</span></a>`).join('');
+}
+
+/* ---------- maps ---------- */
+const MAPS = {
+  m1: { code: `graph TD
+  user(["🐙 Ya-MiC 的目標<br>審計 SaaS + Agent 複利"])
+  subgraph CORE["核心資產 · 唯一真相源"]
+    at["action-tree<br>戰略總綱 🔒"]:::astA
+    dsh["dsh<br>技能真相源"]:::astB
+    hermes["hermes<br>全景索引"]:::astB
+    os["ya-mic-os<br>總控面板（本站）"]:::astB
+  end
+  subgraph ZH["🟣 A 湛箴・審計智能體"]
+    zz["zhanzhen 審計平台 v1"]:::astA
+    zs["zhanzhen-server 🔒"]:::astA
+    zw["zhanzhen-web CF 前端"]:::astA
+    ao["audit-os 規則引擎"]:::astA
+    aom["audit-os-mobile APK"]:::astA
+    ioc["invoice-ocr-system"]:::astA
+    zh2["zhanzhen-handover"]:::astA
+  end
+  subgraph SB["🟢 B Agent 系統"]
+    pl["deepseek-harness · argo · archify<br>awesome-dsh-plugin · dsh-stock-watch…"]:::astB
+  end
+  subgraph CD["🔵 C 量化金融 · 🟠 D 基建網路"]
+    qnt["nautilus_trader · FinceptTerminal<br>ai_quant_trade…"]:::astC
+    infra["CF-Workers-SUB · sublink-worker<br>BPB-Panel · serv00-play…"]:::astD
+  end
+  subgraph SE["🚦 E 治理"]
+    hr["15 個已全部裁決 ✓"]:::astE
+  end
+  st(["⭐ 42 Starred<br>七大領域 · 見地圖⑤"]):::astStar
+  user --> at
+  user --> dsh
+  user --> hermes
+  user --> os
+  at --> zz
+  zz --> zs
+  zz --> zw
+  zz --> ao
+  ao --> aom
+  ioc -.可整合.-> ao
+  zh2 -.移交.-> zz
+  dsh --> pl
+  hermes -.索引.-> os
+  qnt -.學習.-> user
+  infra -.支撐.-> zs
+  st -.吸收候選.-> dsh
+  hr -.歸檔.-> os`,
+    links: ['action-tree','dsh','hermes','ya-mic-os','zhanzhen','zhanzhen-server','zhanzhen-web','audit-os','audit-os-mobile','invoice-ocr-system','zhanzhen-handover','deepseek-harness'] },
+  m2: { code: `flowchart LR
+  A["🔍 只讀盤點<br>59 + 42"]:::astB --> B["🧮 Skill 3.0<br>分類 + 評分"]:::astB
+  B --> C{"U ≥ 6 ?"}:::astD
+  C -->|是| D["🚦 人類裁決<br>30 秒 A–E"]:::astD
+  C -->|否| E["📥 寫入<br>portfolio.json"]:::astA
+  D --> E
+  E --> F["🗂 八面板<br>+ 儀表盤"]:::astA
+  F --> G["🚀 Pages<br>自動部署"]:::astC
+  G --> H["⏱ 每 6 小時<br>自動同步"]:::astD
+  H -.下一輪.-> A`,
+    links: [] },
+  m3: { code: `graph TD
+  spec["action-tree<br>戰略總綱 + 工程規範 🔒"]:::astA
+  subgraph ZH["🟣 湛箴 · 憑證到報告的完整審計作業"]
+    zz["zhanzhen<br>v1 平台框架<br>FastAPI + Vue3"]:::astA
+    zs["zhanzhen-server<br>FastAPI + PG + MinIO + Redis 🔒"]:::astA
+    zw["zhanzhen-web<br>CF Pages 靜態前端"]:::astA
+    aom["audit-os-mobile<br>離線規則引擎 APK"]:::astA
+    ao["audit-os<br>12 條規則 + SHA-256 證據鏈"]:::astA
+    ioc["invoice-ocr-system<br>RapidOCR + Rust 監聽"]:::astA
+    zh2["zhanzhen-handover<br>業務移交全集"]:::astA
+  end
+  rep(["📄 可追溯審計報告<br>註冊會計師簽署後生效"]):::astStar
+  spec -->|ENGINEERING_SPEC| zz
+  spec -->|客戶端規範 §6| aom
+  zz --> zs
+  zw -.連.-> zs
+  ioc -->|發票/帳本| ao
+  zs --> ao
+  ao -->|風險報告| rep
+  aom -.採集包上傳.-> zs
+  zh2 -.交付.-> rep`,
+    links: ['action-tree','zhanzhen','zhanzhen-server','zhanzhen-web','audit-os','audit-os-mobile','invoice-ocr-system','zhanzhen-handover'] },
+  m4: { code: `graph TD
+  dsh["dsh<br>中央技能與規範庫<br>唯一真相源"]:::astB
+  up["deepseek-harness<br>Agent runtime 上游"]:::astB
+  subgraph PL["插件與技能"]
+    ar["argo 搜索"]:::astB
+    arc["archify 架構圖"]:::astB
+    sw["dsh-stock-watch 盯盤"]:::astB
+    aw["awesome-dsh-plugin 清單"]:::astB
+    od["open-design 設計"]:::astB
+  end
+  subgraph IDX["索引與狀態"]
+    h["hermes 全景索引"]:::astB
+    os["ya-mic-os 總控"]:::astB
+    st8["openclaw 狀態記錄"]:::astE
+  end
+  subgraph STAR["⭐ Starred 吸收候選"]
+    s1["distilly ★24k<br>Skills 蒸餾"]:::astStar
+    s2["last30days-skill ★60k"]:::astStar
+    s3["dashi-ppt-skill ★6.8k"]:::astStar
+  end
+  up --> dsh
+  dsh --> ar
+  dsh --> arc
+  dsh --> sw
+  dsh --> aw
+  od -.候選.-> dsh
+  h --> os
+  st8 -.狀態.-> dsh
+  s1 -.吸收候選.-> dsh
+  s2 -.吸收候選.-> dsh
+  s3 -.吸收候選.-> dsh`,
+    links: ['dsh','deepseek-harness','argo','archify','dsh-stock-watch','awesome-dsh-plugin','open-design','hermes','ya-mic-os'] },
+  m5: { code: `graph LR
+  subgraph SRC["🟠 節點來源"]
+    n1["serv00-play<br>argo+vmess/hy2"]:::astD
+    n2["warp- WARP+"]:::astD
+    bbr["Ya-MIC-bbr<br>BBR 優化"]:::astD
+  end
+  subgraph AGG["訂閱聚合與轉換"]
+    cf["CF-Workers-SUB<br>多節點聚合"]:::astD
+    sl["sublink-worker<br>SingBox/Clash 轉換"]:::astD
+    dy["dingyuebaohu<br>優選訂閱生成"]:::astD
+    bpb["BPB-Worker-Panel<br>訂閱 GUI"]:::astD
+  end
+  subgraph EDGE["邊緣與安全"]
+    dns["-GL.iNet-OpenWrt-DNS-<br>DNS 鎖定 🔒"]:::astD
+    zt["Secure-Edge-Access<br>CF Tunnel Zero Trust 🔒"]:::astD
+    pg["proxy-github<br>GH 加速"]:::astD
+  end
+  cli(["📱 客戶端訂閱"]):::astStar
+  n1 --> cf
+  n2 --> cf
+  cf --> sl
+  dy --> sl
+  bpb -.GUI.-> sl
+  sl --> cli
+  dns -.上游鎖定.-> cli
+  zt -.安全入口.-> cli
+  pg -.加速.-> cli
+  bbr -.核心.-> n1`,
+    links: ['serv00-play','CF-Workers-SUB','sublink-worker','dingyuebaohu','BPB-Worker-Panel','proxy-github'] },
+  m6: { code: `graph TD
+  you(["⭐ 42 Starred · 按領域分區<br>全部節點可點擊 ↗"]):::astStar
+  subgraph AGSK["🤖 Agent 技能（15）"]
+    dis["distilly ★24k<br>工作流→Skills"]:::astStar
+    l30["last30days-skill ★60k<br>趨勢研究"]:::astStar
+    ppt["dashi-ppt-skill ★6.8k<br>報告→PPT"]:::astStar
+    sas["scientific-agent-skills ★37k<br>科研技能包"]:::astStar
+    arc2["archify ★29k<br>架構圖"]:::astStar
+    mor["OpenBiliClaw · Agent-Reach ★76k<br>SkillOpt · OpenKB · DeepTutor…"]:::astStar
+  end
+  subgraph QUANT["📈 量化金融（9）"]
+    ta["TradingAgents ★101k<br>多Agent交易框架"]:::astStar
+    ql["qlib ★48k"]:::astStar
+    nt["nautilus_trader ★28k"]:::astStar
+    qd["QuantDinger · ritmex-bot<br>Vibe-Research · awesome-ST…"]:::astStar
+  end
+  subgraph PM["🧠 提示詞/模型（3）"]
+    spl["system_prompts_leaks ★63k"]:::astStar
+    r1["DeepSeek-R1 ★92k"]:::astStar
+    air["airllm ★33k"]:::astStar
+  end
+  subgraph AUD["💼 審計×發票（3）"]
+    inv["Invoice-Downloader<br>發票OCR歸檔"]:::astStar
+    df["docformat-gui 同源"]:::astStar
+    shs["shushu-internship-tool"]:::astStar
+  end
+  subgraph INF["🌐 基建/安全（6）"]
+    bos["book-of-secret-knowledge ★241k"]:::astStar
+    fd["FreeDomain ★196k"]:::astStar
+    psh["PowerShell ★55k"]:::astStar
+    cfg["CF-Workers-GitHub/SUB"]:::astStar
+  end
+  subgraph MI["💡 方法論 + 學習 + 情報（5）"]
+    opc["opc-methodology ★16k"]:::astStar
+    cid["chinese-independent-developer ★61k"]:::astStar
+    osi["osiris OSINT 全球情報"]:::astStar
+    ctb["ChinaTextbook ★81k"]:::astStar
+    fin["financial-services ★34k<br>金融×Agent"]:::astStar
+  end
+  you --> AGSK
+  you --> QUANT
+  you --> PM
+  you --> AUD
+  you --> INF
+  you --> MI
+  dis -.湛箴工作流技能化.-> you
+  inv -.整合進 invoice-ocr.-> you
+  ta -.C區骨架.-> you`,
+    links: ['titanwings/distilly','mvanhorn/last30days-skill','chuspeeism/dashi-ppt-skill','K-Dense-AI/scientific-agent-skills','tt-a1i/archify','whiteguo233/OpenBiliClaw','Panniantong/Agent-Reach','microsoft/SkillOpt','VectifyAI/OpenKB','HKUDS/DeepTutor','TauricResearch/TradingAgents','microsoft/qlib','nautechsystems/nautilus_trader','OpenByteInc/QuantDinger','discountry/ritmex-bot','simonlin1212/Vibe-Research','wangzhe3224/awesome-systematic-trading','asgeirtj/system_prompts_leaks','deepseek-ai/DeepSeek-R1','lyogavin/airllm','EthanYoQ/Invoice-Downloader','KaguraNanaga/docformat-gui','LiuMengxuan04/shushu-internship-tool','trimstray/the-book-of-secret-knowledge','DigitalPlatDev/FreeDomain','PowerShell/PowerShell','cmliu/CF-Workers-GitHub','cmliu/CF-Workers-SUB','easychen/opc-methodology','1c7/chinese-independent-developer','simplifaisoul/osiris','TapXWorld/ChinaTextbook','anthropics/financial-services'] },
+};
+let mapsRendered = false;
+function mermaidInit() {
+  const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({
+    startOnLoad: false, securityLevel: 'loose', theme: 'base',
+    flowchart: { curve: 'basis', nodeSpacing: 65, rankSpacing: 75, padding: 12 },
+    themeVariables: {
+      primaryColor: dark ? '#1b1e19' : '#ffffff',
+      primaryTextColor: dark ? '#f4f6f3' : '#15181b',
+      primaryBorderColor: dark ? '#3a3f45' : '#d7dee4',
+      lineColor: dark ? '#7d8894' : '#9aa4ab',
+      edgeLabelBackground: dark ? '#171a16' : '#f8faf9',
+      clusterBkg: dark ? '#171a16' : '#fbfcfd',
+      clusterBorder: dark ? '#2a2e29' : '#e4e9ec',
+      fontSize: '14px',
+    },
+    themeCSS: `
+      /* archify-spec：細線節點卡 + 語義色 + 細連線 */
+      .node rect,.node polygon,.node circle{stroke-width:1.5px;filter:drop-shadow(0 1px 2px rgba(15,18,22,.10))}
+      .nodeLabel{font-weight:600;font-size:13px}
+      .edgeLabel{font-size:11px;font-weight:600;color:#60686d;background:transparent}
+      .edgeLabel rect{fill:transparent}
+      .flowchart-link{stroke-width:1.2px}
+      .marker{stroke-width:1.2px}
+      .cluster rect{stroke-width:1.2px;stroke-dasharray:none}
+      .cluster-label{font-weight:800;font-size:12.5px;letter-spacing:.04em}
+      .astA rect,.astA polygon{fill:#f5f3ff !important;stroke:#6d28d9 !important}
+      .astB rect,.astB polygon{fill:#ecfdf5 !important;stroke:#047857 !important}
+      .astC rect,.astC polygon{fill:#ecfeff !important;stroke:#0891b2 !important}
+      .astD rect,.astD polygon{fill:#fffbeb !important;stroke:#b45309 !important}
+      .astE rect,.astE polygon{fill:#f8fafc !important;stroke:#475569 !important}
+      .astStar rect,.astStar polygon{fill:#fff7ed !important;stroke:#c2410c !important}
+      @media (prefers-color-scheme: dark){
+        .astA rect{fill:#251d3d !important}.astB rect{fill:#12271c !important}
+        .astC rect{fill:#0e2b33 !important}.astD rect{fill:#2e2410 !important}
+        .astE rect{fill:#20241f !important}.astStar rect{fill:#331c10 !important}
+        .node rect,.node polygon{filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}}`
+  });
+}
+/* ---------- 確定性資產地圖引擎（archify 規格：手排座標 SVG） ---------- */
+const INK = '#15181b', GRAY = '#60686d', EDGE = '#9aa4ab', MIST = '#f8faf9';
+const CC = {
+  A: ['#6d28d9', '#f5f3ff'], B: ['#047857', '#ecfdf5'], C: ['#0891b2', '#ecfeff'],
+  D: ['#b45309', '#fffbeb'], E: ['#475569', '#f8fafc'], STAR: ['#c2410c', '#fff7ed'],
+};
+function G(x, y, w, h, label) {
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="${MIST}" stroke="#e4e9ec" stroke-width="1.2"/>
+  <text x="${x + 16}" y="${y + 24}" font-size="12.5" font-weight="800" fill="${GRAY}" letter-spacing="1">${label}</text>`;
+}
+function N(x, y, w, cKey, t, s, href) {
+  const pair = CC[cKey] || CC.E;
+  const stroke = cKey === 'CORE' ? '#163300' : pair[0];
+  const fill = cKey === 'CORE' ? '#163300' : pair[1];
+  const tFill = cKey === 'CORE' ? '#9fe870' : INK;
+  const sFill = cKey === 'CORE' ? '#cfe8c0' : GRAY;
+  const h = s ? 58 : 44;
+  const inner = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${fill}" stroke="${stroke}" stroke-width="1.5" style="filter:drop-shadow(0 1px 2px rgba(15,18,22,.10))"/>
+    <text x="${x + 14}" y="${y + 19}" font-size="13" font-weight="700" fill="${tFill}">${t}</text>` +
+    (s ? `<text x="${x + 14}" y="${y + 38}" font-size="10.5" fill="${sFill}">${s}</text>` : '');
+  return href
+    ? `<a href="${href}" target="_blank" rel="noopener" style="cursor:pointer"><g style="pointer-events:all">${inner}<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="transparent"/></g></a>`
+    : `<g>${inner}</g>`;
+}
+function E(x1, y1, x2, y2, opt) {
+  opt = opt || {};
+  const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+  const d = opt.v
+    ? `M ${x1} ${y1} C ${x1} ${my}, ${x2} ${my}, ${x2} ${y2}`
+    : `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`;
+  return `<path d="${d}" fill="none" stroke="${EDGE}" stroke-width="1.2" ${opt.dash ? 'stroke-dasharray="4 4"' : ''} marker-end="url(#arw)"/>` +
+    (opt.label ? `<text x="${mx}" y="${my - 6}" font-size="10.5" fill="${GRAY}" text-anchor="middle" style="paint-order:stroke" stroke="#ffffff" stroke-width="3">${opt.label}</text>` : '');
+}
+function svgWrap(w, h, body) {
+  return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif">
+  <defs><marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+  <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="${EDGE}" stroke-width="1.4"/></marker></defs>${body}</svg>`;
+}
+const MAPS2 = {
+  m1: { w: 1240, h: 900, build: () => {
+    let b = '';
+    b += G(40, 140, 1160, 150, '核心資產 · 唯一真相源');
+    b += N(520, 24, 300, 'CORE', '🐙 Ya-MiC 的目標', '審計 SaaS + Agent 複利');
+    b += N(70, 196, 240, 'A', 'action-tree 🔒', '戰略總綱 · 工程規範', 'https://github.com/');
+    b += N(370, 196, 240, 'B', 'dsh', '中央技能真相源', 'https://github.com/');
+    b += N(670, 196, 240, 'B', 'hermes', '全景索引', 'https://github.com/');
+    b += N(950, 196, 230, 'B', 'ya-mic-os', '總控面板（本站）', 'https://github.com/Ya-MiC/yami-hub');
+    b += G(40, 350, 600, 430, '🟣 A 湛箴・審計智能體');
+    b += N(70, 404, 250, 'A', 'zhanzhen v1', '審計平台框架', 'https://github.com/Ya-MiC/zhanzhen');
+    b += N(70, 494, 250, 'A', 'zhanzhen-server 🔒', 'FastAPI + PG + MinIO + Redis', 'https://github.com/Ya-MiC/zhanzhen-server');
+    b += N(70, 584, 250, 'A', 'invoice-ocr-system', '發票 OCR · 可整合', 'https://github.com/Ya-MiC/invoice-ocr-system');
+    b += N(360, 404, 250, 'A', 'zhanzhen-web', 'CF Pages 靜態前端', 'https://github.com/Ya-MiC/zhanzhen-web');
+    b += N(360, 494, 250, 'A', 'audit-os', '12 規則 + SHA-256 證據鏈', 'https://github.com/Ya-MiC/audit-os');
+    b += N(360, 584, 250, 'A', 'audit-os-mobile', '離線規則引擎 APK', 'https://github.com/Ya-MiC/audit-os-mobile');
+    b += N(215, 690, 250, 'A', 'zhanzhen-handover', '業務移交全集', 'https://github.com/Ya-MiC/zhanzhen-handover');
+    b += G(680, 350, 520, 170, '🟢 B Agent 系統');
+    b += N(710, 404, 220, 'B', 'deepseek-harness', 'runtime 上游', 'https://github.com/Ya-MiC/deepseek-harness');
+    b += N(950, 404, 220, 'B', '插件與技能群', 'argo · archify · 盯盤…', 'https://github.com/Ya-MiC/awesome-dsh-plugin');
+    b += N(710, 494, 220, 'B', 'ya-mic-agent-skills', '治理 Skill 備份', 'https://github.com/Ya-MiC/ya-mic-agent-skills');
+    b += G(680, 550, 250, 160, '🔵 C 量化・金融');
+    b += N(705, 604, 200, 'C', 'nautilus_trader 學習', '回測引擎', 'https://github.com/Ya-MiC/nautilus_trader');
+    b += G(950, 550, 250, 160, '🟠 D 基建・網路');
+    b += N(975, 604, 200, 'D', 'CF-Workers-SUB 等', '訂閱聚合 · 邊緣', 'https://github.com/Ya-MiC/CF-Workers-SUB');
+    b += G(680, 740, 520, 130, '🚦 E 治理');
+    b += N(710, 790, 460, 'E', '15 個已全部裁決 ✓', '2026-08-30 · 存檔於 Issues #6–#20', 'https://github.com/Ya-MiC/yami-hub/issues?q=label%3Ahuman-review');
+    b += N(880, 24, 320, 'STAR', '⭐ 42 Starred', '七大領域 · 見地圖 ⑤', 'https://github.com/Ya-MiC?tab=stargazing');
+    b += E(620, 82, 190, 196, { label: '戰略根' });
+    b += E(640, 82, 490, 196, { label: '技能源' });
+    b += E(690, 82, 790, 196, { label: '索引' });
+    b += E(720, 82, 1065, 196, { label: '總控' });
+    b += E(190, 254, 190, 404, { label: 'ENGINEERING_SPEC' });
+    b += E(320, 462, 360, 462, {});
+    b += E(320, 523, 360, 523, { label: 'API' });
+    b += E(195, 552, 340, 612, { dash: 1, label: '可整合' });
+    b += E(500, 404, 500, 494, {});
+    b += E(485, 552, 340, 690, { dash: 1, label: '移交' });
+    b += E(610, 223, 710, 223, {});
+    b += E(910, 223, 950, 223, { dash: 1, label: '索引' });
+    b += E(820, 254, 820, 404, {});
+    b += E(340, 250, 1000, 604, { dash: 1, label: '支撐' });
+    b += E(1040, 82, 1040, 196, { dash: 1, label: '吸收候選' });
+    b += E(940, 830, 940, 790, { dash: 1, label: '歸檔' });
+    return b;
+  } },
+  m7: { w: 1240, h: 640, build: () => {
+    let b = '';
+    b += G(40, 50, 350, 240, '🔵 C 區 · 你的量化倉');
+    b += N(70, 104, 290, 'C', 'nautilus_trader 學習', '回測引擎', 'https://github.com/Ya-MiC/nautilus_trader');
+    b += N(70, 194, 290, 'C', 'FinceptTerminal', '金融終端 fork', 'https://github.com/Ya-MiC/FinceptTerminal');
+    b += N(70, 284, 290, 'C', 'trading-second-brain ★A裁決', '第二大腦架構雛形', 'https://github.com/Ya-MiC/trading-second-brain_needchange');
+    b += G(430, 50, 400, 330, '⭐ Starred 引擎與平台');
+    b += N(460, 104, 340, 'STAR', 'TradingAgents ★101k', '多 Agent 交易框架', 'https://github.com/TauricResearch/TradingAgents');
+    b += N(460, 194, 340, 'STAR', 'qlib ★48k', 'AI 量化平台', 'https://github.com/microsoft/qlib');
+    b += N(460, 284, 340, 'STAR', 'nautilus_trader 上游 ★28k', 'Rust 引擎', 'https://github.com/nautechsystems/nautilus_trader');
+    b += G(870, 50, 330, 240, '⭐ 方法與數據');
+    b += N(900, 104, 270, 'STAR', 'awesome-systematic-trading ★5k', '資源索引', 'https://github.com/wangzhe3224/awesome-systematic-trading');
+    b += N(900, 194, 270, 'STAR', 'QuantDinger ★11k', '加密+股票平台', 'https://github.com/OpenByteInc/QuantDinger');
+    b += N(900, 284, 270, 'STAR', 'financial-services ★34k', '金融×Agent 官方', 'https://github.com/anthropics/financial-services');
+    b += N(370, 440, 480, 'STAR', '📈 你的量化研究閉環', '非投資建議 · 回測≠未來報酬 · 合規邊界先查');
+    b += E(360, 133, 460, 133, { label: '引擎選型' });
+    b += E(360, 223, 460, 223, { label: '對照' });
+    b += E(360, 313, 460, 313, { label: '上游' });
+    b += E(1040, 290, 1040, 380, { dash: 1 });
+    b += E(1040, 380, 760, 440, { dash: 1, label: '方法支撐' });
+    b += E(610, 355, 610, 440, { label: '架構借用' });
+    return b;
+  } },
+  m8: { w: 1240, h: 620, build: () => {
+    let b = '';
+    b += G(40, 50, 350, 240, '📚 你的學習資產');
+    b += N(70, 104, 290, 'C', 'economics-11.29 🔒', '經濟學研究', 'https://github.com/Ya-MiC/economics-11.29');
+    b += N(70, 194, 290, 'B', 'nie-grassroots-logic', '基層邏輯 Skill', 'https://github.com/Ya-MiC/nie-grassroots-logic');
+    b += G(430, 50, 400, 330, '⭐ 教材與導師');
+    b += N(460, 104, 340, 'STAR', 'ChinaTextbook ★81k', '全學段教材 PDF', 'https://github.com/TapXWorld/ChinaTextbook');
+    b += N(460, 194, 340, 'STAR', 'DeepTutor ★37k', '終身個性化導師', 'https://github.com/HKUDS/DeepTutor');
+    b += N(460, 284, 340, 'STAR', 'AI-reads-books ★2.8k', 'PDF 逐頁知識抽取', 'https://github.com/echohive42/AI-reads-books-page-by-page');
+    b += G(870, 50, 330, 240, '💡 方法論/商業');
+    b += N(900, 104, 270, 'STAR', 'opc-methodology ★16k', '一人企業方法論', 'https://github.com/easychen/opc-methodology');
+    b += N(900, 194, 270, 'STAR', '獨立開發者列表 ★61k', '路徑參照', 'https://github.com/1c7/chinese-independent-developer');
+    b += N(370, 440, 480, 'STAR', '🎓 學習 → 作品 → 收入 的複利線', '商務數據分析 × 審計 × Agent');
+    b += E(360, 133, 460, 133, { label: '教材' });
+    b += E(360, 223, 460, 223, { label: '導師' });
+    b += E(360, 313, 460, 313, { dash: 1, label: '抽取' });
+    b += E(1040, 223, 1040, 380, { dash: 1 });
+    b += E(1040, 380, 760, 440, { dash: 1, label: '路徑參照' });
+    b += E(610, 355, 610, 440, { label: '研究' });
+    return b;
+  } },
+  m2: { w: 1240, h: 430, build: () => {
+    let b = '';
+    const steps = [
+      ['🔍 只讀盤點', '59 + 42', 'B', 'https://github.com/Ya-MiC/yami-hub'],
+      ['🧮 分類+評分', 'Skill 3.0', 'B', 'https://github.com/Ya-MiC/yami-hub/blob/main/docs/skill-snapshot.md'],
+      ['🚦 人類裁決', 'U≥6 → 30秒', 'D', 'https://github.com/Ya-MiC/yami-hub/issues?q=label%3Ahuman-review'],
+      ['📥 寫入', 'portfolio.json', 'A', 'https://github.com/Ya-MiC/yami-hub/blob/main/data/portfolio.json'],
+      ['🗂 八面板', '+ 儀表盤', 'A', 'https://ya-mic.github.io/ya-mic-os/'],
+      ['🚀 Pages', '自動部署', 'C', 'https://docs.github.com/actions'],
+      ['⏱ 自動同步', '每 6 小時', 'D', 'https://docs.github.com/actions'],
+    ];
+    let x = 50;
+    const w = 150, gap = 22;
+    steps.forEach(([t, s2, c, href], i) => {
+      const card = N(x, 130, w, c, t, s2, href);
+      b += `<g class="mstep" data-step="${i}">${card}</g>`;
+      if (i < steps.length - 1) b += E(x + w, 159, x + w + gap, 159, {});
+      x += w + gap;
+    });
+    b += E(1190, 190, 1190, 290, { dash: 1 });
+    b += E(1190, 290, 125, 290, { dash: 1, label: '下一輪治理 Run' });
+    b += E(125, 290, 125, 188, { dash: 1 });
+    b += `<text x="620" y="380" font-size="13" font-weight="700" fill="${GRAY}" text-anchor="middle">裁決留言自動回收（gov-sync）→ 數據自動同步（auto-sync）→ 部署（deploy-pages）——三條流水線 7×24 在 GitHub 伺服器運轉</text>`;
+    return b;
+  } },
+  m3: { w: 1240, h: 690, build: () => {
+    let b = '';
+    b += N(470, 30, 300, 'A', 'action-tree 🔒', '戰略總綱 + 工程規範', 'https://github.com/');
+    b += G(40, 170, 1160, 560, '🟣 湛箴 · 憑證到報告的完整審計作業');
+    b += N(80, 224, 260, 'A', 'zhanzhen v1', '平台框架 FastAPI + Vue3', 'https://github.com/Ya-MiC/zhanzhen');
+    b += N(80, 330, 260, 'A', 'zhanzhen-server 🔒', 'FastAPI + PG + MinIO + Redis', 'https://github.com/Ya-MiC/zhanzhen-server');
+    b += N(400, 330, 260, 'A', 'zhanzhen-web', 'CF Pages 靜態前端', 'https://github.com/Ya-MiC/zhanzhen-web');
+    b += N(720, 330, 240, 'A', 'audit-os-mobile', '離線規則引擎 APK', 'https://github.com/Ya-MiC/audit-os-mobile');
+    b += N(400, 440, 260, 'A', 'audit-os', '12 規則 + SHA-256 證據鏈', 'https://github.com/Ya-MiC/audit-os');
+    b += N(80, 440, 260, 'A', 'invoice-ocr-system', 'RapidOCR + Rust 監聽', 'https://github.com/Ya-MiC/invoice-ocr-system');
+    b += N(720, 440, 240, 'A', 'zhanzhen-handover', '業務移交全集', 'https://github.com/Ya-MiC/zhanzhen-handover');
+    b += N(790, 600, 380, 'STAR', '📄 可追溯審計報告', '註冊會計師簽署後生效');
+    b += E(620, 88, 210, 224, { label: 'ENGINEERING_SPEC' });
+    b += E(620, 88, 840, 330, { label: '客戶端規範 §6' });
+    b += E(210, 282, 210, 330, {});
+    b += E(340, 359, 400, 359, {});
+    b += E(340, 469, 400, 469, { label: '發票/帳本' });
+    b += E(210, 388, 400, 455, { label: 'API' });
+    b += E(530, 388, 530, 440, {});
+    b += E(840, 388, 700, 455, {});
+    b += E(530, 498, 880, 600, { label: '風險報告' });
+    b += E(210, 498, 840, 620, { dash: 1, label: '移交' });
+    b += E(840, 359, 850, 440, { dash: 1, label: '採集包上傳' });
+    return b;
+  } },
+  m4: { w: 1240, h: 660, build: () => {
+    let b = '';
+    b += N(80, 30, 300, 'B', 'dsh', '中央技能與規範庫 · 唯一真相源', 'https://github.com/');
+    b += N(520, 30, 280, 'B', 'deepseek-harness', 'Agent runtime 上游', 'https://github.com/Ya-MiC/deepseek-harness');
+    b += G(40, 160, 560, 240, '插件與技能');
+    b += N(70, 214, 230, 'B', 'argo', 'Agent 搜索', 'https://github.com/Ya-MiC/argo');
+    b += N(340, 214, 230, 'B', 'archify', '架構圖生成', 'https://github.com/archify-agent/archify');
+    b += N(70, 304, 230, 'B', 'dsh-stock-watch', 'A股盯盤插件', 'https://github.com/-stock-watch');
+    b += N(340, 304, 230, 'B', 'awesome-dsh-plugin', '插件精選清單', 'https://github.com/Ya-MiC/awesome-dsh-plugin');
+    b += G(640, 160, 560, 240, '索引與狀態');
+    b += N(670, 214, 230, 'B', 'hermes', '全景索引', 'https://github.com/');
+    b += N(940, 214, 230, 'B', 'ya-mic-os', '總控（本站）', 'https://github.com/Ya-MiC/yami-hub');
+    b += N(670, 304, 230, 'E', 'openclaw 狀態群', '配置 · 記憶 · 心跳', 'https://github.com/Ya-MiC/openclaw-kugua-state');
+    b += G(640, 440, 560, 300, '⭐ Starred 吸收候選');
+    b += N(670, 494, 240, 'STAR', 'distilly ★24k', '工作流 → Skills', 'https://github.com/titanwings/distilly');
+    b += N(940, 494, 240, 'STAR', 'last30days-skill ★60k', '趨勢研究技能', 'https://github.com/mvanhorn/last30days-skill');
+    b += N(670, 584, 240, 'STAR', 'dashi-ppt-skill ★6.8k', '報告 → PPT', 'https://github.com/chuspeeism/dashi-ppt-skill');
+    b += N(940, 584, 240, 'STAR', 'scientific-agent-skills ★37k', '科研技能包', 'https://github.com/K-Dense-AI/scientific-agent-skills');
+    b += N(80, 440, 300, 'STAR', '⭐ 更多候選', 'OpenBiliClaw · Agent-Reach · SkillOpt…', 'https://github.com/Ya-MiC?tab=stargazing');
+    b += E(660, 59, 450, 59, { label: '上游' });
+    b += E(230, 88, 230, 160, {});
+    b += E(660, 88, 785, 160, { label: '插件掛載' });
+    b += E(450, 359, 670, 359, { label: '收錄' });
+    b += E(785, 254, 785, 214, { dash: 1, label: '被索引' });
+    b += E(940, 359, 1055, 440, { dash: 1, label: '吸收候選' });
+    b += E(380, 59, 230, 440, { dash: 1, label: '生態擴充' });
+    return b;
+  } },
+  m5: { w: 1240, h: 560, build: () => {
+    let b = '';
+    b += G(40, 60, 300, 300, '🟠 節點來源');
+    b += N(70, 114, 240, 'D', 'serv00-play', 'argo + vmess / hy2', 'https://github.com/Ya-MiC/serv00-play');
+    b += N(70, 204, 240, 'D', 'warp- WARP+', '節點補充', 'https://github.com/Ya-MiC/warp-');
+    b += N(70, 294, 240, 'D', 'Ya-MIC-bbr', 'BBR 核心優化', 'https://github.com/Ya-MiC/Ya-MIC-bbr');
+    b += G(400, 60, 380, 300, '訂閱聚合與轉換');
+    b += N(430, 114, 320, 'D', 'CF-Workers-SUB', '多節點聚合', 'https://github.com/Ya-MiC/CF-Workers-SUB');
+    b += N(430, 204, 320, 'D', 'sublink-worker', 'SingBox / Clash 轉換', 'https://github.com/Ya-MiC/sublink-worker');
+    b += N(430, 294, 320, 'D', 'dingyuebaohu + BPB-Panel', '優選生成 · 訂閱 GUI', 'https://github.com/Ya-MiC/dingyuebaohu');
+    b += G(840, 60, 360, 300, '邊緣與安全');
+    b += N(870, 114, 300, 'D', '-GL.iNet-OpenWrt-DNS- 🔒', '上游 DNS 鎖定', 'https://github.com/Ya-MiC/-GL.iNet-OpenWrt-DNS-');
+    b += N(870, 204, 300, 'D', 'Secure-Edge-Access 🔒', 'CF Tunnel Zero Trust', 'https://github.com/Ya-MiC/Secure-Edge-Access-Implementation-via-Cloudflare-Tunnel-Zero-Trust-');
+    b += N(870, 294, 300, 'D', 'proxy-github', 'GH 加速代理', 'https://github.com/Ya-MiC/proxy-github');
+    b += N(470, 470, 300, 'STAR', '📱 客戶端訂閱', '手機 / 桌面 / 路由器');
+    b += E(310, 143, 430, 143, { label: '節點' });
+    b += E(310, 233, 430, 233, {});
+    b += E(310, 323, 430, 323, { label: '核心' });
+    b += E(750, 143, 810, 200, { dash: 1 });
+    b += E(750, 233, 870, 233, {});
+    b += E(750, 323, 810, 300, { dash: 1 });
+    b += E(590, 323, 590, 470, { label: '專屬訂閱' });
+    b += E(1020, 323, 740, 480, { dash: 1, label: '安全入口' });
+    return b;
+  } },
+  m6: { w: 1240, h: 980, build: () => {
+    let b = '';
+    b += N(470, 24, 300, 'STAR', '⭐ 42 Starred', '按七大領域分區 · 節點可點 ↗');
+    const cat = (x, y, w, h, label, color, items) => {
+      let s = G(x, y, w, h, label);
+      let yy = y + 50;
+      for (const [t, d, href] of items) { s += N(x + 24, yy, w - 48, color, t, d, href); yy += 66; }
+      return s;
+    };
+    b += cat(40, 130, 580, 380, '🤖 Agent 技能（15）', 'B', [
+      ['titanwings/distilly ★24k', '把工作流蒸餾成 Skills', 'https://github.com/titanwings/distilly'],
+      ['mvanhorn/last30days-skill ★60k', '趨勢研究技能', 'https://github.com/mvanhorn/last30days-skill'],
+      ['K-Dense-AI/scientific-agent-skills ★37k', '科研技能包', 'https://github.com/K-Dense-AI/scientific-agent-skills'],
+      ['tt-a1i/archify ★29k', '架構圖技能', 'https://github.com/tt-a1i/archify'],
+      ['chuspeeism/dashi-ppt-skill ★6.8k', '報告 → PPT', 'https://github.com/chuspeeism/dashi-ppt-skill'],
+    ]);
+    b += cat(640, 130, 560, 300, '📈 量化金融（9）', 'C', [
+      ['TauricResearch/TradingAgents ★101k', '多 Agent 交易框架', 'https://github.com/TauricResearch/TradingAgents'],
+      ['microsoft/qlib ★48k', 'AI 量化平台', 'https://github.com/microsoft/qlib'],
+      ['nautechsystems/nautilus_trader ★28k', 'Rust 回測引擎', 'https://github.com/nautechsystems/nautilus_trader'],
+      ['QuantDinger · ritmex-bot · Vibe-Research…', '交易工具群', 'https://github.com/OpenByteInc/QuantDinger'],
+    ]);
+    b += cat(40, 540, 580, 240, '🧠 提示詞/模型（3）', 'A', [
+      ['asgeirtj/system_prompts_leaks ★63k', '頂級系統提示詞', 'https://github.com/asgeirtj/system_prompts_leaks'],
+      ['deepseek-ai/DeepSeek-R1 ★92k', '推理模型', 'https://github.com/deepseek-ai/DeepSeek-R1'],
+      ['lyogavin/airllm ★33k', '低資源推理', 'https://github.com/lyogavin/airllm'],
+    ]);
+    b += cat(640, 460, 560, 180, '💼 審計×發票（3）· 湛箴相關', 'D', [
+      ['EthanYoQ/Invoice-Downloader', '郵箱批量收發票 → OCR 歸檔', 'https://github.com/EthanYoQ/Invoice-Downloader'],
+      ['KaguraNanaga/docformat-gui', '公文格式（同源比對）', 'https://github.com/KaguraNanaga/docformat-gui'],
+    ]);
+    b += cat(40, 800, 580, 240, '🌐 基建/安全（6）', 'D', [
+      ['trimstray/book-of-secret-knowledge ★241k', '安全手冊索引', 'https://github.com/trimstray/the-book-of-secret-knowledge'],
+      ['DigitalPlatDev/FreeDomain ★196k', '免費域名 + DNS', 'https://github.com/DigitalPlatDev/FreeDomain'],
+      ['PowerShell ★55k · CF-Workers-GitHub/SUB', '工具與代理', 'https://github.com/PowerShell/PowerShell'],
+    ]);
+    b += cat(640, 660, 560, 300, '💡 方法論/商業 · 情報 · 學習（7）', 'E', [
+      ['easychen/opc-methodology ★16k', '一人企業方法論', 'https://github.com/easychen/opc-methodology'],
+      ['1c7/chinese-independent-developer ★61k', '獨立開發者列表', 'https://github.com/1c7/chinese-independent-developer'],
+      ['simplifaisoul/osiris ★8k', '全球情報 OSINT', 'https://github.com/simplifaisoul/osiris'],
+      ['anthropics/financial-services ★34k', '金融×Agent 官方方案', 'https://github.com/anthropics/financial-services'],
+      ['TapXWorld/ChinaTextbook ★81k', '全學段教材 PDF', 'https://github.com/TapXWorld/ChinaTextbook'],
+    ]);
+    return b;
+  } },
+};
+const MAP_TYPE = {
+  m1: ['🏗️ 依賴總圖', '誰依賴誰：核心資產為根，產品線／技能／基建掛靠其下', ['核心資產唯一真相源', '湛箴 7 件套全鏈', '治理歸檔收尾']],
+  m3: ['🏗️ 產品線架構圖', '湛箴從戰略到交付的完整鏈路', ['戰略根 action-tree', '三端：後端/前端/移動端', '證據鏈審計報告']],
+  m4: ['🕸️ 生態關係圖', 'dsh 為核心的技能生態網', ['上游 runtime', '插件與技能群', 'Starred 吸收候選']],
+  m5: ['🌐 網路拓撲圖', '節點從來源到客戶端的流向', ['節點來源', '訂閱聚合轉換', '邊緣與安全']],
+  m6: ['🗂️ Starred 分類圖', 'Starred 按領域分區（連接後按你的資料生成）', ['連接 GitHub', '同步資料', '全部節點可點 ↗']],
+  m7: ['📈 量化金融線', 'C 區倉 × Starred 引擎與方法的研究閉環', ['引擎選型', 'TradingAgents 骨架', '非投資建議']],
+  m8: ['🎓 學習方法論線', '教材 → 導師 → 作品 → 收入的複利路徑', ['教材 PDF', '一頁企業方法論', '商務數據分析×審計']],
+  m2: ['▶️ 治理工作流圖', '盤點到部署的閉環——可逐步播放', ['三條自動化流水線', '裁決留言自動回收', '每 6 小時數據同步']],
+};
+let m2Rendered = false;
+function renderMaps() {
+  if (m2Rendered) return;
+  m2Rendered = true;
+  const host = document.getElementById('mapsHost');
+  for (const id of Object.keys(MAPS2)) {
+    const spec = MAPS2[id];
+    const meta = MAP_TYPE[id];
+    const wrap = document.createElement('div');
+    wrap.className = 'mapwrap';
+    wrap.id = 'wrap-' + id;
+    wrap.innerHTML = `<div class="map-head"><div><div class="map-title">${meta[0]}</div>
+      <div class="map-sub">${meta[1]}</div></div>
+      <div class="mapctl" data-for="${id}"><button data-z="in">＋</button><button data-z="out">－</button><button data-z="reset">⟲</button>${id === 'm2' ? '<button data-z="play" title="逐步播放">▶</button>' : ''}<button data-z="fs" title="全屏">⛶</button></div></div>
+      <div class="map-stage" data-map="${id}"><div class="pan"><div class="mermaid" id="${id}">載入中…</div></div></div>` +
+      (meta[2] ? `<div class="map-foot"><div class="mbuls">${meta[2].map(b => `<span class="mbul">${b}</span>`).join('')}</div></div>` : '');
+    host.appendChild(wrap);
+    try {
+      document.getElementById(id).innerHTML = svgWrap(spec.w, spec.h, spec.build());
+    } catch (err) {
+      document.getElementById(id).innerHTML = '<div class="map-err">此圖渲染出錯：' + (err.message || err) + '</div>';
+      continue;
+    }
+    if (id === 'm2') {
+      const ctl = wrap.querySelector('.mapctl');
+      const gbar = document.createElement('div');
+      gbar.className = 'gbar';
+      gbar.innerHTML = '<span class="lbl">引導視點</span>' +
+        '<button class="gbtn" data-g="prev">←</button>' +
+        '<span class="gcur"><b id="gcurNum">1/7</b> <span id="gcurName">只讀盤點</span></span>' +
+        '<span class="gnext">NEXT <b id="gnextName">分類+評分</b></span>' +
+        '<button class="gbtn" data-g="next">→</button>' +
+        '<button class="gbtn" data-g="play">▶ 播放</button>';
+      ctl.closest('.map-head').insertAdjacentElement('afterend', gbar);
+      gbar.querySelector('[data-g="prev"]').addEventListener('click', () => { gStop(); gGo(gstate.i < 0 ? 0 : gstate.i - 1); });
+      gbar.querySelector('[data-g="next"]').addEventListener('click', () => { gStop(); gGo(gstate.i < 0 ? 0 : gstate.i + 1); });
+      gbar.querySelector('[data-g="play"]').addEventListener('click', () => {
+        if (gstate.timer) { gStop(); gstate.i = -1; gApply(); return; }
+        gstate.timer = setInterval(() => gGo(gstate.i + 1), 1600);
+        gGo(0);
+        gbar.querySelector('[data-g="play"]').textContent = '⏸ 暫停';
+      });
+    }
+    initZoom(id);
+  }
+}
+/* ---------- 治理流程引導（archify 式步驟條） ---------- */
+const GSTEPS = ['只讀盤點', '分類+評分', '人類裁決', '寫入資料', '八面板', 'Pages 部署', '自動同步'];
+const gstate = { i: -1, timer: null };
+function gApply() {
+  const svg = document.querySelector('#m2 svg');
+  if (!svg) return;
+  const nodes = svg.querySelectorAll('.mstep');
+  nodes.forEach(n => { n.style.opacity = gstate.i < 0 ? '1' : '.18'; });
+  if (gstate.i >= 0 && nodes[gstate.i]) nodes[gstate.i].style.opacity = '1';
+  const num = document.getElementById('gcurNum'), name = document.getElementById('gcurName'), nx = document.getElementById('gnextName');
+  const i = Math.max(0, gstate.i);
+  if (num) num.textContent = (i + 1) + '/7';
+  if (name) name.textContent = GSTEPS[i];
+  if (nx) nx.textContent = GSTEPS[(i + 1) % 7];
+}
+function gStop() {
+  if (gstate.timer) { clearInterval(gstate.timer); gstate.timer = null; }
+  const pb = document.querySelector('.gbar [data-g="play"]');
+  if (pb) pb.textContent = '▶ 播放';
+}
+function gGo(i) {
+  gstate.i = (i + GSTEPS.length) % GSTEPS.length;
+  gApply();
+}
+/* ---------- 地圖頁簽（總覽 + 各類型，一次一張大圖）+ 卡死保護 ---------- */
+function initMapTabs() {
+  const page = document.getElementById('page-maps');
+  const bar = document.createElement('div');
+  bar.className = 'bento';
+  const tabs = [
+    ['wrap-m1', '01', '🌐', '資產依賴總圖', '誰依賴誰：核心資產為根，五大分區掛靠', true],
+    ['wrap-m3', '02', '🏗️', '湛箴產品線架構', '戰略根 → 三端 → 引擎 → 交付', false],
+    ['wrap-m4', '03', '🕸️', 'Agent 生態關係', 'dsh 核心 · 上游 · 插件 · 候選', false],
+    ['wrap-m5', '04', '🌐', '網路拓撲', '節點 → 聚合 → 客戶端 · 安全邊界', false],
+    ['wrap-m6', '05', '🗂️', 'Starred 分類圖', '星標 · 按領域分區', false],
+    ['wrap-m7', '06', '📈', '量化金融線', 'C 區 × Starred 引擎研究閉環', false],
+    ['wrap-m8', '07', '🎓', '學習方法論線', '教材 → 導師 → 作品的複利路徑', false],
+    ['wrap-m2', '08', '▶️', '治理工作流', '盤點 → 裁決 → 部署閉環 · 可播放', true],
+  ];
+  bar.innerHTML = tabs.map(([id, num, ic, name, desc, wide], i) =>
+    `<div class="bcard${wide ? ' wide' : ''}${i === 0 ? ' on' : ''}" data-w="${id}">
+      <div class="bnum">${num}</div>
+      <div class="bname"><span class="bic">${ic}</span> ${name}</div>
+      <div class="bdesc">${desc}</div>
+      <div class="bgo">打開大圖 →</div>
+    </div>`).join('');
+  page.querySelector('.legend').insertAdjacentElement('afterend', bar);
+  const show = id => {
+    document.querySelectorAll('#page-maps .mapwrap').forEach(w => { w.hidden = w.id !== id; });
+    document.querySelectorAll('.bcard').forEach(c => c.classList.toggle('on', c.dataset.w === id));
+    window.scrollTo({ top: 0 });
+    const vis = document.querySelector('#page-maps .mapwrap:not([hidden]) .map-stage');
+    if (vis) vis.dispatchEvent(new Event('refit'));
+  };
+  bar.querySelectorAll('.bcard').forEach(c => c.addEventListener('click', () => show(c.dataset.w)));
+  document.querySelectorAll('#page-maps .mapwrap').forEach((w, i) => { if (i > 0) w.hidden = true; });
+  setTimeout(() => {
+    document.querySelectorAll('#page-maps .mermaid').forEach(el => {
+      if (el.textContent.includes('載入中')) el.innerHTML = '<div class="map-err">此圖未能渲染（其餘功能不受影響）——請回報給 Agent</div>';
+    });
+  }, 3000);
+}
+function bindMapClicks(id, links) {
+  if (!links || !links.length) return;
+  document.querySelectorAll('#' + id + '_svg .node').forEach(node => {
+    const t = (node.textContent || '').trim();
+    const hit = links.find(l => t.includes(l.split('/').pop()) || t.includes(l));
+    if (hit) {
+      node.classList.add('clickable');
+      const url = 'https://github.com/' + (hit.includes('/') ? hit : 'Ya-MiC/' + hit);
+      node.addEventListener('click', () => window.open(url, '_blank'));
+    }
+  });
+}
+function initZoom(id) {
+  const stage = document.querySelector('.map-stage[data-map="' + id + '"]');
+  const wrap = document.getElementById('wrap-' + id);
+  const pan = stage.querySelector('.pan');
+  const ctl = document.querySelector('.mapctl[data-for="' + id + '"]');
+  const st = { s: 1, x: 0, y: 0 };
+  const apply = () => { pan.style.transform = 'translate(' + st.x + 'px,' + st.y + 'px) scale(' + st.s + ')'; const _z = stage.querySelector('.zpct'); if (_z) _z.textContent = Math.round(st.s * 100) + '%'; };
+  const clamp = () => { st.s = Math.max(.3, Math.min(4, st.s)); st.x = Math.max(-6000, Math.min(6000, st.x)); st.y = Math.max(-6000, Math.min(6000, st.y)); };
+  ctl.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    const z = b.dataset.z;
+    if (z === 'in') st.s += .3;
+    else if (z === 'out') st.s -= .3;
+    else if (z === 'reset') { st.s = 1; st.x = 0; st.y = 0; }
+    else if (z === 'fs') {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else wrap.requestFullscreen().catch(() => {});
+      return;
+    }
+    clamp(); apply();
+  }));
+  stage.addEventListener('wheel', e => { e.preventDefault(); st.s *= (e.deltaY < 0 ? 1.12 : 0.89); clamp(); apply(); }, { passive: false });
+  let drag = null;
+  stage.addEventListener('pointerdown', e => { drag = { x: e.clientX - st.x, y: e.clientY - st.y }; pan.classList.add('dragging'); stage.setPointerCapture(e.pointerId); });
+  stage.addEventListener('pointermove', e => { if (!drag) return; st.x = e.clientX - drag.x; st.y = e.clientY - drag.y; clamp(); apply(); });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => stage.addEventListener(ev, () => { drag = null; pan.classList.remove('dragging'); }));
+  stage.addEventListener('dblclick', () => { st.s = Math.min(3.2, st.s * 1.3); clamp(); apply(); });
+  // 底部縮放條（archify 式：－ N% ＋）
+  const zb = document.createElement('div');
+  zb.className = 'zoombar';
+  zb.innerHTML = '<button data-z2="out">－</button><span class="zpct">100%</span><button data-z2="in">＋</button>';
+  stage.appendChild(zb);
+  zb.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    st.s = b.dataset.z2 === 'in' ? st.s + .25 : st.s - .25; clamp(); apply();
+  }));
+  // 載入後自動鋪滿舞台寬度（地圖再也不會小小的）
+  requestAnimationFrame(() => {
+    const svg = stage.querySelector('svg');
+    const vb = svg && svg.viewBox && svg.viewBox.baseVal;
+    if (vb && vb.width > 20) {
+      st.s = Math.max(.5, Math.min(2.4, (stage.clientWidth - 40) / vb.width));
+      st.x = 0; st.y = 0; apply();
+    }
+  });
+  // 全屏 = 真・全屏：等比縮放到鋪滿整個螢幕並置中；退出還原
+  const fitFullscreen = () => {
+    const svg = stage.querySelector('svg');
+    const vb = svg && svg.viewBox && svg.viewBox.baseVal;
+    if (!vb || !vb.width) return;
+    const sw = stage.clientWidth, sh = stage.clientHeight || 500;
+    st.s = Math.max(.4, Math.min(4, Math.min(sw / vb.width, sh / vb.height)));
+    st.x = (sw - vb.width * st.s) / 2;
+    st.y = (sh - vb.height * st.s) / 2;
+    apply();
+  };
+  const fitWidth = () => {
+    const svg = stage.querySelector('svg');
+    const vb = svg && svg.viewBox && svg.viewBox.baseVal;
+    if (!vb || !vb.width) return;
+    st.s = Math.max(.5, Math.min(2.4, (stage.clientWidth - 40) / vb.width));
+    st.x = 0; st.y = 0; apply();
+  };
+  requestAnimationFrame(() => requestAnimationFrame(fitWidth));
+  setTimeout(fitWidth, 200);
+  const fsHandler = () => {
+    if (document.fullscreenElement !== wrap) return;
+    requestAnimationFrame(() => requestAnimationFrame(fitFullscreen));
+    setTimeout(fitFullscreen, 120);
+    setTimeout(fitFullscreen, 350);
+  };
+  document.addEventListener('fullscreenchange', fsHandler);
+  window.addEventListener('resize', () => {
+    if (document.fullscreenElement === wrap) { requestAnimationFrame(fitFullscreen); }
+  });
+}
+
+/* ---------- tasks（動態：從倉庫實況自動生成 + Sheets 同步） ---------- */
+function paintTasks() {
+  if (!PF) return;
+  const repos = fmtRepos();
+  const today = new Date();
+  const plus = (d) => { const t = new Date(today.getTime() + d * 86400000); return t.toISOString().slice(0, 10); };
+  const row = (t) => `<div class="task"><div class="tid">${t.id}</div><div class="tn">${t.task}${t.note ? `<br><span style="font-size:11.5px;color:var(--ink-3)">${t.note}</span>` : ''}</div><div class="td">DDL ${t.ddl}</div>` +
+    (t.link ? `<a class="task-link" href="${t.link.href}" target="_blank" rel="noopener">${t.link.label} ↗</a>` : '') +
+    (t.goto ? `<button class="task-link" data-goto-page="${t.goto}" data-sort="${t.sort || ''}">${t.gotoLabel || '前往處理'}</button>` : '') +
+    `<span class="badge ${t.status === 'done' ? 'done' : t.status === 'planned' ? 'planned' : t.status === 'pending' ? 'pending' : 'open'}">${t.status === 'done' ? '✅ 完成' : t.status === 'planned' ? '🗓 計畫' : t.status === 'pending' ? '⏳ 待開始' : '🔴 進行中'}</span></div>`;
+  // Sheets 任務（靜態同步）
+  const sheetTasks = TASKS ? [...(TASKS.tasks || []), ...(TASKS.ddl || [])] : [];
+  // 動態任務：從倉庫實況生成
+  const dyn = [];
+  const fresh = repos.filter(r => r.is_new);
+  if (fresh.length) dyn.push({ id: 'AUTO-NEW', task: `裁決 ${fresh.length} 個自動入板的新倉庫（${fresh.slice(0, 3).map(r => r.name).join('、')}${fresh.length > 3 ? '…' : ''}）`, status: 'open', ddl: plus(7), note: 'auto-sync 自動發現 · 在對應 Issue 留 A–E 字母即自動回收', link: { href: 'https://github.com/Ya-MiC/yami-hub/issues?q=label%3Ahuman-review+state%3Aopen', label: '去裁決' } });
+  const hr = repos.filter(r => r.needs_human && !r.is_new);
+  if (hr.length) dyn.push({ id: 'AUTO-HR', task: `回答 ${hr.length} 個 Human Review 裁決`, status: 'open', ddl: plus(7), note: 'Issue 留 A–E 字母，機器人自動回收', link: { href: 'https://github.com/Ya-MiC/yami-hub/issues?q=label%3Ahuman-review+state%3Aopen', label: '去裁決' } });
+  const stale = repos.filter(r => { const p = r.pushed_at ? (Date.now() - new Date(r.pushed_at)) / 86400000 : 0; return p > 180 && !r.private; });
+  if (stale.length) dyn.push({ id: 'AUTO-STALE', task: `巡檢 ${stale.length} 個 180+ 天未動的倉庫`, status: 'planned', ddl: plus(30), note: '下次治理 Run 處理：' + stale.slice(0, 3).map(r => r.name).join('、') + (stale.length > 3 ? '…' : ''), goto: 'assets', sort: 'pushed', gotoLabel: '看這些倉庫' });
+  const nearCore = repos.filter(r => r.scores && r.scores.FinalSPI >= 40 && r.scores.FinalSPI < 60 && !r.fork);
+  if (nearCore.length) dyn.push({ id: 'AUTO-CORE', task: `補齊 ${nearCore.length} 個衝核心候選（40–59 分）`, status: 'planned', ddl: plus(30), note: '優先：' + nearCore.slice(0, 3).map(r => r.name).join('、'), goto: 'algorithm', gotoLabel: '看怎麼補分' });
+  const auto = {
+    id: 'AUTO-PIPE', task: '三條自動化流水線運轉中（同步/裁決回收/部署）', status: 'done', ddl: plus(0),
+    note: 'auto-sync 每 6 小時 · gov-sync 即時 · deploy-pages 即時 — 無需人工',
+  };
+  document.getElementById('tasksDone').innerHTML = [auto, ...sheetTasks.filter(t => t.status === 'done')].map(row).join('');
+  document.getElementById('tasksOpen').innerHTML =
+    [...sheetTasks.filter(t => t.status !== 'done'), ...dyn].map(row).join('') ||
+    '<div class="section-sub">目前沒有待辦 🎉</div>';
+  document.querySelectorAll('#tasksOpen [data-goto-page]').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.sort) { state.sort = b.dataset.sort; chipsRender(); }
+    go(b.dataset.gotoPage);
+    paintAssets();
+  }));
+}
+
+/* ---------- 權重實驗室（v4.0 模塊化權重） ---------- */
+function initWeightLab(repos) {
+  if (!window.Scoring) return;
+  const sel = document.getElementById('profileSelect');
+  const st = Scoring.state();
+  sel.innerHTML = st.profiles.map(p => `<option ${p === st.profile && !st.custom ? 'selected' : ''}>${p}</option>`).join('');
+  const slidersBox = document.getElementById('weightSliders');
+  const defs = [['C', '能力圈'], ['P', '複利性'], ['L', '槓桿性'], ['S', '戰略一致'], ['R', '逆轉重要'],
+    ['M', '護城河'], ['D', '差異化'], ['Q', '可理解性'], ['E', '道德合規'], ['T', '維護負擔×'], ['U', '不確定性×']];
+  const cur = st.custom || { C: .14, P: .14, L: .14, S: .12, R: .10, M: .10, D: .10, Q: .08, E: .08, T: .40, U: .35 };
+  slidersBox.innerHTML = defs.map(([k, cn]) => `
+    <div class="factor"><div class="fh">${k} · ${cn}<span class="wv" data-k="${k}">${(cur[k] || 0).toFixed(2)}</span></div>
+    <input type="range" min="0" max="0.5" step="0.01" value="${cur[k] || 0}" data-k="${k}" style="width:100%;margin-top:8px;accent-color:var(--lime-deep)"></div>`).join('');
+  const repaint = () => {
+    const rr = fmtRepos();
+    Scoring.applyAll(rr);
+    renderOverview(rr); chipsRender(); paintAssets(); paintDeltaRank(rr); initAlgo(rr);
+    const sum = ['C','P','L','S','R','M','D','Q','E'].reduce((a,k) => a + (+document.querySelector(`input[data-k="${k}"]`).value), 0);
+    document.getElementById('wSum').textContent = 'AVS 權重和 ' + sum.toFixed(2) + '（自動歸一化）';
+  };
+  const rr = fmtRepos();
+  const renderLive = () => {
+    const rr2 = fmtRepos();
+    Scoring.applyAll(rr2);
+    renderOverview(rr2); chipsRender(); paintAssets(); paintDeltaRank(rr2);
+    const cur = document.getElementById('algoSelect').value;
+    const r = rr2.find(x => x.name === cur);
+    if (r) {
+      const b = breakdownHTML(r);
+      document.getElementById('algoOut').innerHTML = '<div class="radar-wrap">' + b.radar + '</div>' + b.fac + b.compute;
+    }
+  };
+  slidersBox.querySelectorAll('input').forEach(s => s.addEventListener('input', () => {
+    s.parentElement.querySelector('.wv').textContent = (+s.value).toFixed(2);
+    const custom = {};
+    slidersBox.querySelectorAll('input').forEach(x => { custom[x.dataset.k] = +x.value; });
+    Scoring.setCustom(custom);
+    renderLive();
+    document.getElementById('wSum').textContent = 'AVS 權重和 ' + ['C','P','L','S','R','M','D','Q','E'].reduce((a,k) => a + custom[k], 0).toFixed(2) + '（自動歸一化）';
+  }));
+  const syncSliders = () => {
+    const st2 = Scoring.state();
+    const c2 = st2.custom || { C: .14, P: .14, L: .14, S: .12, R: .10, M: .10, D: .10, Q: .08, E: .08, T: .40, U: .35 };
+    slidersBox.querySelectorAll('input').forEach(s => {
+      s.value = c2[s.dataset.k] || 0;
+      s.parentElement.querySelector('.wv').textContent = (c2[s.dataset.k] || 0).toFixed(2);
+    });
+  };
+  const liveRepaint = () => {
+    const rr = fmtRepos(); Scoring.applyAll(rr);
+    renderOverview(rr); chipsRender(); paintAssets(); paintDeltaRank(rr);
+    const cur = document.getElementById('algoSelect').value;
+    const r = rr.find(x => x.name === cur);
+    if (r) {
+      const b = breakdownHTML(r);
+      document.getElementById('algoOut').innerHTML = '<div class="radar-wrap">' + b.radar + '</div>' + b.fac + b.compute;
+    }
+  };
+  sel.addEventListener('change', () => { Scoring.setProfile(sel.value); syncSliders(); liveRepaint(); });
+  document.getElementById('wReset').addEventListener('click', () => { Scoring.reset(); syncSliders(); liveRepaint(); });
+  const sum = ['C','P','L','S','R','M','D','Q','E'].reduce((a,k) => a + (cur[k] || 0), 0);
+  document.getElementById('wSum').textContent = 'AVS 權重和 ' + sum.toFixed(2) + '（自動歸一化）';
+}
+
+/* ---------- algorithm ---------- */
+const FACTOR_TIP = {
+  C: '能力圈：你能否理解、維護、部署與解釋它', P: '複利性：改善它是否讓未來持續受益', L: '槓桿性：能否跨設備/專案/Agent 重用',
+  S: '戰略一致：是否符合長期方向', R: '逆轉重要：消失後傷害多大（OK/受損/嚴重/致命）', M: '護城河：專有資料/工作流/信任/整合',
+  D: '差異化：原創程式/研究/文件/經驗', Q: '可理解性：陌生人能否快速看懂', E: '道德合規：授權/隱私/資安/透明',
+  T: '維護負擔：越難維護分越低（動態：隨推送新鮮度漂移）', U: '不確定性：資料越缺分越低；≥6 強制人類裁決',
+};
+function factorBar(code, cn, w, val, risk) {
+  return `<div class="factor ${risk ? 'risk' : ''}" data-tip="${FACTOR_TIP[code] || cn}"><div class="fh">${code} · ${cn}<span>${val}/10 · 權重 ${w}</span></div>
+    <div class="ft"><div class="ff" style="width:${val * 10}%"></div></div></div>`;
+}
+function breakdownHTML(r) {
+  const s = r.scores;
+  const res = window.Scoring ? Scoring.compute(r, r.board) : null;
+  const wv = res && res.weights ? res.weights.avs : null;
+  const fac = FACTORS.map(([c, cn, w]) => factorBar(c, cn, w, s[c], false)).join('');
+  const rsk = RISKS.map(([c, cn, w]) => factorBar(c, cn, w, s[c], true)).join('');
+  const base = typeof s.baseline === 'number' ? s.baseline.toFixed(2) : s.FinalSPI.toFixed(2);
+  const dynNote = typeof s.baseline === 'number'
+    ? `\n基線（RUN-2026-08-28 盤點）= ${base} → 動態（T 隨推送新鮮度漂移）→ <b>${s.FinalSPI.toFixed(2)}</b>`
+    : '';
+  const compute =
+`AVS = 0.14·${s.C} + 0.14·${s.P} + 0.14·${s.L} + 0.12·${s.S} + 0.10·${s.R} + 0.10·${s.M} + 0.10·${s.D} + 0.08·${s.Q} + 0.08·${s.E} = ${s.AVS.toFixed(2)}
+GRS = 0.40·${s.T} + 0.35·${s.U} + 0.25·(10 − ${s.E}) = ${s.GRS.toFixed(2)}
+SPI = 10 × ${s.AVS.toFixed(2)} − 5 × ${s.GRS.toFixed(2)} = ${s.SPI.toFixed(2)}
+ForkPenalty = ${s.ForkPenalty}${r.fork ? '（fork：按原創程度定罰）' : ''}
+FinalSPI = max(0, ${s.SPI.toFixed(2)} − ${s.ForkPenalty}) = <b>${s.FinalSPI.toFixed(2)}</b>${dynNote}`;
+  return { fac: `<div class="factors">${fac}${rsk}</div>`, radar: radarSVG(s, wv), compute };
+}
+/* ---------- 因子雷達圖（確定性 SVG，archify 規格） ---------- */
+function radarSVG(s, wv) {
+  const keys = ['C', 'P', 'L', 'S', 'R', 'M', 'D', 'Q', 'E'];
+  const cx = 130, cy = 118, R = 82;
+  const pt = (i, v) => {
+    const a = -Math.PI / 2 + i * 2 * Math.PI / keys.length;
+    return [cx + Math.cos(a) * R * v / 10, cy + Math.sin(a) * R * v / 10];
+  };
+  let g = '';
+  [2.5, 5, 7.5, 10].forEach(v => {
+    const pts = keys.map((_, i) => pt(i, v).map(n => n.toFixed(1)).join(',')).join(' ');
+    g += `<polygon points="${pts}" fill="none" stroke="#e4e9ec" stroke-width="1"/>`;
+  });
+  keys.forEach((k, i) => {
+    const [x, y] = pt(i, 10);
+    g += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#e4e9ec" stroke-width="1"/>`;
+  });
+  if (wv) {
+    const wpoly = keys.map((k, i) => pt(i, Math.max(.5, Math.min(10, wv[k] * 45))).map(n => n.toFixed(1)).join(',')).join(' ');
+    g += `<polygon points="${wpoly}" fill="rgba(28,176,246,.10)" stroke="var(--blue)" stroke-width="1.6" stroke-dasharray="5 4"/>`;
+  }
+  const poly = keys.map((k, i) => pt(i, s[k]).map(n => n.toFixed(1)).join(',')).join(' ');
+  g += `<polygon points="${poly}" fill="rgba(88,204,2,.18)" stroke="#58cc02" stroke-width="2"/>`;
+  keys.forEach((k, i) => {
+    const [x, y] = pt(i, s[k]);
+    g += `<circle cx="${x}" cy="${y}" r="3" fill="#58cc02"/>`;
+    const [lx, ly] = pt(i, 12.1);
+    g += `<text x="${lx}" y="${ly + 4}" font-size="10.5" font-weight="800" fill="${GRAY}" text-anchor="middle">${k}</text>`;
+  });
+  const legend = wv ? `<div style="display:flex;gap:12px;justify-content:center;margin-top:6px;font-size:10.5px;font-weight:800;">
+    <span style="color:var(--lime-dark)">— 因子形狀</span><span style="color:var(--blue)">-- 你的權重形狀（拖滑桿會動）</span></div>` : '';
+  return `<div class="radar-wrap"><svg viewBox="0 0 260 236" font-family="inherit">${g}</svg>${legend}</div>`;
+}
+function initAlgo(repos) {
+  const sel = document.getElementById('algoSelect');
+  sel.innerHTML = '<option value="">— 選擇倉庫 —</option>' +
+    [...repos].sort((a, b) => b.scores.FinalSPI - a.scores.FinalSPI)
+      .map(r => `<option value="${r.name}">${r.name}（${r.scores.FinalSPI.toFixed(2)}）</option>`).join('');
+  sel.addEventListener('change', () => {
+    const r = repos.find(x => x.name === sel.value);
+    if (!r) { document.getElementById('algoOut').innerHTML = ''; return; }
+    const b = breakdownHTML(r);
+    document.getElementById('algoOut').innerHTML = '<div class="radar-wrap">' + b.radar + '</div>' + b.fac + b.compute;
+  });
+}
+function paintStarEval() {
+  if (!STARS) return;
+  const withUse = STARS.filter(s => STAR_USE[s.name]);
+  const rest = STARS.filter(s => !STAR_USE[s.name]);
+  document.getElementById('starEval').innerHTML = `
+    <table class="dtable"><thead><tr><th>Starred</th><th>★</th><th>領域</th><th>現在就能怎麼用</th></tr></thead>
+    <tbody>${withUse.map(s => {
+      const cat = STAR_CAT[s.name] || '其他';
+      return `<tr><td class="dl"><a href="https://github.com/${s.name}" target="_blank" rel="noopener">${s.name} ↗</a></td>
+        <td>${Number(s.stars).toLocaleString()}</td>
+        <td><span class="btag"><span class="dot" style="background:${STAR_CAT_COLOR[cat] || '#999'}"></span>${cat}</span></td>
+        <td>${STAR_USE[s.name]}</td></tr>`;
+    }).join('')}</tbody></table>
+    <p class="section-sub" style="margin-top:12px;">另外 ${rest.length} 個按領域歸類（見 🗂 畫廊「⭐ 領域」篩選與 🕸️ 地圖⑤）。</p>`;
+}
+
+/* ---------- 動態調分排行（基線 vs 動態） ---------- */
+function paintDeltaRank(repos) {
+  const moved = repos
+    .filter(r => typeof r.scores.baseline === 'number' && Math.abs(r.delta || 0) >= 0.01)
+    .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta))
+    .slice(0, 8);
+  if (!moved.length) {
+    document.getElementById('deltaRank').innerHTML = '<div class="section-sub">目前所有分數與基線一致——等下一次 auto-sync（每 6 小時）看誰先被調分。</div>';
+    return;
+  }
+  document.getElementById('deltaRank').innerHTML = `
+    <table class="dtable"><thead><tr><th>倉庫</th><th>基線</th><th>動態</th><th>Δ</th><th>主因</th></tr></thead>
+    <tbody>${moved.map(r => {
+      const d = r.delta, up = d > 0;
+      return `<tr><td class="dl"><a href="${r.html_url}" target="_blank" rel="noopener">${r.name} ↗</a>${r.private ? ' 🔒' : ''}</td>
+        <td>${r.scores.baseline.toFixed(2)}</td><td><b>${r.scores.FinalSPI.toFixed(2)}</b></td>
+        <td><span class="delta ${up ? 'up' : 'down'}">${up ? '▲' : '▼'}${Math.abs(d).toFixed(2)}</span></td>
+        <td>距上次推送 ${Math.floor((Date.now() - new Date(r.pushed_at)) / 86400000)} 天</td></tr>`;
+    }).join('')}</tbody></table>`;
+}
+
+/* ---------- decisions ---------- */
+function paintDecisions() {
+  const rows = DECISIONS_15.map(([repo, letter, note, iss]) => {
+    const r = PF.repositories.find(x => x.name === repo);
+    const spi = r ? r.scores.FinalSPI.toFixed(2) : '—';
+    return `<tr><td class="dl"><a href="https://github.com/${repo}" target="_blank" rel="noopener">${repo} ↗</a>${r && r.private ? ' 🔒' : ''}</td>
+      <td><span class="dec ${letter[0]}">${letter}</span></td><td>${note}</td><td>${spi}</td>
+      <td><a href="https://github.com/${s.name}/issues" target="_blank" rel="noopener">${iss} ↗</a></td></tr>`;
+  }).join('');
+  document.getElementById('decTable').innerHTML = `
+    <table class="dtable"><thead><tr><th>倉庫</th><th>裁決</th><th>說明</th><th>FinalSPI</th><th>Issue</th></tr></thead>
+    <tbody>${rows}</tbody></table>`;
+}
+
+/* ---------- modal ---------- */
+function openModal(name) {
+  const r = fmtRepos().find(x => x.name === name);
+  if (!r) return;
+  const bm = BOARD_META[r.board] || {};
+  document.getElementById('mName').textContent = `${bm.emoji || ''} ${r.name}` + (r.private ? ' 🔒' : '');
+  document.getElementById('mSub').textContent = `${r.board} · ${bm.name} · ${r.primary_domain} · ${r.business_role} · ${r.lifecycle} · ${LC_CN[r.lifecycle] || ''}${r.license ? ' · ' + r.license : ''}`;
+  document.getElementById('mDesc').textContent = (r.description && r.description.length > 3 ? r.description : r.one_liner) || '（無描述）';
+  const b = breakdownHTML(r);
+  document.getElementById('mFactors').innerHTML = '<h3>因子雷達 + 評分（0–10）</h3><div class="radar-wrap">' + b.radar + '</div>' + b.fac;
+  document.getElementById('mCompute').style.display = '';
+  document.getElementById('mCompute').innerHTML = b.compute;
+  const dMain = decMain(r.decision);
+  document.getElementById('mActions').innerHTML =
+    `<a class="btn-duo" href="${r.html_url}" target="_blank" rel="noopener">在 GitHub 打開 ↗</a>` +
+    (dMain ? `<span class="badge done" style="align-self:center">裁決 ${dMain}</span>` : '') +
+    `<span class="badge planned" style="align-self:center">下一步：按裁決執行</span>`;
+  document.getElementById('modalBack').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() { document.getElementById('modalBack').classList.remove('show'); document.body.style.overflow = ''; }
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalBack').addEventListener('click', e => { if (e.target.id === 'modalBack') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ---------- 開源與感謝 ---------- */
+document.getElementById('ossBtn').addEventListener('click', () => {
+  document.getElementById('mName').textContent = '♥️ 開源 · 協議與感謝';
+  document.getElementById('mSub').textContent = '本站自寫代碼以 MIT 授權 · 第三方組件各自遵循其原始協議';
+  document.getElementById('mDesc').innerHTML =
+    '協議跟著各自的代碼走：本站<b>自己撰寫的代碼</b>以 MIT 授權（見 LICENSE）；引用與致敬的開源組件（Mermaid、archify、Starred 專案…）<b>各自保留原始協議與版權</b>，不會被本站的 MIT 覆蓋。地圖僅為風格致敬，未複製 archify 代碼。';
+  document.getElementById('mFactors').innerHTML = `
+    <h3>站在這些肩膀上</h3>
+    <div class="factors">
+      <div class="factor"><div class="fh">Mermaid.js<span>MIT · 流程圖渲染</span></div><div class="ft"><div class="ff" style="width:100%"></div></div></div>
+      <div class="factor"><div class="fh">GitHub Actions + Pages<span>服務條款 · 免費算力與託管</span></div><div class="ft"><div class="ff" style="width:100%"></div></div></div>
+      <div class="factor"><div class="fh">jsDelivr CDN<span>其服務條款 · 開源庫分發</span></div><div class="ft"><div class="ff" style="width:100%"></div></div></div>
+      <div class="factor"><div class="fh">archify<span>僅風格致敬 · 未複製代碼</span></div><div class="ft"><div class="ff" style="width:100%"></div></div></div>
+      <div class="factor"><div class="fh">42 位 Starred 作者<span>協議歸各自作者所有</span></div><div class="ft"><div class="ff" style="width:100%"></div></div></div>
+      <div class="factor"><div class="fh">Wise × Duolingo<span>設計語言致敬</span></div><div class="ft"><div class="ff" style="width:100%"></div></div></div>
+    </div>`;
+  document.getElementById('mCompute').style.display = 'none';
+  document.getElementById('mActions').innerHTML =
+    `<a class="btn-duo" href="https://github.com/Ya-MiC/yami-hub/blob/main/LICENSE" target="_blank" rel="noopener">查看 LICENSE（MIT · 僅覆蓋本站代碼）↗</a>` +
+    `<a class="btn-duo blue" href="https://github.com/archify-agent/archify" target="_blank" rel="noopener">archify ↗</a>` +
+    `<a class="btn-duo ghost" href="https://mermaid.js.org" target="_blank" rel="noopener">Mermaid ↗</a>`;
+  document.getElementById('modalBack').classList.add('show');
+  document.body.style.overflow = 'hidden';
+});
+
+/* ---------- private gate ---------- */
+const te = new TextEncoder(), td = new TextDecoder();
+function b64ToBuf(b64) { const bin = atob(b64), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u.buffer; }
+async function unlock() {
+  go('connections'); return; /* 口令已退役：OAuth 登录替代 */
+  const pass = document.getElementById('passInput').value;
+  const err = document.getElementById('lockErr');
+  if (!pass) { err.textContent = '請輸入口令'; return; }
+  err.textContent = '解密中…';
+  try {
+    const buf = b64ToBuf((await (await fetch('public/data/private.enc')).text()).trim());
+    const km = await crypto.subtle.importKey('raw', te.encode(pass), 'PBKDF2', false, ['deriveKey']);
+    const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: buf.slice(0, 16), iterations: 250000, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    PRIV = JSON.parse(td.decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: buf.slice(16, 28) }, key, buf.slice(28))));
+    err.textContent = '';
+    document.getElementById('unlockBanner').classList.add('show');
+    document.getElementById('learnLock').classList.add('hidden');
+    document.getElementById('topUnlock').textContent = '✅ 已連接';
+    const repos = fmtRepos();
+    renderOverview(repos); chipsRender(); paintAssets(); initAlgo(repos);
+  } catch (e) { err.textContent = '口令錯誤或資料損壞'; }
+}
+document.querySelectorAll('#learnLock [data-conn]').forEach(b => b.addEventListener('click', () => { location.href = '/api/oauth/' + b.dataset.conn + '/start'; }));
+document.getElementById('topUnlock').addEventListener('click', () => { go('connections'); });
+
+/* ---------- search ---------- */
+const gs = document.getElementById('globalSearch');
+gs.addEventListener('input', () => { state.q = gs.value; go('assets'); paintAssets(); });
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); gs.focus(); }
+});
+
+/* ---------- boot ---------- */
+
+
+/* ---------- YamiLive 动态数据契约（产品层） ----------
+ * 静态 demo 数据(PF)只做未登录时的预览。登录后 /api/github/sync 返回真实仓库，
+ * 本层负责：欢迎态(0仓库) / 动态统计 / 增量同步 / 状态标签全部实时计算。 */
+const YamiLive = {
+  syncing: false,
+  lastSync: null,
+  emptyStats() { return { total: 0, public: 0, private: 0, forks: 0 }; },
+  apply(repos) {
+    PF.repositories = repos;
+    PF.stats = { total: repos.length, public: repos.filter(r=>!r.private).length,
+      private: repos.filter(r=>r.private).length, forks: repos.filter(r=>r.fork).length };
+    PF.auto_synced_at = new Date().toISOString();
+    PF.top5_final_spi = [...repos].sort((a,b)=>(b.scores?.FinalSPI||0)-(a.scores?.FinalSPI||0)).slice(0,5)
+      .map(r=>({ name:r.name, FinalSPI:r.scores?.FinalSPI||0 }));
+    return fmtRepos();
+  },
+  async sync() {
+    const r = await fetch('/api/github/sync');
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error || ('HTTP '+r.status));
+    this.lastSync = j.synced_at;
+    return this.apply(j.repositories || []);
+  },
+};
+
+function yamiWelcomeHTML() {
+  return '<div style="max-width:680px;margin:8vh auto 0;text-align:center;padding:0 20px">'
+    + '<div style="font-size:56px;line-height:1">🐙</div>'
+    + '<h1 style="margin:22px 0 10px;font-size:30px;letter-spacing:-.01em">歡迎來到 YamiHub 面板</h1>'
+    + '<p style="color:var(--ink-2);font-size:16px;line-height:1.8;max-width:480px;margin:0 auto 26px">'
+    + '請登陸帳號，開始豐富自己的生活——<br>有系統地認識這一切，熱愛生活吧。</p>'
+    + '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'
+    + '<a class="btn-duo" href="#" onclick="go(\'connections\');return false" style="text-decoration:none">🔗 連接 GitHub</a>'
+    + '<a class="btn-duo ghost" href="#" onclick="go(\'guide\');return false" style="text-decoration:none">先看看 demo →</a>'
+    + '</div></div>';
+}
+
+function yamiPatchOverview() {
+  // 登录后同步完成且仓库为 0 → 欢迎态
+  const host = document.querySelector('#page-overview');
+  if (!host) return;
+  const zero = PF.stats && PF.stats.total === 0;
+  if (zero && !host.dataset.welcomed) {
+    host.dataset.welcomed = '1';
+    host.innerHTML = yamiWelcomeHTML();
+  }
+}
+
+// 挂在 go() 上：每次切页检查欢迎态
+const _go = go;
+go = function(page) { _go(page); if (page === 'overview') yamiPatchOverview(); };
+
+/* ---------- 平台連接（YamiHub） ---------- */
+const CONN_META = [
+  { id: 'github', name: 'GitHub', desc: '倉庫資產 / OAuth 身份' },
+  { id: 'notion', name: 'Notion', desc: '工作區頁面 / 數據庫' },
+  { id: 'google', name: 'Google', desc: '帳號身份 / Drive（二期）' },
+];
+let CONN_STATE = null;
+function connBanner(msg, isErr) {
+  const b = document.getElementById('connBanner');
+  b.textContent = msg; b.style.display = 'block';
+  b.classList.toggle('show', true); if (!isErr) b.classList.add('show');
+}
+async function renderConnections() {
+  const host = document.getElementById('connCards');
+  if (host.dataset.done !== '1') {
+    try { CONN_STATE = await (await fetch('/api/connections')).json(); }
+    catch (e) { CONN_STATE = { providers: {}, kv: false }; }
+    host.dataset.done = '1';
+  }
+  const st = CONN_STATE || { providers: {} };
+  host.innerHTML = CONN_META.map(p => {
+    const s = st.providers[p.id] || {};
+    let sub, btn;
+    if (!st.kv) { sub = '未绑定 KV（变量名必须是 KV）'; btn = '<button disabled>连接</button>'; }
+    else if (!s.configured) { sub = '未配置环境变量：' + (s.missing || []).join('、'); btn = '<button disabled>连接</button>'; }
+    else if (s.connected) { sub = '已连接 ' + (s.label || p.id); btn = '<button data-disc="' + p.id + '">断开</button>'; }
+    else { sub = '未连接'; btn = '<button data-conn="' + p.id + '">连接</button>'; }
+    return '<div class="spec"><h4>' + p.name + '</h4><p>' + p.desc + ' · ' + sub + '</p>' + btn + '</div>';
+  }).join('');
+  host.querySelectorAll('[data-conn]').forEach(b => b.addEventListener('click', () => { location.href = '/api/oauth/' + b.dataset.conn + '/start'; }));
+  host.querySelectorAll('[data-disc]').forEach(b => b.addEventListener('click', async () => {
+    await fetch('/api/disconnect/' + b.dataset.disc, { method: 'POST' });
+    host.dataset.done = '0'; renderConnections();
+  }));
+  const gh = (st.providers || {}).github || {};
+  document.getElementById('syncBtn').disabled = !(gh.connected);
+}
+document.getElementById('syncBtn').addEventListener('click', async () => {
+  const out = document.getElementById('syncOut');
+  out.textContent = '同步中…';
+  try {
+    const repos2 = await YamiLive.sync();
+    renderOverview(repos2); chipsRender(); paintAssets(); initAlgo(repos2);
+    out.textContent = '已拉取 ' + j.repositories.length + ' 个仓库（刷新页面恢复 demo 数据）';
+    go('assets');
+  } catch (e) { out.textContent = '同步失败：' + e.message; }
+});
+
+(async function boot() {
+  PF = await (await fetch('public/data/portfolio.json')).json();
+  try { TASKS = await (await fetch('public/data/tasks.json')).json(); } catch (e) {}
+  try {
+    STARS = await (await fetch('public/data/starred.json')).json();
+    STARS = STARS.starred || STARS;
+    STARS.forEach(s => { s.obs = /skill|agent|prompt/.test(s.name.toLowerCase()) ? 'ADOPT 候選' : 'STUDY'; s.cat = STAR_CAT[s.name] || '其他'; });
+  } catch (e) { STARS = []; }
+  if (PF.auto_synced_at) { const fs2 = document.getElementById('footStamp'); if (fs2) fs2.textContent = '數據自動同步 ' + PF.auto_synced_at.slice(0, 10); }
+  if (PF.generated_at) document.getElementById('liveChip').textContent = '● 分類 ' + PF.generated_at;
+  ['legendTop', 'legendAssets', 'legendMaps', 'legendLearn'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.innerHTML = legendHTML();
+  });
+  const repos = fmtRepos();
+  const movedCount = window.Scoring ? Scoring.applyAll(repos) : 0;
+  renderOverview(repos);
+  chipsRender(); paintAssets();
+  paintNotion(); paintTasks();
+  initAlgo(repos); paintStarEval();
+  paintDeltaRank(repos);
+  initWeightLab(repos);
+  paintDecisions();
+  renderMaps();
+  initMapTabs();
+  if (movedCount) {
+    const chip = document.getElementById('liveChip');
+    chip.textContent = `● 動態評分已刷新 ${movedCount} 倉`;
+  }
+})();
+</script>
+</body>
+</html>

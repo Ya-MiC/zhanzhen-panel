@@ -1,0 +1,184 @@
+schema_version: 1
+generated_at: 2026-08-27
+note: |
+  公開版。Yanming/Identity 私庫細節排除,僅標示其存在。
+  邊(relationship)類型:forked-from, depends-on, derived-from, used-by,
+  documents, integrates-with, evolved-into, related-to, supports, deployed-on.
+
+nodes:
+  - id: ya-mic
+    label: Ya-MiC
+    type: user
+    note: 五重身份(AI 開發者/Cloudflare/審計 SaaS/隱私治理/量化學習)
+  - id: action-tree
+    type: core
+    domain: AI-AGENT
+    visibility: private
+  - id: zhanzhen-handover
+    type: record
+    domain: RECORD-HANDOVER
+  - id: zhanzhen
+    type: product
+    domain: PRODUCT-SAAS
+  - id: zhanzhen-server
+    type: product
+    domain: PRODUCT-SAAS
+    visibility: private
+  - id: zhanzhen-web
+    type: product
+    domain: PRODUCT-SAAS
+  - id: audit-os
+    type: product
+    domain: AI-AGENT
+  - id: audit-os-mobile
+    type: product
+    domain: AI-AGENT
+  - id: invoice-ocr-system
+    type: leverage
+    domain: AUTOMATION
+  - id: dsh
+    type: core
+    domain: AI-AGENT
+  - id: argo
+    type: leverage
+    domain: AI-AGENT
+  - id: hermes
+    type: core
+    domain: AI-AGENT
+  - id: ya-mic-os
+    type: core
+    domain: AI-AGENT
+  - id: dsh-stock-watch
+    type: leverage
+  - id: nie-grassroots-logic
+    type: leverage
+  - id: open-design
+    type: leverage
+  - id: openclaw-kugua-state
+    type: record
+  - id: openclaw-longxia
+    type: unclear
+    visibility: private
+  - id: openclawctljingxiang
+    type: leverage
+  - id: hermes-private
+    type: record
+    visibility: private
+  - id: yanming-set
+    type: record
+    visibility: private
+    note: 4 個私庫,完全隔離
+  - id: IP-KR
+    type: learning
+    visibility: private
+  - id: basedblocks-keepalive
+    type: learning
+  - id: sublink-worker
+    type: leverage
+  - id: CF-Workers-SUB
+    type: leverage
+  - id: dingyuebaohu
+    type: leverage
+  - id: BPB-Worker-Panel
+    type: leverage
+  - id: proxy-github
+    type: leverage
+  - id: serv00-play
+    type: leverage
+  - id: Microsoft
+    type: external
+  - id: winutil
+    type: leverage
+  - id: MarkWrite
+    type: learning
+  - id: docformat-gui
+    type: leverage
+  - id: FinceptTerminal
+    type: external
+  - id: nautilus_trader
+    type: external
+  - id: ai_quant_trade_needchange
+    type: external
+  - id: trading-second-brain_needchange
+    type: external
+  - id: awesome-systematic-trading
+    type: external
+  - id: awesome-dsh-plugin
+    type: external
+  - id: tv
+    type: learning
+  - id: Secure-Edge-Access
+    type: leverage
+    visibility: private
+  - id: GL-iNet-DNS
+    type: leverage
+    visibility: private
+  - id: economics-11.29
+    type: learning
+    visibility: private
+  - id: YmiVoltixCzijianM
+    type: unclear
+  - id: unclear-set
+    type: unclear
+  - id: my-report-site
+    type: portfolio
+  - id: ya-mic-profile
+    type: portfolio
+
+edges:
+  - { source: ya-mic, target: action-tree, type: documents, evidence: "戰略總綱" }
+  - { source: action-tree, target: zhanzhen-handover, type: documents, evidence: "業務移交入口" }
+  - { source: zhanzhen-handover, target: zhanzhen, type: documents }
+  - { source: zhanzhen-handover, target: zhanzhen-server, type: documents }
+  - { source: zhanzhen-handover, target: zhanzhen-web, type: documents }
+  - { source: zhanzhen-handover, target: audit-os, type: documents }
+  - { source: zhanzhen-handover, target: audit-os-mobile, type: documents }
+  - { source: zhanzhen, target: zhanzhen-server, type: integrates-with, evidence: "前端→後端" }
+  - { source: zhanzhen-web, target: zhanzhen-server, type: depends-on, evidence: "靜態前端連後端" }
+  - { source: audit-os-mobile, target: audit-os, type: integrates-with, evidence: "Android 殼→規則引擎" }
+  - { source: audit-os, target: invoice-ocr-system, type: integrates-with, evidence: "OCR 引擎候選整合", status: proposed, priority: HIGH }
+  - { source: dsh, target: argo, type: integrates-with, evidence: "argo 是 DSH MCP tool" }
+  - { source: dsh, target: dsh-stock-watch, type: integrates-with }
+  - { source: dsh, target: nie-grassroots-logic, type: integrates-with }
+  - { source: dsh, target: open-design, type: integrates-with }
+  - { source: dsh, target: openclawctljingxiang, type: integrates-with }
+  - { source: ya-mic-os, target: hermes, type: derived-from, evidence: "治理 OS 鏡像 hermes 索引" }
+  - { source: ya-mic-os, target: dsh, type: derived-from }
+  - { source: ya-mic-os, target: zhanzhen, type: derived-from }
+  - { source: hermes, target: zhanzhen, type: documents }
+  - { source: argo, target: taxueseek/argo, type: forked-from }
+  - { source: dsh-stock-watch, target: Awu12277/dsh-stock-watch, type: forked-from }
+  - { source: nie-grassroots-logic, target: ayi-ai/nie-grassroots-logic, type: forked-from }
+  - { source: open-design, target: nexu-io/open-design, type: forked-from }
+  - { source: openclawctljingxiang, target: byJoey/openclawctl, type: forked-from }
+  - { source: FinceptTerminal, target: Fincept-Corporation/FinceptTerminal, type: forked-from }
+  - { source: nautilus_trader, target: nautechsystems/nautilus_trader, type: forked-from }
+  - { source: Microsoft, target: massgrave/dev, type: forked-from }
+  - { source: sublink-worker, target: cmliu/sublink-worker, type: forked-from, status: proposed }
+  - { source: CF-Workers-SUB, target: cmliu/CF-Workers-SUB, type: forked-from }
+  - { source: proxy-github, target: cmliu/CF-Workers-GitHub, type: forked-from }
+  - { source: awesome-systematic-trading, target: wangzhe3224/awesome-systematic-trading, type: forked-from }
+  - { source: awesome-dsh-plugin, target: awesome-dsh-plugin/awesome-dsh-plugin, type: forked-from }
+
+single_point_of_failure:
+  - id: argo
+    criticality: high
+    affected_assets: [dsh, dsh-stock-watch, nie-grassroots-logic, open-design]
+    mitigation: 保留 fork upstream 為備援
+  - id: dsh
+    criticality: critical
+    affected_assets: [全部 AI 工具技能]
+    mitigation: GitHub Pages 備份,本地 E:\skills 同步
+  - id: zhanzhen-handover
+    criticality: high
+    affected_assets: [zhanzhen 全家, audit-os 全家, action-tree]
+    mitigation: README 維護週期 ≤ 30 天
+  - id: invoice-ocr-system
+    criticality: medium
+    affected_assets: [audit-os(若整合)]
+    mitigation: 與 audit-os 內建 OCR 雙軌
+
+concentration_risk:
+  - 全部 AI/Agent 工具依賴 DeepSeek Harness(DSH)runtime
+  - 全部湛箴產品依賴 PostgreSQL+MinIO+Redis
+  - 全部 Cloudflare 部署依賴 CF 帳號

@@ -1,0 +1,24 @@
+{
+  "updated": "2026-09-14",
+  "count": 3,
+  "starred": [
+    {
+      "name": "demo-user/demo-agent-kit",
+      "desc": "Agent 行為樹工具箱（demo）",
+      "lang": "JavaScript",
+      "stars": 8
+    },
+    {
+      "name": "demo-user/demo-rag-graph",
+      "desc": "GraphRAG 企業知識 demo",
+      "lang": "TypeScript",
+      "stars": 9
+    },
+    {
+      "name": "demo-user/demo-ocr-pipeline",
+      "desc": "發票 OCR 流水線 demo",
+      "lang": "Python",
+      "stars": 21
+    }
+  ]
+}

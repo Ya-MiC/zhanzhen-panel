@@ -1,0 +1,83 @@
+schema_version: 1
+generated_at: 2026-08-27
+scoring_version: 2.0
+formula:
+  AVS: "0.14C + 0.14P + 0.14L + 0.12S + 0.10R + 0.10M + 0.10D + 0.08Q + 0.08E"
+  GRS: "0.40T + 0.35U + 0.25(10-E)"
+  SPI: "10 * AVS - 5 * GRS"
+  FinalSPI: "max(0, SPI - ForkPenalty)"
+
+top_10_finalspi:
+  - rank: 1
+    repo: zhanzhen
+    FinalSPI: 75
+  - rank: 2
+    repo: audit-os-mobile
+    FinalSPI: 72
+  - rank: 3
+    repo: zhanzhen-server
+    FinalSPI: 70
+  - rank: 4
+    repo: action-tree
+    FinalSPI: 70
+  - rank: 5
+    repo: audit-os
+    FinalSPI: 68
+  - rank: 6
+    repo: zhanzhen-web
+    FinalSPI: 65
+  - rank: 7
+    repo: dsh
+    FinalSPI: 62
+  - rank: 8
+    repo: hermes
+    FinalSPI: 58
+  - rank: 9
+    repo: invoice-ocr-system
+    FinalSPI: 50
+  - rank: 10
+    repo: nie-grassroots-logic
+    FinalSPI: 48
+
+tier_distribution:
+  core_invest_FinalSPI_60_plus: 4
+  selective_invest_40_59: 9
+  retain_20_39: 12
+  archive_candidate_under_20: 28
+  human_review_U_6_plus: 9
+
+investment_priority:
+  invest: [zhanzhen, audit-os-mobile, zhanzhen-server, action-tree]
+  fill_docs: [audit-os, zhanzhen-web, dsh, hermes, invoice-ocr-system, nie-grassroots-logic, open-design, argo, dsh-stock-watch]
+  retain: [zhanzhen-handover, openclaw-kugua-state, hermes-private, yanming-set, Global-Identity-Planning, openclaw-longxia, economics-11.29, IP-KR, docformat-gui, MarkWrite, sublink-worker, CF-Workers-SUB, dingyuebaohu, BPB-Worker-Panel, basedblocks-keepalive, proxy-github, serv00-play, tv, winutil, Secure-Edge-Access-CF-Tunnel, GL-iNet-OpenWrt-DNS, awesome-dsh-plugin, awesome-systematic-trading, my-report-site, ya-mic-profile, ya-mic-os]
+  human_decision: [unclear-set, openclaw-longxia, yamic188, YmiVoltixCzijianM]
+  historical_record: [nautilus_trader, ai_quant_trade_needchange, trading-second-brain_needchange, FinceptTerminal, Microsoft]
+
+reversal_criticality:
+  fatal: [zhanzhen, action-tree, dsh]
+  severe: [zhanzhen-server, audit-os, audit-os-mobile, zhanzhen-handover]
+  damaged: [argo, hermes, hermes-private, invoice-ocr-system, nie-grassroots-logic]
+  ok: [unclear-set, basedblocks-keepalive, Excel-Randomization-Process, fofa-, warp-, Ya-MIC-bbr, transfer-api(已刪)]
+
+moat_analysis:
+  zhanzhen:
+    data_moat: medium
+    workflow_moat: high
+    integration_moat: high
+    trust_moat: medium
+    brand_moat: low
+    distribution_moat: low
+    switching_cost: high
+    community: low
+    expertise: high
+  audit-os-mobile:
+    data_moat: low
+    workflow_moat: high
+    integration_moat: medium
+    trust_moat: high
+    brand_moat: low
+    distribution_moat: low
+    switching_cost: high
+    community: low
+    expertise: high
+    unique: "離線+無網絡權限=中國市場唯一可行"
