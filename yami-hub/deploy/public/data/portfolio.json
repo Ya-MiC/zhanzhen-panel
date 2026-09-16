@@ -1,0 +1,648 @@
+{
+  "taxonomy_version": "TAXONOMY-V2-demo",
+  "taxonomy_note": "YamiHub demo 数据 — 非真实资产；字段结构与 ya-mic-os portfolio.json 完全一致",
+  "generated_at": "2026-09-14T04:57:12.269Z",
+  "source_run": "DEMO-2026-09-14-001",
+  "stats": {
+    "total": 10,
+    "public": 10,
+    "private": 0,
+    "forks": 1
+  },
+  "top5_final_spi": [
+    {
+      "name": "demo-audit-os",
+      "FinalSPI": 40.3
+    },
+    {
+      "name": "demo-agent-kit",
+      "FinalSPI": 36.95
+    },
+    {
+      "name": "demo-rag-graph",
+      "FinalSPI": 34.35
+    },
+    {
+      "name": "demo-ocr-pipeline",
+      "FinalSPI": 33.15
+    },
+    {
+      "name": "demo-quant-lab",
+      "FinalSPI": 30.35
+    }
+  ],
+  "repositories": [
+    {
+      "name": "demo-audit-os",
+      "full_name": "demo-user/demo-audit-os",
+      "visibility": "public",
+      "fork": false,
+      "private": false,
+      "language": "TypeScript",
+      "html_url": "https://github.com/demo-user/demo-audit-os",
+      "stargazers_count": 12,
+      "forks_count": 2,
+      "open_issues_count": 1,
+      "size": 1000,
+      "created_at": "2025-08-10T04:57:12.268Z",
+      "updated_at": "2026-09-11T04:57:12.268Z",
+      "pushed_at": "2026-09-11T04:57:12.268Z",
+      "primary_domain": "產品",
+      "business_role": "product",
+      "lifecycle": "活躍",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [],
+      "one_liner": "審計規則引擎 demo",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 7,
+        "P": 8,
+        "L": 6,
+        "S": 7,
+        "R": 5,
+        "M": 7,
+        "D": 8,
+        "Q": 7,
+        "E": 3,
+        "T": 4,
+        "U": 5,
+        "AVS": 6.58,
+        "GRS": 5.1,
+        "SPI": 40.3,
+        "ForkPenalty": 0,
+        "FinalSPI": 40.3,
+        "baseline": 40.3,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "審計規則引擎 demo",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "typescript"
+      ]
+    },
+    {
+      "name": "demo-quant-lab",
+      "full_name": "demo-user/demo-quant-lab",
+      "visibility": "public",
+      "fork": false,
+      "private": false,
+      "language": "Python",
+      "html_url": "https://github.com/demo-user/demo-quant-lab",
+      "stargazers_count": 3,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "size": 1317,
+      "created_at": "2025-08-30T04:57:12.268Z",
+      "updated_at": "2026-08-15T04:57:12.268Z",
+      "pushed_at": "2026-08-15T04:57:12.268Z",
+      "primary_domain": "量化金融",
+      "business_role": "study",
+      "lifecycle": "活躍",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [],
+      "one_liner": "量化策略研究 demo",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 8,
+        "P": 5,
+        "L": 4,
+        "S": 6,
+        "R": 4,
+        "M": 5,
+        "D": 7,
+        "Q": 8,
+        "E": 4,
+        "T": 5,
+        "U": 5,
+        "AVS": 5.66,
+        "GRS": 5.25,
+        "SPI": 30.35,
+        "ForkPenalty": 0,
+        "FinalSPI": 30.35,
+        "baseline": 30.35,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "量化策略研究 demo",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "python"
+      ]
+    },
+    {
+      "name": "demo-agent-kit",
+      "full_name": "demo-user/demo-agent-kit",
+      "visibility": "public",
+      "fork": false,
+      "private": false,
+      "language": "JavaScript",
+      "html_url": "https://github.com/demo-user/demo-agent-kit",
+      "stargazers_count": 8,
+      "forks_count": 3,
+      "open_issues_count": 2,
+      "size": 1634,
+      "created_at": "2025-09-19T04:57:12.268Z",
+      "updated_at": "2026-09-06T04:57:12.268Z",
+      "pushed_at": "2026-09-06T04:57:12.268Z",
+      "primary_domain": "Agent / 槓桿",
+      "business_role": "leverage",
+      "lifecycle": "活躍",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [],
+      "one_liner": "Agent 行為樹工具箱",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 6,
+        "P": 6,
+        "L": 8,
+        "S": 6,
+        "R": 5,
+        "M": 6,
+        "D": 7,
+        "Q": 6,
+        "E": 4,
+        "T": 4,
+        "U": 5,
+        "AVS": 6.12,
+        "GRS": 4.85,
+        "SPI": 36.95,
+        "ForkPenalty": 0,
+        "FinalSPI": 36.95,
+        "baseline": 36.95,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "Agent 行為樹工具箱",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "javascript"
+      ]
+    },
+    {
+      "name": "demo-infra-runner",
+      "full_name": "demo-user/demo-infra-runner",
+      "visibility": "public",
+      "fork": false,
+      "private": false,
+      "language": "Shell",
+      "html_url": "https://github.com/demo-user/demo-infra-runner",
+      "stargazers_count": 1,
+      "forks_count": 1,
+      "open_issues_count": 0,
+      "size": 1951,
+      "created_at": "2025-10-09T04:57:12.269Z",
+      "updated_at": "2026-05-17T04:57:12.269Z",
+      "pushed_at": "2026-05-17T04:57:12.269Z",
+      "primary_domain": "基建",
+      "business_role": "infra",
+      "lifecycle": "活躍",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [],
+      "one_liner": "CI/CD 治理流水線",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 5,
+        "P": 4,
+        "L": 6,
+        "S": 8,
+        "R": 7,
+        "M": 4,
+        "D": 6,
+        "Q": 6,
+        "E": 5,
+        "T": 6,
+        "U": 5,
+        "AVS": 5.64,
+        "GRS": 5.4,
+        "SPI": 29.4,
+        "ForkPenalty": 0,
+        "FinalSPI": 29.4,
+        "baseline": 29.4,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "CI/CD 治理流水線",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "shell"
+      ]
+    },
+    {
+      "name": "demo-panel-fork",
+      "full_name": "demo-user/demo-panel-fork",
+      "visibility": "public",
+      "fork": true,
+      "private": false,
+      "language": "HTML",
+      "html_url": "https://github.com/demo-user/demo-panel-fork",
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "size": 2268,
+      "created_at": "2025-10-29T04:57:12.269Z",
+      "updated_at": "2026-02-26T04:57:12.269Z",
+      "pushed_at": "2026-02-26T04:57:12.269Z",
+      "primary_domain": "Agent / 槓桿",
+      "business_role": "leverage",
+      "lifecycle": "維護",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [
+        "fork"
+      ],
+      "one_liner": "上游面板（fork 示例）",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 4,
+        "P": 4,
+        "L": 5,
+        "S": 5,
+        "R": 6,
+        "M": 3,
+        "D": 4,
+        "Q": 4,
+        "E": 6,
+        "T": 7,
+        "U": 6,
+        "AVS": 4.52,
+        "GRS": 5.9,
+        "SPI": 15.7,
+        "ForkPenalty": 5,
+        "FinalSPI": 10.7,
+        "baseline": 10.7,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "上游面板（fork 示例）",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "html"
+      ]
+    },
+    {
+      "name": "demo-docs-site",
+      "full_name": "demo-user/demo-docs-site",
+      "visibility": "public",
+      "fork": false,
+      "private": false,
+      "language": "HTML",
+      "html_url": "https://github.com/demo-user/demo-docs-site",
+      "stargazers_count": 6,
+      "forks_count": 1,
+      "open_issues_count": 0,
+      "size": 2585,
+      "created_at": "2025-11-18T04:57:12.269Z",
+      "updated_at": "2026-09-09T04:57:12.269Z",
+      "pushed_at": "2026-09-09T04:57:12.269Z",
+      "primary_domain": "產品",
+      "business_role": "product",
+      "lifecycle": "活躍",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [],
+      "one_liner": "文檔站（Cloudflare Pages）",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 6,
+        "P": 7,
+        "L": 5,
+        "S": 6,
+        "R": 4,
+        "M": 6,
+        "D": 6,
+        "Q": 6,
+        "E": 3,
+        "T": 4,
+        "U": 5,
+        "AVS": 5.56,
+        "GRS": 5.1,
+        "SPI": 30.1,
+        "ForkPenalty": 0,
+        "FinalSPI": 30.1,
+        "baseline": 30.1,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "文檔站（Cloudflare Pages）",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "html"
+      ]
+    },
+    {
+      "name": "demo-ocr-pipeline",
+      "full_name": "demo-user/demo-ocr-pipeline",
+      "visibility": "public",
+      "fork": false,
+      "private": false,
+      "language": "Python",
+      "html_url": "https://github.com/demo-user/demo-ocr-pipeline",
+      "stargazers_count": 21,
+      "forks_count": 4,
+      "open_issues_count": 3,
+      "size": 2902,
+      "created_at": "2025-12-08T04:57:12.269Z",
+      "updated_at": "2026-07-16T04:57:12.269Z",
+      "pushed_at": "2026-07-16T04:57:12.269Z",
+      "primary_domain": "產品",
+      "business_role": "product",
+      "lifecycle": "活躍",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [],
+      "one_liner": "發票 OCR 流水線 demo",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 7,
+        "P": 6,
+        "L": 6,
+        "S": 5,
+        "R": 5,
+        "M": 6,
+        "D": 7,
+        "Q": 7,
+        "E": 4,
+        "T": 5,
+        "U": 5,
+        "AVS": 5.94,
+        "GRS": 5.25,
+        "SPI": 33.15,
+        "ForkPenalty": 0,
+        "FinalSPI": 33.15,
+        "baseline": 33.15,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "發票 OCR 流水線 demo",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "python"
+      ]
+    },
+    {
+      "name": "demo-sheets-sync",
+      "full_name": "demo-user/demo-sheets-sync",
+      "visibility": "public",
+      "fork": false,
+      "private": false,
+      "language": "Python",
+      "html_url": "https://github.com/demo-user/demo-sheets-sync",
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 1,
+      "size": 3219,
+      "created_at": "2025-12-28T04:57:12.269Z",
+      "updated_at": "2025-08-10T04:57:12.269Z",
+      "pushed_at": "2025-08-10T04:57:12.269Z",
+      "primary_domain": "基建",
+      "business_role": "infra",
+      "lifecycle": "維護",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [],
+      "one_liner": "Sheets 自動同步示例",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 4,
+        "P": 3,
+        "L": 5,
+        "S": 6,
+        "R": 7,
+        "M": 3,
+        "D": 4,
+        "Q": 4,
+        "E": 7,
+        "T": 8,
+        "U": 5,
+        "AVS": 4.68,
+        "GRS": 5.7,
+        "SPI": 18.3,
+        "ForkPenalty": 0,
+        "FinalSPI": 18.3,
+        "baseline": 18.3,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "Sheets 自動同步示例",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "python"
+      ]
+    },
+    {
+      "name": "demo-trading-notes",
+      "full_name": "demo-user/demo-trading-notes",
+      "visibility": "public",
+      "fork": false,
+      "private": false,
+      "language": "Markdown",
+      "html_url": "https://github.com/demo-user/demo-trading-notes",
+      "stargazers_count": 2,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "size": 3536,
+      "created_at": "2026-01-17T04:57:12.269Z",
+      "updated_at": "2026-08-30T04:57:12.269Z",
+      "pushed_at": "2026-08-30T04:57:12.269Z",
+      "primary_domain": "量化金融",
+      "business_role": "study",
+      "lifecycle": "活躍",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [],
+      "one_liner": "交易系統學習筆記",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 6,
+        "P": 3,
+        "L": 3,
+        "S": 4,
+        "R": 3,
+        "M": 4,
+        "D": 5,
+        "Q": 6,
+        "E": 4,
+        "T": 5,
+        "U": 5,
+        "AVS": 4.16,
+        "GRS": 5.25,
+        "SPI": 15.35,
+        "ForkPenalty": 0,
+        "FinalSPI": 15.35,
+        "baseline": 15.35,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "交易系統學習筆記",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "markdown"
+      ]
+    },
+    {
+      "name": "demo-rag-graph",
+      "full_name": "demo-user/demo-rag-graph",
+      "visibility": "public",
+      "fork": false,
+      "private": false,
+      "language": "TypeScript",
+      "html_url": "https://github.com/demo-user/demo-rag-graph",
+      "stargazers_count": 9,
+      "forks_count": 2,
+      "open_issues_count": 1,
+      "size": 3853,
+      "created_at": "2026-02-06T04:57:12.269Z",
+      "updated_at": "2026-07-31T04:57:12.269Z",
+      "pushed_at": "2026-07-31T04:57:12.269Z",
+      "primary_domain": "Agent / 槓桿",
+      "business_role": "leverage",
+      "lifecycle": "活躍",
+      "environment_tags": [
+        "demo"
+      ],
+      "risk_tags": [],
+      "one_liner": "GraphRAG 企業知識 demo",
+      "confidence": "medium",
+      "needs_human": false,
+      "scores": {
+        "C": 7,
+        "P": 5,
+        "L": 7,
+        "S": 6,
+        "R": 5,
+        "M": 6,
+        "D": 7,
+        "Q": 7,
+        "E": 4,
+        "T": 5,
+        "U": 5,
+        "AVS": 6.06,
+        "GRS": 5.25,
+        "SPI": 34.35,
+        "ForkPenalty": 0,
+        "FinalSPI": 34.35,
+        "baseline": 34.35,
+        "scored_at": "2026-09-14"
+      },
+      "decision": "KEEP",
+      "description": "GraphRAG 企業知識 demo",
+      "license": "MIT",
+      "topics": [
+        "demo",
+        "typescript"
+      ]
+    }
+  ],
+  "by_board": {
+    "product": [
+      "demo-audit-os",
+      "demo-docs-site",
+      "demo-ocr-pipeline"
+    ],
+    "study": [
+      "demo-quant-lab",
+      "demo-trading-notes"
+    ],
+    "leverage": [
+      "demo-agent-kit",
+      "demo-panel-fork",
+      "demo-rag-graph"
+    ],
+    "infra": [
+      "demo-infra-runner",
+      "demo-sheets-sync"
+    ]
+  },
+  "by_lifecycle": {
+    "活躍": [
+      "demo-audit-os",
+      "demo-quant-lab",
+      "demo-agent-kit",
+      "demo-infra-runner",
+      "demo-docs-site",
+      "demo-ocr-pipeline",
+      "demo-trading-notes",
+      "demo-rag-graph"
+    ],
+    "維護": [
+      "demo-panel-fork",
+      "demo-sheets-sync"
+    ]
+  },
+  "by_role": {
+    "product": [
+      "demo-audit-os",
+      "demo-docs-site",
+      "demo-ocr-pipeline"
+    ],
+    "study": [
+      "demo-quant-lab",
+      "demo-trading-notes"
+    ],
+    "leverage": [
+      "demo-agent-kit",
+      "demo-panel-fork",
+      "demo-rag-graph"
+    ],
+    "infra": [
+      "demo-infra-runner",
+      "demo-sheets-sync"
+    ]
+  },
+  "by_domain": {
+    "產品": [
+      "demo-audit-os",
+      "demo-docs-site",
+      "demo-ocr-pipeline"
+    ],
+    "量化金融": [
+      "demo-quant-lab",
+      "demo-trading-notes"
+    ],
+    "Agent / 槓桿": [
+      "demo-agent-kit",
+      "demo-panel-fork",
+      "demo-rag-graph"
+    ],
+    "基建": [
+      "demo-infra-runner",
+      "demo-sheets-sync"
+    ]
+  },
+  "top5_risks": [],
+  "human_review_resolved": 0,
+  "scored_at": "2026-09-14",
+  "auto_synced_at": "2026-09-14T04:57:12.269Z"
+}

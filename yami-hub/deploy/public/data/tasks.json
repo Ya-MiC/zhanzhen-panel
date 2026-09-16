@@ -1,0 +1,30 @@
+{
+  "updated": "2026-09-14",
+  "source": "YamiHub demo 数据",
+  "tasks": [
+    {
+      "id": "DEMO-001",
+      "task": "把 demo 數據換成你自己的（連接 GitHub 後同步）",
+      "priority": "P0",
+      "status": "open",
+      "ddl": "—",
+      "owner": "你"
+    },
+    {
+      "id": "DEMO-002",
+      "task": "在 Pages 設置裡配置三家 OAuth 環境變量",
+      "priority": "P0",
+      "status": "open",
+      "ddl": "—",
+      "owner": "你"
+    },
+    {
+      "id": "DEMO-003",
+      "task": "試試評分算法頁的權重實驗室",
+      "priority": "P1",
+      "status": "open",
+      "ddl": "—",
+      "owner": "你"
+    }
+  ]
+}

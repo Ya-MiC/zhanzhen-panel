@@ -1,0 +1,336 @@
+{
+ "updated": "2026-09-13",
+ "count": 55,
+ "starred": [
+  {
+   "name": "TapXWorld/ChinaTextbook",
+   "desc": "所有小初高、大学PDF教材。",
+   "lang": "Roff",
+   "stars": 81826
+  },
+  {
+   "name": "echohive42/AI-reads-books-page-by-page",
+   "desc": "AI reads books: Page-by-Page PDF Knowledge Extractor & Summarizer. script performs an inte",
+   "lang": "Python",
+   "stars": 3066
+  },
+  {
+   "name": "whiteguo233/OpenBiliClaw",
+   "desc": "本地私有、开源的自进化跨平台 AI 内容发现 Agent：先理解你，再主动从 B站、小红书、抖音、YouTube、X、知乎、Reddit、微博等平台与开放 Web 寻找内容。（支持",
+   "lang": "Python",
+   "stars": 3293
+  },
+  {
+   "name": "titanwings/distilly",
+   "desc": "Distilly — Distill how they think into reusable Skills for any Agent or Bot. Formerly Coll",
+   "lang": "Python",
+   "stars": 24684
+  },
+  {
+   "name": "easychen/opc-methodology",
+   "desc": "《一人企业方法论》第二版，也适合做其他副业（比如自媒体、电商、数字商品）的非技术人群。",
+   "lang": "PHP",
+   "stars": 16742
+  },
+  {
+   "name": "asgeirtj/system_prompts_leaks",
+   "desc": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 5, Claude Design, Claude Co",
+   "lang": "JavaScript",
+   "stars": 65937
+  },
+  {
+   "name": "trimstray/the-book-of-secret-knowledge",
+   "desc": "A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web t",
+   "lang": null,
+   "stars": 243548
+  },
+  {
+   "name": "mvanhorn/last30days-skill",
+   "desc": "AI agent skill that researches any topic across Reddit, X, YouTube, HN, Polymarket, and th",
+   "lang": "Python",
+   "stars": 61964
+  },
+  {
+   "name": "EthanYoQ/Invoice-Downloader",
+   "desc": "电子发票整理与报销准备工具：从邮箱批量收集 PDF/OFD/XML 发票，OCR 识别、分类归档并生成 Excel 汇总；提供 Windows/macOS 桌面版与 DSH 插件。",
+   "lang": "Python",
+   "stars": 414
+  },
+  {
+   "name": "tt-a1i/archify",
+   "desc": "Agent skill for beautiful, verifiable architecture, workflow, sequence, data-flow, and lif",
+   "lang": "JavaScript",
+   "stars": 60612
+  },
+  {
+   "name": "awesome-dsh-plugin/awesome-dsh-plugin",
+   "desc": "A curated list of plugins for DeepSeek Harness (dsh) · DeepSeek Harness 插件精选列表",
+   "lang": "Python",
+   "stars": 15551
+  },
+  {
+   "name": "chuspeeism/dashi-ppt-skill",
+   "desc": "An AI-agent skill that generates browser-editable presentations from multiple visual theme",
+   "lang": "JavaScript",
+   "stars": 8129
+  },
+  {
+   "name": "taxueseek/argo",
+   "desc": "专门为 agent 打造的 agent 搜索工具，具备多语言搜索能力，覆盖中文/英文/学术/代码/购物/金融/新闻/百科。",
+   "lang": "Python",
+   "stars": 122
+  },
+  {
+   "name": "nexu-io/open-design",
+   "desc": "🎨 Best DeepSeek Harness Design Plugin. The open-source Claude Design alternative. 🖥️ Local",
+   "lang": null,
+   "stars": 95931
+  },
+  {
+   "name": "charliedream1/ai_quant_trade",
+   "desc": "股票AI操盘手：从学习、模拟到实盘，一站式平台。包含股票知识、策略实例、大模型、因子挖掘、传统策略、机器学习、深度学习、强化学习、图网络、高频交易、C++部署和聚宽实例代码等，可以",
+   "lang": "Jupyter Notebook",
+   "stars": 6508
+  },
+  {
+   "name": "Awu12277/dsh-stock-watch",
+   "desc": "A股自选股实时行情盯盘插件 - DeepSeek Harness Web 右上角可折叠弹窗",
+   "lang": "JavaScript",
+   "stars": 79
+  },
+  {
+   "name": "kain26/trading-second-brain",
+   "desc": "",
+   "lang": null,
+   "stars": 49
+  },
+  {
+   "name": "nautechsystems/nautilus_trader",
+   "desc": "Production-grade Rust-native trading engine with deterministic event-driven architecture",
+   "lang": "Rust",
+   "stars": 28881
+  },
+  {
+   "name": "microsoft/qlib",
+   "desc": "Qlib is an AI-oriented Quant investment platform that aims to use AI tech to empower Quant",
+   "lang": "Python",
+   "stars": 48531
+  },
+  {
+   "name": "discountry/ritmex-bot",
+   "desc": "Perp DEX trading bot.",
+   "lang": "TypeScript",
+   "stars": 567
+  },
+  {
+   "name": "simonlin1212/Vibe-Research",
+   "desc": "Vibe-Research: Your Personal Trading Research Agent · A股/美股/港股 的个人投研 Agent：每日复盘、资讯雷达、个股数据、",
+   "lang": "TypeScript",
+   "stars": 2478
+  },
+  {
+   "name": "deepseek-ai/deepseek-harness",
+   "desc": "DeepSeek Harness: Everything is a Plugin.",
+   "lang": "TypeScript",
+   "stars": 222477
+  },
+  {
+   "name": "wangzhe3224/awesome-systematic-trading",
+   "desc": "A curated list of insanely awesome libraries, packages and resources for systematic tradin",
+   "lang": "HTML",
+   "stars": 5125
+  },
+  {
+   "name": "VectifyAI/OpenKB",
+   "desc": "OpenKB: Open LLM Knowledge Base",
+   "lang": "Python",
+   "stars": 4504
+  },
+  {
+   "name": "ayi-ai/nie-grassroots-logic",
+   "desc": "聂·基层运行逻辑 · Agent Skill：基于聂辉华《基层中国的运行逻辑》的方法论工具箱（不含原书全文）",
+   "lang": "HTML",
+   "stars": 547
+  },
+  {
+   "name": "HKUDS/DeepTutor",
+   "desc": "DeepTutor: Lifelong Personalized Tutoring. https://deeptutor.info/.",
+   "lang": "Python",
+   "stars": 39516
+  },
+  {
+   "name": "1c7/chinese-independent-developer",
+   "desc": "👩🏿‍💻👨🏾‍💻👩🏼‍💻👨🏽‍💻👩🏻‍💻中国独立开发者项目列表 -- 分享大家都在做什么",
+   "lang": "Python",
+   "stars": 61415
+  },
+  {
+   "name": "KaguraNanaga/docformat-gui",
+   "desc": "公文格式自动处理工具（可本地运行）",
+   "lang": "Python",
+   "stars": 782
+  },
+  {
+   "name": "anthropics/financial-services",
+   "desc": "",
+   "lang": "Python",
+   "stars": 34817
+  },
+  {
+   "name": "OpenByteInc/QuantDinger",
+   "desc": "AI quantitative trading platform for crypto, stocks, and forex with backtesting, live trad",
+   "lang": "Python",
+   "stars": 11596
+  },
+  {
+   "name": "lyogavin/airllm",
+   "desc": "AirLLM 70B inference with single 4GB GPU",
+   "lang": "Jupyter Notebook",
+   "stars": 34273
+  },
+  {
+   "name": "microsoft/SkillOpt",
+   "desc": "SkillOpt is a text-space optimizer that trains reusable natural-language skills for frozen",
+   "lang": "Python",
+   "stars": 17004
+  },
+  {
+   "name": "Panniantong/Agent-Reach",
+   "desc": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube",
+   "lang": "Python",
+   "stars": 80410
+  },
+  {
+   "name": "K-Dense-AI/scientific-agent-skills",
+   "desc": "Turn any AI agent into an AI Scientist. The #1 Agent Skills library for science, used by 1",
+   "lang": "Python",
+   "stars": 44741
+  },
+  {
+   "name": "LiuMengxuan04/shushu-internship-tool",
+   "desc": "把岗位描述变项目，把项目变简历，把简历变面试。",
+   "lang": "Python",
+   "stars": 1989
+  },
+  {
+   "name": "simplifaisoul/osiris",
+   "desc": "Open Source Global Intelligence Platform - Real-Time OSINT Dashboard - A Palantir Alternat",
+   "lang": "TypeScript",
+   "stars": 9373
+  },
+  {
+   "name": "TauricResearch/TradingAgents",
+   "desc": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+   "lang": "Python",
+   "stars": 105274
+  },
+  {
+   "name": "PowerShell/PowerShell",
+   "desc": "PowerShell for every system!",
+   "lang": "C#",
+   "stars": 55374
+  },
+  {
+   "name": "DigitalPlatDev/FreeDomain",
+   "desc": "Free domain registration and practical DNS learning resources for everyone.",
+   "lang": "Markdown",
+   "stars": 199180
+  },
+  {
+   "name": "cmliu/CF-Workers-GitHub",
+   "desc": "这个项目是一个基于 Cloudflare Workers 的 Github 镜像代理工具。它能够中转 Github 项目请求，解决一些访问限制和加速访问的问题。",
+   "lang": null,
+   "stars": 810
+  },
+  {
+   "name": "cmliu/CF-Workers-SUB",
+   "desc": "这个是一个通过 Cloudflare Workers 搭建，将你任意节点与多个订阅汇聚成专属于你的订阅链接",
+   "lang": "JavaScript",
+   "stars": 7540
+  },
+  {
+   "name": "deepseek-ai/DeepSeek-R1",
+   "desc": "",
+   "lang": null,
+   "stars": 91989
+  },
+  {
+   "name": "vnpy/vnpy",
+   "desc": "基于Python的开源量化交易平台开发框架",
+   "lang": "Python",
+   "stars": 45367
+  },
+  {
+   "name": "qusong0627/QuantMind",
+   "desc": " QuantMind（量化大脑）开源版是一款面向个人开发者与投研团队的 AI 原生多市场量化交易平台。深度集成微软 Qlib、RD-Agent 因子演化与 TradingAgents 多智能体投研，提供从 300+ 维因",
+   "lang": "Python",
+   "stars": 1452
+  },
+  {
+   "name": "pseudo-longinus/quant-buddy-view",
+   "desc": "把投研逻辑发布成 Serverless 数据接口和可分享、会自动更新的量化看板。",
+   "lang": "Python",
+   "stars": 45
+  },
+  {
+   "name": "pseudo-longinus/quant-buddy-skills",
+   "desc": "A股·港股·美股量化分析 Agent Skill。支持行情、估值、财务查询、选股筛选、因子计算、策略回测。Quant agent skill for A-share, HK & US stocks — market da",
+   "lang": "Python",
+   "stars": 111
+  },
+  {
+   "name": "joutaojian/arkvol-skill",
+   "desc": "Arkvol Skill 将 arkvol.com 的数据查询与解读能力接入兼容 Agent Skills 的 AI Agent。安装后，可以直接用自然语言查询 A 股与科技板块、港股、基金与 ETF、美股中期趋势及七巨",
+   "lang": "Python",
+   "stars": 197
+  },
+  {
+   "name": "fqscfqj/Y2A-Auto",
+   "desc": "YouTube到AcFun和bilibili自动化搬运工具，支持AI翻译、字幕生成、内容审核、智能监控",
+   "lang": "Python",
+   "stars": 3286
+  },
+  {
+   "name": "Barca0412/Introduction-to-Quantitative-Finance",
+   "desc": "AI+金融（量化）：1.多因子股票量化框架开源教程 2.学界和业界的经典资料收录 3.AI + 金融的相关工作，包括LLM, Agent, benchmark(evaluation), etc.",
+   "lang": "Python",
+   "stars": 1742
+  },
+  {
+   "name": "benitoro/stockholm",
+   "desc": "一个股票数据（沪深）爬虫和选股策略测试框架",
+   "lang": "Python",
+   "stars": 1521
+  },
+  {
+   "name": "2025Emma/vibe-coding-cn",
+   "desc": "",
+   "lang": "Python",
+   "stars": 22980
+  },
+  {
+   "name": "ChenShuo2004/cs-board",
+   "desc": "将参考声音和中文文案自动生成白板动画视频的本地 AI 工具。",
+   "lang": "Python",
+   "stars": 613
+  },
+  {
+   "name": "ChenRuoT/dsh-sidebar-qa",
+   "desc": "一个基于DSH-better-sidebar的侧边栏提问tab，实现类codex的侧边提问或claude code的/btw功能",
+   "lang": "TypeScript",
+   "stars": 43
+  },
+  {
+   "name": "HuanLinOTO/dsh-plugin-better-sidebar-plugin-office",
+   "desc": "为 better-sidebar 提供 Office 三件套预览（.docx/.xlsx/.pptx），独立 bundle 瘦身主体 | Provides Office-suite preview (.docx/.xls",
+   "lang": "JavaScript",
+   "stars": 44
+  },
+  {
+   "name": "mkurman/zorai",
+   "desc": "Zorai is a persistent, multi-agent, auditable, learning execution platform where the daemon owns work, memory,",
+   "lang": "Rust",
+   "stars": 324
+  }
+ ]
+}

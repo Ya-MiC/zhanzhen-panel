@@ -1,0 +1,58 @@
+{
+  "updated": "2026-08-30",
+  "source": "自動化實況（GitHub Actions 3 條流水線 + Notion 已接入）· Sheets Tasks 表歷史存檔",
+  "tasks": [
+    {
+      "id": "TODO-001",
+      "task": "完成多平台架構重構",
+      "priority": "P0",
+      "status": "done",
+      "ddl": "2026-08-28",
+      "owner": "Agent"
+    },
+    {
+      "id": "TODO-002",
+      "task": "填充所有 GitHub 倉庫到面板",
+      "priority": "P0",
+      "status": "done",
+      "ddl": "2026-08-28",
+      "owner": "Agent"
+    },
+    {
+      "id": "TODO-003",
+      "task": "建立 9 個 Skill",
+      "priority": "P0",
+      "status": "done",
+      "ddl": "2026-08-28",
+      "owner": "Agent"
+    },
+    {
+      "id": "TODO-004",
+      "task": "Notion + GitHub 自動化（面板雙向接入）",
+      "priority": "P0",
+      "status": "done",
+      "ddl": "2026-08-30",
+      "owner": "Agent",
+      "note": "✅ Notion 六頁接入 + 指令中心美化；GitHub 三條流水線 7×24"
+    }
+  ],
+  "ddl": [
+    {
+      "id": "DDL-HR-001",
+      "task": "15 個 Human Review 裁決",
+      "priority": "P1",
+      "status": "done",
+      "ddl": "2026-08-30",
+      "owner": "Ya-MiC",
+      "note": "✅ 全數完成，Issues #6–#20 存檔"
+    },
+    {
+      "id": "DDL-RUN-001",
+      "task": "RUN-2026-09-01-001：首次月報 + 生命周期按裁決調整 + Starred 候選正式評估",
+      "priority": "P2",
+      "status": "planned",
+      "ddl": "2026-09-01",
+      "owner": "Agent"
+    }
+  ]
+}
