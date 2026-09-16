@@ -169,3 +169,19 @@
 ## 致谢
 
 运行时零第三方依赖；设计血统与思想致谢（ya-mic-os / dashi-taskboard / archify / OAuth 标准族 / 各平台官方文档）见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
+
+
+## 📡 資訊 · 熱榜（YamiFeed）
+
+側欄「資訊 · 熱榜」聚合多源熱點：GitHub Trending（官方 API）/ 微博熱搜 / 知乎熱榜（走 RSSHub）/ Hacker News。KV 緩存 30 分鐘。
+
+**可選環境變量（資訊整合用）**：
+
+| 變量 | 說明 |
+| --- | --- |
+| `GITHUB_TOKEN` | 可選，提高 GitHub API 限額（5000/h） |
+| `RSSHUB_BASE` | 可選，自建 RSSHub 實例（默認公共 rsshub.app，偶爾限流） |
+| `WXPUSHER_TOKEN` | WxPusher 應用 appToken（[wxpusher.zjiecode.com](https://wxpusher.zjiecode.com) 創建） |
+| `WXPUSHER_UID` | 掃碼關注後獲得的用戶 UID |
+
+配置 WxPusher 後：連接頁「📨 試發每日精選」一鍵測試；配好 CF Pages Cron Trigger（`0 8 * * *`）每天早 8 點自動把熱榜精選推到微信。推送只含「標題+鏈接」，版權合規。
