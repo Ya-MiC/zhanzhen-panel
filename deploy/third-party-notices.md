@@ -39,3 +39,14 @@ YamiHub deploy 包以 **MIT License** 发布（随仓库根 LICENSE 分发）。
 
 - GitHub、Notion、Google、Cloudflare 均为各自所有者的商标；本项目与其无 affiliation / endorsement 关系。
 - 面板中的 "GH / N / G" 字符方块为自绘占位字形，非各品牌官方 Logo（避免商标使用问题；v0.2 可换成获得授权的 Simple Icons 资源——Simple Icons 为 CC0，届时会在本文件更新条目）。
+
+## 6. YamiFeed 模塊致謝（v0.2 新增）
+
+| 上游 | 協議 | 使用方式 |
+| --- | --- | --- |
+| ourongxing/newsnow（21.7k★） | MIT | 多源熱榜聚合架構參考；適配器代碼若引入將放 `vendor/newsnow/` 保留 MIT 頭 |
+| DIYgod/RSSHub（46.2k★） | AGPL-3.0 | **僅 HTTP 網絡調用**其公共/自建實例（微博/知乎路由），零代碼複製——AGPL 傳染性被網絡邊界隔離，本倉庫 GPL-3.0 不受影響 |
+| WxPusher | 免費公共服務 | 微信每日精選推送通道 |
+| Hacker News Firebase API / GitHub Search API | 公開接口 | 數據源 |
+
+內容合規：熱榜只緩存標題/鏈接/熱度元數據；微信推送只發「標題+鏈接」不轉載全文。詳細邊界見 LICENSE-NOTES.md。

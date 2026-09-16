@@ -39,11 +39,10 @@
 
 ## 📄 協議
 
-- `deploy/` 發行版：MIT
-- 其餘目錄（工作台骨架）：暫定 MIT，正式發布前復核
-- 致謝：ya-mic-os / archify / dashi-taskboard / OAuth 標準族，詳見 `deploy/THIRD-PARTY-NOTICES.md`
+- **框架主協議：GPL-3.0**（YamiHub 面板 + YamiFeed 聚合框架）——fork/修改/分發衍生作品需同協議開源
+- 數據源合規邊界與致謝：**[LICENSE-NOTES.md](LICENSE-NOTES.md)**（RSSHub AGPL 僅網絡調用、newsnow MIT、閉源站零接觸）
+- 第三方組件明細：[deploy/THIRD-PARTY-NOTICES.md](deploy/third-party-notices.md)
 
+## 🤖 AI 助手約定
 
-## 🖥 桌面版（Tauri 封裝）
-
-想把它變成雙擊即用的桌面 EXE？看 **[deploy/TAURI-GUIDE.md](deploy/TAURI-GUIDE.md)**：裝 Rust → 一條命令打包 → GitHub Releases 分發（v2rayN 模式，多平台用戶直接下載）。
+接手本倉庫的任何 AI 助手：先讀 **[AGENTS.md](AGENTS.md)** 行動規範（先檢索後動手/一次一交付/紅線清單）。
