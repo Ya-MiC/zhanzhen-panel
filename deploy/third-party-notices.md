@@ -1,4 +1,4 @@
-# THIRD-PARTY-NOTICES — 开源使用与致谢
+﻿# THIRD-PARTY-NOTICES — 开源使用与致谢
 
 > YamiHub deploy 包的第三方组件声明。结论先说：**运行时零第三方依赖**，无任何复制来的第三方 UI/后端代码，因此本包整体按项目 LICENSE（MIT）分发即可，无强制第三方许可义务。以下按"思路参考 / 运行时平台 / 借鉴来源"如实致谢。
 
@@ -25,7 +25,7 @@
 | --- | --- |
 | **ya-mic-os**（Ya-MiC 自有仓库，MIT） | 本面板的直接前身：完整 UI 设计系统（os2.css）、SPI 资产评分引擎（scoring.js）、资产地图 SVG 自绘引擎、「口令仅在浏览器本地解密」的数据边界（private.enc：AES-256-GCM + PBKDF2 250k） |
 | **dashi-taskboard / Codex Taskboard**（chuspeeism，Apache-2.0） | 看板形态参考：项目/议题/状态流（todo → in_progress → in_review → done）的任务组织方式，用于 YamiHub 任务页的看板化方向；本项目未复制其代码 |
-| **archify**（tt-a1i/archify，MIT；Ya-MiC/archify 为 fork） | 资产地图页的图表方法论参考：自包含、可验证、带导出的架构图/流程图/生命周期图；本面板地图页即按此思路用自绘 SVG 实现（未使用 mermaid 运行时） |
+| **archify**（tt-a1i/archify，MIT；Ya-MiC/archify 为 fork） | 活体资产地图引擎（assets/archify-live.js）直接采用其设计系统：midnight 语义色板、mono 字体层级、SRC 证据信标、主路径 ≤12 节点不变量、自动路由与"语义色永不装饰"规则。引擎为本项目原创实现（零 archify 代码复制），方法论与视觉词汇致谢 archify |
 | **OAuth 2.0 标准族**（IETF：RFC 6749 / RFC 7636 PKCE / RFC 6750） | 授权码流程、state 一次性防 CSRF、PKCE（S256）——按标准自行实现 |
 | **GitHub / Notion / Google 官方 API 文档** | 各平台 OAuth 端点、令牌交换参数、API 形状 |
 | **Cloudflare Pages 文档** | `_worker.js` Advanced Mode 约定、KV 绑定、拖放部署能力边界 |

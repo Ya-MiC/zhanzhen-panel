@@ -1,4 +1,4 @@
-# YamiHub — 保姆级部署手册（拖上传，5 分钟）
+﻿# YamiHub — 保姆级部署手册（拖上传，5 分钟）
 
 > **你要拖的东西**：整个 `deploy` 文件夹（11 个文件，含子文件夹 `assets/` 和 `public/`）。
 > **你将得到**：`https://你起的名字.pages.dev` —— 一个「谁登录谁的账号，就长成谁的样子」的动态资产面板。
@@ -110,7 +110,7 @@
 | `GOOGLE_CLIENT_ID` | Google 客户端 ID | `.apps.googleusercontent.com` 结尾 |
 | `GOOGLE_CLIENT_SECRET` | Google 客户端密钥 | `GOCSPX-` 开头 |
 
-可选：`GITHUB_SCOPE`（默认 `read:user public_repo`）、`GOOGLE_SCOPE`（默认 `openid email`）。
+可选：`GITHUB_SCOPE`（默认 `read:user repo`，含私有仓库读取）、`GOOGLE_SCOPE`（默认 `openid email`）、**`DEMO_MODE`（设为 `1` 开启 demo 演示数据；默认关闭 = 空白画布，连接自己的账号才有数据）**。
 
 ## 第 5 步 · 重新拖一次部署包（重要！）
 
@@ -149,9 +149,20 @@
 
 已经在用同级别：**AES-256-GCM + PBKDF2-SHA256（25 万次迭代）**——Web 标准 `crypto.subtle` 原生实现，TLS 1.3 / 1Password 同级原语，浏览器原生支持零依赖。v0.2 会把同步下来的真实数据用它锁进浏览器本地（口令在你手里，服务端零知识）。
 
+## 资产地图：活体引擎（谁登录长谁的图）
+
+地图不再是写死的 8 张图。`assets/archify-live.js` 引擎从**当前登录用户的数据**实时生成地图：
+
+1. **规则引擎兜底**（零 AI）：按仓库的语言/描述/topics 确定性聚类到 6 个语义分区（前端/业务/数据/基建/AI 流/外围），coreScore 决定谁上主路径（archify 不变量：主路径 ≤12 节点）
+2. **可选本地 AI 判读**（Ollama）：地图页右上「🦙 本地 AI 判读」→ 探测 `http://127.0.0.1:11434` 的本地模型 → 仓库摘要喂给你的本地模型 → 它判读分区叙事和主路径，引擎按判读重排地图。**数据全程不离开用户自己的机器**
+   - https 部署的面板连本地 Ollama 需要：设置 `OLLAMA_ORIGINS` 包含面板地址并重启 Ollama，且浏览器允许「不安全内容」（混合内容限制）；localhost 域名部署则开箱即用
+3. 空数据用户看到引导卡「连接 GitHub 并同步后，这里会长出你的资产地图」
+
+美学遵循 archify（tt-a1i，MIT）设计系统：midnight 暗色画布、语义色永不装饰、mono 字体、SRC 证据信标、单主路径短侧枝自动路由。
+
 ## 已知待打磨（v0.2 排期）
 
-- 资产地图页 8 张图的**排版整齐度**参差——统一节点尺寸/间距/标题层级，做成配置化布局
+- 地图节点标签重叠的长仓库名截断策略、超大仓库数（>60）的分页渲染
 - 侧栏分组（GitHub 工作区/Notion 工作区/治理）按产品逻辑重构，不再绑定原作者个人工作流叙事
 - 同步结果本地加密持久化 + 任务页看板化（参考 dashi-taskboard 状态流）+ Notion/Google 数据视图
 

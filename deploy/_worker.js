@@ -46,6 +46,11 @@ function cookieGet(request, name) {
   return null;
 }
 
+function sanitizeLabel(s) {
+  // 防 stored XSS：label 会经 /api/connections 返回给浏览器渲染
+  return String(s == null ? "" : s).replace(/[<>&"'\`]/g, "").slice(0, 80);
+}
+
 function cookieSet(name, value, maxAge) {
   return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
 }
@@ -62,7 +67,7 @@ const PROVIDERS = {
     authorize: (e, ru, st) =>
       `https://github.com/login/oauth/authorize?response_type=code` +
       `&client_id=${e.GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(ru)}` +
-      `&scope=${encodeURIComponent(e.GITHUB_SCOPE || "read:user public_repo")}` +
+      `&scope=${encodeURIComponent(e.GITHUB_SCOPE || "read:user repo")}` +
       `&state=${st}`,
     token: async (e, code, ru) => {
       const r = await fetch("https://github.com/login/oauth/access_token", {
@@ -193,7 +198,7 @@ function providerStatus(env, sess) {
 
 /* ---------------- 路由处理 ---------------- */
 
-async function handleStart(env, provider, origin) {
+async function handleStart(request, env, provider, origin) {
   const p = PROVIDERS[provider];
   if (!p) return json({ error: "unknown provider" }, 404);
   if (!p.configured(env)) {
@@ -202,7 +207,7 @@ async function handleStart(env, provider, origin) {
   if (!env.KV) return Response.redirect(`${origin}/?error=no_kv`, 302);
 
   const state = randHex(16);
-  const rec = { provider, created: Date.now() };
+  const rec = { provider, created: Date.now(), bind: cookieGet(request, "sid") || "" };
 
   let url;
   const ru = `${origin}/api/oauth/${provider}/callback`;
@@ -236,6 +241,8 @@ async function handleCallback(request, env, provider, origin, url) {
   await env.KV.delete(`state:${state}`); // 一次性
   const rec = JSON.parse(raw);
   if (rec.provider !== provider) return Response.redirect(`${origin}/?error=state_mismatch`, 302);
+  const curSid = cookieGet(request, "sid");
+  if (rec.bind && curSid && rec.bind !== curSid) return Response.redirect(`${origin}/?error=state_mismatch`, 302);
 
   const ru = `${origin}/api/oauth/${provider}/callback`;
   const tok = await p.token(env, code, ru, rec.verifier);
@@ -244,11 +251,11 @@ async function handleCallback(request, env, provider, origin, url) {
   if (!label && p.label) {
     try { label = await p.label(env, tok.access_token); } catch (e) { label = null; }
   }
-  label = label || provider;
+  label = sanitizeLabel(label) || provider;
 
   const { sid, sess } = (await getSession(env, request, true));
   sess.connections[provider] = {
-    label,
+    label: sanitizeLabel(label),
     token: tok.access_token,
     connected_at: new Date().toISOString(),
   };
@@ -299,7 +306,7 @@ async function handleGithubSync(request, env) {
   if (!conn) return json({ error: "请先在平台连接页连接 GitHub" }, 401);
 
   const repos = [];
-  for (let page = 1; page <= 3; page++) {
+  for (let page = 1; page <= 5; page++) {
     const r = await fetch(`https://api.github.com/user/repos?per_page=100&sort=pushed&page=${page}&affiliation=owner,collaborator`, {
       headers: { authorization: `Bearer ${conn.token}`, accept: "application/vnd.github+json", "user-agent": "yami-hub" },
     });
@@ -346,10 +353,34 @@ async function handleGithubSync(request, env) {
   });
 }
 
+/* ---------------- 简易限速（防爬虫/爆破） ---------------- */
+const RL = { win: 60000, max: 60, hits: new Map() };
+function rateLimited(ip) {
+  const now = Date.now();
+  const rec = RL.hits.get(ip) || { n: 0, t0: now };
+  if (now - rec.t0 > RL.win) { rec.n = 0; rec.t0 = now; }
+  rec.n++; RL.hits.set(ip, rec);
+  if (RL.hits.size > 5000) RL.hits.clear(); // 防 Map 无限膨胀
+  return rec.n > RL.max;
+}
+
 /* ---------------- 入口 ---------------- */
+
+function cleanEnv(e) {
+  // 用户在 CF 面板手滑贴进空格/引号/BOM 是常见事故：统一净化一次
+  const out = {};
+  for (const [k, v] of Object.entries(e || {})) {
+    if (typeof v !== "string") { out[k] = v; continue; }
+    let s = v.replace(/^\uFEFF/, "").trim();
+    if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) s = s.slice(1, -1).trim();
+    out[k] = s;
+  }
+  return out;
+}
 
 export default {
   async fetch(request, env) {
+    env = cleanEnv(env);
     const url = new URL(request.url);
     const { pathname, origin } = url;
 
@@ -358,19 +389,25 @@ export default {
       return new Response("ASSETS binding missing — 请确认通过 Pages 部署（而非普通 Worker）", { status: 500 });
     }
 
+    if (pathname.startsWith("/api/")) {
+      const ip = request.headers.get("cf-connecting-ip") || "unknown";
+      if (rateLimited(ip)) return json({ error: "too many requests" }, 429);
+    }
+
     try {
       if (pathname === "/api/config" || pathname === "/api/connections") {
         const found = await getSession(env, request, false);
         return json({
           providers: providerStatus(env, found ? found.sess : null),
           kv: !!env.KV,
+          demoMode: String(env.DEMO_MODE || "") === "1",
         });
       }
 
       const m = pathname.match(/^\/api\/oauth\/(github|notion|google)\/(start|callback)$/);
       if (m) {
         const [, provider, action] = m;
-        if (action === "start") return handleStart(env, provider, origin);
+        if (action === "start") return handleStart(request, env, provider, origin);
         return handleCallback(request, env, provider, origin, url);
       }
 

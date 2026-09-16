@@ -4,21 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>YamiHub · Portfolio OS（ya-mic-os 迭代）</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="stylesheet" href="assets/os2.css?v=43">
-<script src="assets/scoring.js?v=43"></script>
+<script src="assets/scoring.js?v=43">
+<script src="assets/archify-live.js?v=1"></script>
 </head>
 <body>
 
 <header class="topbar">
   <button class="hamburger" id="hamburger" aria-label="menu">☰</button>
-  <a class="brand" href="#overview" data-goto="overview"><span class="logo">🐙</span>YamiHub</a>
+  <a class="brand" href="#overview" data-goto="overview"><span class="logo"><img src="assets/logo.jpg" alt="YamiHub" style="width:26px;height:26px;border-radius:25%;object-fit:cover"></span>YamiHub</a>
   <div class="top-search">
     <span>🔎</span>
     <input id="globalSearch" placeholder="搜尋 Repositories + Starred + Notion…">
     <span class="kbd">Ctrl K</span>
   </div>
   <div class="top-right">
-    <button class="btn-duo ghost" id="topUnlock">🔗<span class="btxt"> 登錄</span></button>
+    <span id="kvDot" title="KV 狀態" style="display:inline-flex;align-items:center;gap:5px;margin-right:8px;font-size:11px;color:var(--ink-3)"><span id="kvDotInner" style="width:7px;height:7px;border-radius:50%;background:var(--line);display:inline-block"></span><span id="kvDotText"></span></span><button class="btn-duo ghost" id="themeToggle" title="切换主题">🌓<span class="btxt"> 主題</span></button> <button class="btn-duo ghost" id="topUnlock">🔗<span class="btxt"> 登錄</span></button>
     <button class="btn-duo ghost" id="ossBtn">♥️<span class="btxt"> 開源</span></button>
     <a class="btn-duo" href="https://github.com/Ya-MiC/yami-hub" target="_blank" rel="noopener">GitHub</a>
   </div>
@@ -26,15 +28,7 @@
 <div class="backdrop" id="backdrop"></div>
 
 <aside class="sidebar" id="sidebar">
-  <div class="side-group">🐙 GitHub 工作區</div>
-  <div class="side-item active" data-page="overview"><span class="ic">🏠</span>總覽</div>
-  <div class="side-item" data-page="assets"><span class="ic">🗂</span>資產畫廊<span class="cnt">10</span></div>
-  <div class="side-item" data-page="maps"><span class="ic">🕸️</span>資產地圖<span class="cnt">8</span></div>
-  <div class="side-item" data-page="tasks"><span class="ic">🎯</span>任務 & DDL</div>
-  <div class="side-group">🪷 Notion 工作區</div>
-  <div class="side-item" data-page="notion"><span class="ic">🧩</span>多平台入口</div>
-  <div class="side-item" data-page="connections"><span class="ic">🔗</span>平台連接</div>
-  <div class="side-group">治理 · 跨平台</div>
+  <div class="side-group">🧭 資產宇宙</div>  <div class="side-item active" data-page="overview"><span class="ic">🏠</span>總覽</div>  <div class="side-item" data-page="connections"><span class="ic">🔗</span>平台連接</div>  <div class="side-item" data-page="assets"><span class="ic">🗂</span>資產畫廊<span class="cnt" id="cntAssets">0</span></div>  <div class="side-item" data-page="maps"><span class="ic">🕸️</span>資產地圖</div>  <div class="side-item" data-page="tasks"><span class="ic">🎯</span>任務 · DDL</div>  <div class="side-group">🔗 外部平台</div>  <div class="side-item" data-page="notion"><span class="ic">🧩</span>多平台入口</div>  <div class="side-group">🧠 智能 · 治理</div>
   <div class="side-item" data-page="algorithm"><span class="ic">🧮</span>評分算法</div>
   <div class="side-item" data-page="decisions"><span class="ic">🤖</span>自動化<span class="cnt">3</span></div>
   <div class="side-item" data-page="charter"><span class="ic">📜</span>治理章程</div>
@@ -45,6 +39,45 @@
 </aside>
 
 <main class="main">
+  <!-- ================= 登錄首屏（未連接時的第一屏） ================= -->
+  <section class="page" id="page-login">
+    <div style="max-width:720px;margin:6vh auto 0;padding:0 20px;text-align:center">
+      <img src="assets/logo.jpg" alt="YamiHub" style="width:64px;height:64px;border-radius:25%;object-fit:cover">
+      <h1 style="margin:18px 0 8px;font-size:28px;letter-spacing:-.01em">歡迎來到 YamiHub</h1>
+      <p style="color:var(--ink-2);font-size:15px;line-height:1.8;max-width:520px;margin:0 auto">
+        連接你自己的帳號，面板就會長成你的樣子——<br>倉庫、星標、任務與評分全部實時來自你的數據。令牌只存你部署的 KV，絕不返回瀏覽器。
+      </p>
+      <!-- 標籤頁 -->
+      <div id="loginTabs" style="display:flex;gap:8px;justify-content:center;margin:26px 0 14px;flex-wrap:wrap">
+        <button class="lt-tab active" data-tab="github">🐙 GitHub</button>
+        <button class="lt-tab" data-tab="notion">🪷 Notion</button>
+        <button class="lt-tab" data-tab="google">🌐 Google</button>
+      </div>
+      <div id="loginCards" style="text-align:left;max-width:560px;margin:0 auto">檢查連接狀態…</div>
+      <div style="margin-top:22px">
+        <span id="demoEntry2"></span>
+      </div>
+    </div>
+    <style>
+      .lt-tab { font:inherit;font-size:13.5px;padding:8px 18px;border-radius:999px;border:1px solid var(--line);
+        background:transparent;color:var(--ink-2);cursor:pointer;transition:all .16s ease; }
+      .lt-tab:hover { border-color:var(--ink-3); }
+      .lt-tab.active { background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600; }
+      .lt-card { background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;
+        animation:ltFade .22s ease; }
+      @keyframes ltFade { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+      .lt-card h3 { font-size:16px;margin:0 0 6px; }
+      .lt-card .sub { font-size:12.5px;color:var(--ink-3);margin-bottom:14px; }
+      .lt-card ul { list-style:none;padding:0;margin:0 0 16px; }
+      .lt-card li { font-size:13.5px;color:var(--ink-2);padding:5px 0 5px 22px;position:relative; }
+      .lt-card li::before { content:'';position:absolute;left:4px;top:12px;width:7px;height:7px;border-radius:2px;background:var(--lime-deep,#58cc02); }
+      .lt-status { font-size:12.5px;color:var(--ink-3);margin-top:12px;line-height:1.7; }
+      .lt-cta { display:inline-block;font-size:14px;padding:10px 26px;border-radius:12px;background:var(--ink);color:var(--bg);
+        text-decoration:none;font-weight:600;transition:opacity .15s ease; }
+      .lt-cta:hover { opacity:.85; }
+      .lt-cta.disabled { opacity:.4;pointer-events:none; }
+    </style>
+  </section>
   <!-- ================= 平台連接（YamiHub 注入） ================= -->
   <section class="page" id="page-connections">
     <div class="page-head">
@@ -56,7 +89,7 @@
     <h2 class="section-title">🐙 GitHub 即時同步（預覽）</h2>
     <div class="section-sub">連接 GitHub 後，把你帳號的倉庫即時拉進面板（覆蓋 demo 數據，刷新即還原）</div>
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px">
-      <button id="syncBtn" style="padding:10px 18px;border-radius:10px;border:1px solid currentColor;background:transparent;cursor:pointer" disabled>同步我的 GitHub 倉庫</button>
+      <button id="syncBtn" class="btn-duo ghost">同步我的 GitHub 倉庫</button>
       <span class="section-sub" id="syncOut"></span>
     </div>
   </section>
@@ -69,7 +102,7 @@
       <div class="chip-live" id="liveChip">● LIVE</div>
       <div>
         <h1><span id="heroRepos">…</span> Repositories + <span id="heroStars">…</span> Starred，<br>一個網站看全部。</h1>
-        <p>Skill 3.0 評分 × 15 項裁決 × G1–G5 閘門 × 6 張可縮放/全屏語義地圖。數據每 6 小時自動同步；裁決留言自動回收——離開 ZCode 一切照常運轉。</p>
+        <p>SPI 評分 × 權重實驗室 × 活體資產地圖 × 本地加密保險箱。連接即同步，數據全歸你自己。</p>
         <div class="hero-cta">
           <a class="btn-duo" href="#assets" data-goto="assets">瀏覽資產 →</a>
           <a class="btn-duo blue" href="#maps" data-goto="maps">看 6 張地圖 →</a>
@@ -84,12 +117,12 @@
     <div class="section-sub">GitHub 管資產與治理，Notion 管研究與思考——點卡片進對應工作區</div>
     <div class="spec-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
       <a class="spec notion-card" style="--nc:var(--forest)" data-goto="assets" style="cursor:pointer">
-        <div class="ne">🐙</div><h4>GitHub 工作區</h4>
+        <div class="ne">🐙</div><h4>GitHub 資產</h4>
         <p><span class="dyn-repo-count">…</span> 個倉庫 + <span class="dyn-star-count">…</span> 個 Starred：資產卡、評分、裁決、地圖、自動化流水線。</p>
         <span class="go">進入畫廊 →</span></a>
       <a class="spec notion-card" style="--nc:#6d28d9" href="#notion" data-goto="notion">
-        <div class="ne">🪷</div><h4>Notion 工作區（YANMING OS）</h4>
-        <p>Command Center + 五大分區：研究脈絡、人物、每週回顧、產品敘事。</p>
+        <div class="ne">🪷</div><h4>Notion 工作區</h4>
+        <p>連接後：你的頁面、數據庫、待辦直接進面板。</p>
         <span class="go">查看六頁入口 →</span></a>
     </div>
 
@@ -149,7 +182,44 @@
       <div class="sub">選一張 → 滾輪縮放 · 拖曳平移 · ⛶ 全屏 · 點節點直達倉庫</div>
     </div>
     <div class="legend" id="legendMaps"></div>
-    <div id="mapsHost"></div>
+
+    <!-- ===== 活体地图控制台（ArchLive） ===== -->
+    <div id="liveMapPanel" style="background:#0F172A;border:1px solid #1E293B;border-radius:20px;padding:22px 24px;margin:18px 0 28px;color:#F8FAFC">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+        <div>
+          <div id="alTitle" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;letter-spacing:-.02em">正在从你的数据生成…</div>
+          <div id="alSub" style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#94A3B8;margin-top:4px">—</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <span id="alAiBadge" style="font-family:monospace;font-size:10px;letter-spacing:.12em;padding:5px 12px;border-radius:999px;background:#1E293B;color:#34D399">RULE-ENGINE</span>
+          <button id="alRegen" class="al-btn">↻ 重新生成</button>
+          <button id="alAiToggle" class="al-btn">🦙 本地 AI 判读</button>
+        <span style="width:1px;height:22px;background:#334155"></span>
+        <button id="alExpPng" title="导出 PNG" class="al-btn primary">PNG</button>
+        <button id="alExpSvg" title="导出 SVG" class="al-btn primary">SVG</button>
+        <button id="alExpJson" title="导出 JSON（可再导入回放）" class="al-btn primary">JSON</button>
+        <button id="alImpJson" title="导入地图 JSON" class="al-btn ai">导入</button>
+        <input type="file" id="alImpFile" accept=".json" style="display:none">
+        </div>
+      </div>
+      <div id="alAiPanel" style="display:none;margin-top:14px;padding:14px;border:1px solid #1E293B;border-radius:12px;background:#020617">
+        <div style="font-family:monospace;font-size:11px;color:#94A3B8;letter-spacing:.1em;margin-bottom:8px">OLLAMA 本地判读 — 数据不出你的机器</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <input id="alOllamaBase" value="http://127.0.0.1:11434" placeholder="Ollama 地址"
+            style="font-family:monospace;font-size:12px;padding:8px 12px;border-radius:8px;border:1px solid #334155;background:#0F172A;color:#F8FAFC;width:230px">
+          <select id="alModelSel" style="font-family:monospace;font-size:12px;padding:8px 12px;border-radius:8px;border:1px solid #334155;background:#0F172A;color:#F8FAFC;max-width:220px">
+            <option value="">— 先探测模型 —</option>
+          </select>
+          <button id="alProbe" class="al-btn primary">探测本地模型</button>
+          <button id="alRun" class="al-btn success">生成判读地图</button>
+        </div>
+        <div id="alAiMsg" style="font-family:monospace;font-size:11px;color:#94A3B8;margin-top:8px;line-height:1.7"></div>
+      </div>
+      <div id="alStage" style="margin-top:16px"></div>
+      <div id="alLegend" style="display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;font-family:monospace;font-size:10px;letter-spacing:.08em;color:#94A3B8"></div>
+    </div>
+
+    <div id="mapsHost" style="display:none"></div>
   </section>
 
   <!-- ================= 多平台工作區 ================= -->
@@ -158,8 +228,8 @@
       <h1>🧩 多平台工作區</h1>
       <div class="sub">GitHub · Notion · Google Sheets —— 每個平台的職責與入口一頁看完 · 未來：報告 PPT 視圖</div>
     </div>
-    <h2 class="section-title">🐙 GitHub 工作區（資產治理 · 本站）</h2>
-    <div class="section-sub">機器可驗證的真相源：資產卡片、評分、裁決、自動化部署都在這裡</div>
+    <h2 class="section-title">🐙 GitHub 資產</h2>
+    <div class="section-sub">資產卡片、評分、同步與部署狀態都在這裡</div>
     <div class="spec-grid">
       <a class="spec" href="https://github.com/Ya-MiC/yami-hub" target="_blank" rel="noopener">
         <h4>🐙 ya-mic-os · 總控（本站）</h4><p>全域資產治理、評分面板、裁決存檔、Pages 部署。</p><span class="go">打開倉庫 ↗</span></a>
@@ -172,8 +242,8 @@
       <a class="spec" href="https://github.com/" target="_blank" rel="noopener">
         <h4>🌳 action-tree · 戰略根 🔒</h4><p>湛箴產品線戰略總綱與工程規範（私有）。</p><span class="go">打開倉庫 ↗</span></a>
     </div>
-    <h2 class="section-title">🪷 Notion 工作區（YANMING OS · 6 頁）</h2>
-    <div class="section-sub">研究脈絡、人物、每週回顧、產品敘事 —— 人類思考的真相源</div>
+    <h2 class="section-title">🪷 Notion 工作區</h2>
+    <div class="section-sub">你的頁面與數據庫 · 授權時勾選的內容決定可見邊界</div>
     <div class="spec-grid" id="notionCards"></div>
     <h2 class="section-title">📊 Google Sheets 工作區</h2>
     <div class="section-sub">多平台總覽與任務 DDL —— 已同步進本站「🎯 任務」頁</div>
@@ -195,7 +265,7 @@
   <section class="page" id="page-tasks">
     <div class="page-head">
       <h1>🎯 任務 & DDL</h1>
-      <div class="sub">同步自 Google Sheets Tasks 表 · 倉庫數據每 6 小時自動刷新（關掉 ZCode 也照跑）</div>
+      <div class="sub">你的任務與 DDL · 連接 Notion 後自動對接你的待辦</div>
     </div>
     <div id="tasksDone"></div>
     <h2 class="section-title">待辦與截止</h2>
@@ -206,7 +276,7 @@
   <section class="page" id="page-algorithm">
     <div class="page-head">
       <h1>🧮 評分算法</h1>
-      <div class="sub">Skill 3.0 · 11 因子 → FinalSPI · 選倉庫看完整計算 · 頁尾有 Starred 候選評估（含立刻可做的整合動作）</div>
+      <div class="sub">11 因子 → FinalSPI · 選倉庫看完整計算 · 權重實驗室實時重算</div>
     </div>
     <div class="rules-card">
       <h3 style="font-weight:900;font-size:16px;">公式</h3>
@@ -226,7 +296,7 @@ FinalSPI = max(0, SPI − ForkPenalty)</div>
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;">
         <b style="font-weight:900;">評分模板：</b>
         <select class="algo-select" id="profileSelect" style="margin:0;max-width:380px;"></select>
-        <button class="btn-duo ghost" id="wReset">↺ 重置為 Skill 3.0 標準</button>
+        <button class="btn-duo ghost" id="wReset">↺ 重置為標準權重</button>
         <span class="muted" id="wSum"></span>
       </div>
       <div class="factors" id="weightSliders"></div>
@@ -248,7 +318,7 @@ FinalSPI = max(0, SPI − ForkPenalty)</div>
   <section class="page" id="page-decisions">
     <div class="page-head">
       <h1>🤖 自動化</h1>
-      <div class="sub">三條 GitHub Actions 流水線 7×24 跑在 GitHub 伺服器 · 離開 ZCode 一切照常運轉</div>
+      <div class="sub">部署與同步狀態一覽 · 數據連接後自動刷新，無需人工干預</div>
     </div>
     <div class="spec-grid">
       <a class="spec" href="https://docs.github.com/actions" target="_blank" rel="noopener">
@@ -278,7 +348,7 @@ FinalSPI = max(0, SPI − ForkPenalty)</div>
       <div class="spec"><h4>dsh</h4><p>AI 工具規範、Skills、同步接線的唯一真相源。</p></div>
       <div class="spec"><h4>action-tree</h4><p>湛箴產品線戰略總綱、業務規格與架構決策。</p></div>
       <div class="spec"><h4>audit-os</h4><p>審計產品工程 Backlog、規則引擎與驗證。</p></div>
-      <div class="spec"><h4>Notion YANMING OS</h4><p>研究素材、個人任務、作品資料、每週回顧。</p></div>
+      <div class="spec"><h4>Notion 工作區</h4><p>頁面、數據庫、任務——授權後自動同步。</p></div>
     </div>
     <h2 class="section-title">資產角色（8+1）</h2>
     <div class="spec-grid">
@@ -483,6 +553,8 @@ const STAR_USE = {
 const state = { board: 'ALL', lc: 'ALL', type: 'ALL', src: 'ALL', q: '', sort: 'spi', scat: 'ALL' };
 
 function boardOf(r) {
+  const ov = (typeof YamiBoard !== 'undefined') && YamiBoard.get(r.name);
+  if (ov) return ov;
   if (r.board) return r.board;
   const h = DOM2BOARD[r.primary_domain];
   if (h) return h;
@@ -507,7 +579,8 @@ function go(page) {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('backdrop').classList.remove('show');
   window.scrollTo({ top: 0 });
-  if (page === 'maps') renderMaps();
+  if (page === 'maps') { renderMaps(); ArchLiveBoot(); }
+  if (page === 'login') renderLoginLanding();
   if (page === 'connections') renderConnections();
 }
 document.querySelectorAll('.side-item[data-page]').forEach(s => s.addEventListener('click', () => go(s.dataset.page)));
@@ -539,6 +612,7 @@ function __fillDyn(repos) {
     const hr = document.getElementById('heroRepos'); if (hr) hr.textContent = nR;
     const hs = document.getElementById('heroStars'); if (hs) hs.textContent = nS;
     document.querySelectorAll('.dyn-repo-count').forEach(el => el.textContent = nR);
+    const ca = document.getElementById('cntAssets'); if (ca) ca.textContent = nR;
     document.querySelectorAll('.dyn-star-count').forEach(el => el.textContent = nS);
   } catch (e) {}
 }
@@ -570,9 +644,9 @@ function renderOverview(repos) {
   const top = [...repos].sort((a, b) => b.scores.FinalSPI - a.scores.FinalSPI).slice(0, 5);
   const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
   document.getElementById('podium').innerHTML = top.map((r, i) => `
-    <div class="p-row" data-name="${r.name}"><div class="p-medal">${medals[i]}</div>
-      <div class="p-main"><div class="p-name">${r.name}<span>${r.private ? '🔒 ' : ''}${BOARD_META[r.board].emoji} ${BOARD_META[r.board].name}</span></div>
-      <div class="p-line">${r.one_liner || '（無描述）'}</div></div>
+    <div class="p-row" data-name="${esc(r.name)}"><div class="p-medal">${medals[i]}</div>
+      <div class="p-main"><div class="p-name">${esc(r.name)}<span>${r.private ? '🔒 ' : ''}${BOARD_META[r.board].emoji} ${BOARD_META[r.board].name}</span></div>
+      <div class="p-line">${esc(r.one_liner) || '（無描述）'}</div></div>
       <div class="p-xp">${r.scores.FinalSPI.toFixed(2)}</div></div>`).join('');
   document.querySelectorAll('.p-row').forEach(p => p.addEventListener('click', () => openModal(p.dataset.name)));
 
@@ -611,7 +685,7 @@ function chipsRender() {
     .map(([v, l]) => `<span class="chip ${state.board === v ? 'on' : ''}" data-v="${v}">${l}</span>`).join('');
   bEl.querySelectorAll('.chip').forEach(c => c.onclick = () => { state.board = c.dataset.v; chipsRender(); paintAssets(); });
   const cats = [...new Set((STARS || []).map(s => STAR_CAT[s.name] || '其他'))];
-  chipRow('scatChips', [['ALL', '⭐ 全部領域'], ...cats.map(c => [c, `<span class="cdot" style="background:${STAR_CAT_COLOR[c] || '#999'}"></span>${c}`])], 'scat');
+  chipRow('scatChips', [['ALL', '⭐ 全部領域'], ...cats.map(c => [c, `<span class="cdot" style="background:${STAR_CAT_COLOR[c] || '#a0a4a2'}"></span>${c}`])], 'scat');
   const repos = fmtRepos();
   const lcs = [...new Set(repos.map(r => r.lifecycle))];
   chipRow('lcChips', [['ALL', '全部狀態'], ...lcs.map(k => [k, k + '·' + (LC_CN[k] || '')])], 'lc');
@@ -630,7 +704,7 @@ function assetCard(it) {
   if (it.kind === 'star') {
     const cat = it.cat || '其他';
     return `<a class="acard" href="${it.html_url}" target="_blank" rel="noopener" style="text-decoration:none">
-      <div class="row1"><div class="nm">⭐ ${it.name}</div><span class="pill star">★ ${Number(it.stars).toLocaleString()}</span></div>
+      <div class="row1"><div class="nm">⭐ ${esc(it.name)}</div><span class="pill star">★ ${Number(it.stars).toLocaleString()}</span></div>
       <div class="desc">${it.desc || '（無描述）'}</div>
       <div class="meta"><span class="btag"><span class="dot" style="background:${STAR_CAT_COLOR[cat] || '#999'}"></span>${cat}</span><span class="mtag">${it.obs === 'ADOPT 候選' ? '🟢 ADOPT 候選' : '📖 STUDY'}</span>${it.lang ? `<span class="mtag">${it.lang}</span>` : ''}</div>
     </a>`;
@@ -645,8 +719,8 @@ function assetCard(it) {
   const bm = BOARD_META[r.board] || {};
   const dlt = r.delta && Math.abs(r.delta) >= .5
     ? `<span class="delta ${r.delta > 0 ? 'up' : 'down'}">${r.delta > 0 ? '▲' : '▼'}${Math.abs(r.delta).toFixed(2)}</span>` : '';
-  return `<div class="acard" data-name="${r.name}">
-    <div class="row1"><div class="nm">${r.name}</div>${vis}${r.is_new ? '<span class="pill new">NEW</span>' : ''}${dMain ? `<span class="dec ${dMain[0]}">${dMain}</span>` : ''}
+  return `<div class="acard" data-name="${esc(r.name)}">
+    <div class="row1"><div class="nm">${esc(r.name)}</div>${vis}${r.is_new ? '<span class="pill new">NEW</span>' : ''}${dMain ? `<span class="dec ${dMain[0]}">${dMain}</span>` : ''}
       <a href="${r.html_url}" target="_blank" rel="noopener" title="在新視窗打開 GitHub" onclick="event.stopPropagation()">↗</a></div>
     <div class="desc">${desc}</div>
     <div class="meta"><span class="btag"><span class="dot" style="background:${bm.hex}"></span>${r.board} · ${bm.name || ''}</span><span class="mtag">${r.business_role}</span><span class="mtag">${LC_CN[r.lifecycle] || r.lifecycle}</span>${r.language ? `<span class="mtag">${r.language}</span>` : ''}${r.license ? `<span class="mtag">${r.license}</span>` : ''}</div>
@@ -746,7 +820,7 @@ const MAPS = {
   hr -.歸檔.-> os`,
     links: ['action-tree','dsh','hermes','ya-mic-os','zhanzhen','zhanzhen-server','zhanzhen-web','audit-os','audit-os-mobile','invoice-ocr-system','zhanzhen-handover','deepseek-harness'] },
   m2: { code: `flowchart LR
-  A["🔍 只讀盤點<br>59 + 42"]:::astB --> B["🧮 Skill 3.0<br>分類 + 評分"]:::astB
+  A["🔍 連接倉庫"]:::astB --> B["🧮 SPI<br>分類 + 評分"]:::astB
   B --> C{"U ≥ 6 ?"}:::astD
   C -->|是| D["🚦 人類裁決<br>30 秒 A–E"]:::astD
   C -->|否| E["📥 寫入<br>portfolio.json"]:::astA
@@ -1059,8 +1133,8 @@ const MAPS2 = {
   m2: { w: 1240, h: 430, build: () => {
     let b = '';
     const steps = [
-      ['🔍 只讀盤點', '59 + 42', 'B', 'https://github.com/Ya-MiC/yami-hub'],
-      ['🧮 分類+評分', 'Skill 3.0', 'B', 'https://github.com/Ya-MiC/yami-hub/blob/main/docs/skill-snapshot.md'],
+      ['🔍 只讀盤點', '你的帳號', 'B', 'https://github.com/Ya-MiC/yami-hub'],
+      ['🧮 分類+評分', 'SPI 引擎', 'B', 'https://github.com/Ya-MiC/yami-hub'],
       ['🚦 人類裁決', 'U≥6 → 30秒', 'D', 'https://github.com/Ya-MiC/yami-hub/issues?q=label%3Ahuman-review'],
       ['📥 寫入', 'portfolio.json', 'A', 'https://github.com/Ya-MiC/yami-hub/blob/main/data/portfolio.json'],
       ['🗂 八面板', '+ 儀表盤', 'A', 'https://ya-mic.github.io/ya-mic-os/'],
@@ -1577,7 +1651,7 @@ function initAlgo(repos) {
   const sel = document.getElementById('algoSelect');
   sel.innerHTML = '<option value="">— 選擇倉庫 —</option>' +
     [...repos].sort((a, b) => b.scores.FinalSPI - a.scores.FinalSPI)
-      .map(r => `<option value="${r.name}">${r.name}（${r.scores.FinalSPI.toFixed(2)}）</option>`).join('');
+      .map(r => `<option value="${esc(r.name)}">${esc(r.name)}（${r.scores.FinalSPI.toFixed(2)}）</option>`).join('');
   sel.addEventListener('change', () => {
     const r = repos.find(x => x.name === sel.value);
     if (!r) { document.getElementById('algoOut').innerHTML = ''; return; }
@@ -1593,7 +1667,7 @@ function paintStarEval() {
     <table class="dtable"><thead><tr><th>Starred</th><th>★</th><th>領域</th><th>現在就能怎麼用</th></tr></thead>
     <tbody>${withUse.map(s => {
       const cat = STAR_CAT[s.name] || '其他';
-      return `<tr><td class="dl"><a href="https://github.com/${s.name}" target="_blank" rel="noopener">${s.name} ↗</a></td>
+      return `<tr><td class="dl"><a href="https://github.com/${esc(s.name)}" target="_blank" rel="noopener">${esc(s.name)} ↗</a></td>
         <td>${Number(s.stars).toLocaleString()}</td>
         <td><span class="btag"><span class="dot" style="background:${STAR_CAT_COLOR[cat] || '#999'}"></span>${cat}</span></td>
         <td>${STAR_USE[s.name]}</td></tr>`;
@@ -1615,7 +1689,7 @@ function paintDeltaRank(repos) {
     <table class="dtable"><thead><tr><th>倉庫</th><th>基線</th><th>動態</th><th>Δ</th><th>主因</th></tr></thead>
     <tbody>${moved.map(r => {
       const d = r.delta, up = d > 0;
-      return `<tr><td class="dl"><a href="${r.html_url}" target="_blank" rel="noopener">${r.name} ↗</a>${r.private ? ' 🔒' : ''}</td>
+      return `<tr><td class="dl"><a href="${r.html_url}" target="_blank" rel="noopener">${esc(r.name)} ↗</a>${r.private ? ' 🔒' : ''}</td>
         <td>${r.scores.baseline.toFixed(2)}</td><td><b>${r.scores.FinalSPI.toFixed(2)}</b></td>
         <td><span class="delta ${up ? 'up' : 'down'}">${up ? '▲' : '▼'}${Math.abs(d).toFixed(2)}</span></td>
         <td>距上次推送 ${Math.floor((Date.now() - new Date(r.pushed_at)) / 86400000)} 天</td></tr>`;
@@ -1629,7 +1703,7 @@ function paintDecisions() {
     const spi = r ? r.scores.FinalSPI.toFixed(2) : '—';
     return `<tr><td class="dl"><a href="https://github.com/${repo}" target="_blank" rel="noopener">${repo} ↗</a>${r && r.private ? ' 🔒' : ''}</td>
       <td><span class="dec ${letter[0]}">${letter}</span></td><td>${note}</td><td>${spi}</td>
-      <td><a href="https://github.com/${s.name}/issues" target="_blank" rel="noopener">${iss} ↗</a></td></tr>`;
+      <td><a href="https://github.com/${esc(s.name)}/issues" target="_blank" rel="noopener">${iss} ↗</a></td></tr>`;
   }).join('');
   document.getElementById('decTable').innerHTML = `
     <table class="dtable"><thead><tr><th>倉庫</th><th>裁決</th><th>說明</th><th>FinalSPI</th><th>Issue</th></tr></thead>
@@ -1641,7 +1715,7 @@ function openModal(name) {
   const r = fmtRepos().find(x => x.name === name);
   if (!r) return;
   const bm = BOARD_META[r.board] || {};
-  document.getElementById('mName').textContent = `${bm.emoji || ''} ${r.name}` + (r.private ? ' 🔒' : '');
+  document.getElementById('mName').textContent = `${bm.emoji || ''} ${esc(r.name)}` + (r.private ? ' 🔒' : '');
   document.getElementById('mSub').textContent = `${r.board} · ${bm.name} · ${r.primary_domain} · ${r.business_role} · ${r.lifecycle} · ${LC_CN[r.lifecycle] || ''}${r.license ? ' · ' + r.license : ''}`;
   document.getElementById('mDesc').textContent = (r.description && r.description.length > 3 ? r.description : r.one_liner) || '（無描述）';
   const b = breakdownHTML(r);
@@ -1749,13 +1823,46 @@ const YamiLive = {
 function yamiWelcomeHTML() {
   return '<div style="max-width:680px;margin:8vh auto 0;text-align:center;padding:0 20px">'
     + '<div style="font-size:56px;line-height:1">🐙</div>'
-    + '<h1 style="margin:22px 0 10px;font-size:30px;letter-spacing:-.01em">歡迎來到 YamiHub 面板</h1>'
-    + '<p style="color:var(--ink-2);font-size:16px;line-height:1.8;max-width:480px;margin:0 auto 26px">'
+    + '<h1 style="margin:22px 0 10px;font-size:28px;letter-spacing:-.01em">歡迎來到 YamiHub 面板</h1>'
+    + '<p style="color:var(--ink-2);font-size:15px;line-height:1.8;max-width:480px;margin:0 auto 26px">'
     + '請登陸帳號，開始豐富自己的生活——<br>有系統地認識這一切，熱愛生活吧。</p>'
     + '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'
-    + '<a class="btn-duo" href="#" onclick="go(\'connections\');return false" style="text-decoration:none">🔗 連接 GitHub</a>'
-    + '<a class="btn-duo ghost" href="#" onclick="go(\'guide\');return false" style="text-decoration:none">先看看 demo →</a>'
-    + '</div></div>';
+    + '<a class="btn-duo" href="/api/oauth/github/start">🐙 連接 GitHub</a>'
+    + '<a class="btn-duo ghost" href="/api/oauth/notion/start">🪷 連接 Notion</a>'
+    + '<a class="btn-duo ghost" href="/api/oauth/google/start">🌐 連接 Google</a>'
+    + (window.__demoAvailable ? '<a class="btn-duo ghost" href="#" onclick="yamiLoadDemo();return false">先看 demo 效果 →</a>' : '')
+    + '</div>';
+  // 三平台状态卡（欢迎态首屏即登录界面）
+  fetch('/api/connections').then(function (r) { return r.json(); }).then(function (st) {
+    const META = [['github','🐙 GitHub','倉庫資產 / 身份'],['notion','🪷 Notion','工作區頁面'],['google','🌐 Google','帳號 / Drive']];
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'max-width:640px;margin:26px auto 0;display:grid;gap:10px';
+    wrap.innerHTML = META.map(function (m) {
+      const id = m[0], name = m[1], desc = m[2];
+      const s = (st.providers || {})[id] || {};
+      let state, btn;
+      if (!st.kv) { state = '未綁定 KV'; btn = '<button class="btn-duo ghost" disabled style="font-size:12px;padding:6px 13px">連接</button>'; }
+      else if (!s.configured) { state = '未配置 ' + (s.missing || []).join(','); btn = '<button class="btn-duo ghost" disabled style="font-size:12px;padding:6px 13px">連接</button>'; }
+      else if (s.connected) { state = '已連接 ' + (s.label || id); btn = '<a class="btn-duo ghost" href="#" onclick="go(\'connections\');return false" style="font-size:12px;padding:6px 13px">管理</a>'; }
+      else { state = '準備就緒'; btn = '<a class="btn-duo" href="/api/oauth/' + id + '/start" style="text-decoration:none;font-size:12px;padding:6px 14px">連接</a>'; }
+      return '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px">'
+        + '<div style="text-align:left"><div style="font-weight:600;font-size:14px">' + name + '</div>'
+        + '<div style="font-size:12px;color:var(--ink-3);margin-top:2px">' + desc + ' · ' + state + '</div></div>' + btn + '</div>';
+    }).join('');
+    const host2 = document.querySelector('#page-overview');
+    if (host2) host2.appendChild(wrap);
+  }).catch(function () {});
+}
+
+async function yamiLoadDemo() {
+  if (window.__demoAvailable === false) { console.log('demo 已由部署者關閉'); return; }
+  PF = await (await fetch('public/data/portfolio.json')).json();
+  window.__demoAvailable = false;
+  const host = document.querySelector('#page-overview');
+  if (host) { delete host.dataset.welcomed; }
+  const repos2 = fmtRepos();
+  renderOverview(repos2); chipsRender(); paintAssets(); initAlgo(repos2);
+  go('overview');
 }
 
 function yamiPatchOverview() {
@@ -1773,6 +1880,339 @@ function yamiPatchOverview() {
 const _go = go;
 go = function(page) { _go(page); if (page === 'overview') yamiPatchOverview(); };
 
+
+/* ---------- Toast 通知 ---------- */
+function toast(msg, kind) {
+  let wrap = document.getElementById('toastWrap');
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.id = 'toastWrap';
+    wrap.style.cssText = 'position:fixed;top:18px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none';
+    document.body.appendChild(wrap);
+  }
+  const t = document.createElement('div');
+  t.style.cssText = 'pointer-events:auto;min-width:200px;max-width:340px;padding:12px 16px;border-radius:12px;background:var(--card);border:1px solid ' + (kind === 'err' ? 'var(--red,#ff4b4b)' : 'var(--lime-deep,#58cc02)') + ';box-shadow:var(--shadow-lg,0 10px 30px rgba(0,0,0,.12));font-size:13px;color:var(--ink);transform:translateX(24px);opacity:0;transition:transform .18s ease,opacity .18s ease';
+  t.textContent = msg;
+  wrap.appendChild(t);
+  requestAnimationFrame(function () { t.style.transform = 'none'; t.style.opacity = '1'; });
+  setTimeout(function () { t.style.opacity = '0'; t.style.transform = 'translateX(24px)'; setTimeout(function () { t.remove(); }, 200); }, 3600);
+}
+
+/* ---------- 全局 XSS 防护 ---------- */
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+/* ---------- YamiVault 本地保險箱（v0.2） ----------
+ * 同步的倉庫數據用 AES-256-GCM 加密後存 localStorage；口令只用於派生密鑰，不存儲。
+ * 服務端零知識：保險箱完全在瀏覽器本地，換瀏覽器/清緩存 = 重新同步。 */
+const YamiVault = {
+  KEY_STORAGE: 'yamiHub.vault.pass',
+  DATA_KEY: 'yamiHub.vault.data',
+  async _deriveKey(pass, salt) {
+    const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 250000, hash: 'SHA-256' },
+      km, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+  },
+  async save(repos) {
+    try {
+      let pass = localStorage.getItem(this.KEY_STORAGE);
+      if (!pass) {
+        pass = ''; const abc = 'abcdefghjkmnpqrstuvwxyz23456789';
+        const arr = crypto.getRandomValues(new Uint8Array(20));
+        for (const b of arr) pass += abc[b % abc.length];
+        localStorage.setItem(this.KEY_STORAGE, pass);
+      }
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const key = await this._deriveKey(pass, salt);
+      const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key,
+        new TextEncoder().encode(JSON.stringify({ savedAt: new Date().toISOString(), repositories: repos }))));
+      const packed = new Uint8Array(16 + 12 + ct.length);
+      packed.set(salt, 0); packed.set(iv, 16); packed.set(ct, 28);
+      localStorage.setItem(this.DATA_KEY, btoa(String.fromCharCode(...packed)));
+      return pass; // 首次生成時顯示給用戶
+    } catch (e) { return null; }
+  },
+  async tryRestore() {
+    try {
+      const b64 = localStorage.getItem(this.DATA_KEY);
+      if (!b64) return null;
+      const pass = localStorage.getItem(this.KEY_STORAGE);
+      if (!pass) return null;
+      const bin = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+      const salt = bin.slice(0, 16), iv = bin.slice(16, 28), ct = bin.slice(28);
+      const key = await this._deriveKey(pass, salt);
+      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct);
+      const j = JSON.parse(new TextDecoder().decode(plain));
+      if (j && Array.isArray(j.repositories) && j.repositories.length) return j;
+      return null;
+    } catch (e) { return null; }
+  },
+  showPassOnce(pass) {
+    if (!pass) return;
+    const b = document.getElementById('connBanner');
+    if (b) b.innerHTML = '✅ 同步完成。本地保險箱已用隨機口令加密（自動記憶，無需抄寫；清除瀏覽器數據會要求重新同步）。';
+    if (b) b.classList.add('show');
+  },
+};
+
+/* ---------- 登錄首屏邏輯 ---------- */
+const LOGIN_META = {
+  github: {
+    name: 'GitHub', glyph: '🐙',
+    desc: '倉庫資產 · 身份 · 即時同步',
+    perks: ['拉取你的全部倉庫（含你有權限的私有庫）自動入庫評分', '星標清單按領域分區進畫廊', 'SPI 評分 / 資產地圖 / 權重實驗室全部跟著你的數據走'],
+    scopes: '讀權限：read:user · repo（讀取含私有倉庫；永不寫你的任何倉庫）',
+  },
+  notion: {
+    name: 'Notion', glyph: '🪷',
+    desc: '工作區頁面 · 數據庫 · 任務流',
+    perks: ['讀取你在授權時勾選的頁面與數據庫', '任務 & DDL 頁直接對接你的 Notion 待辦', '沒勾選的頁面面板永遠看不到——邊界由你掌握'],
+    scopes: '授權時可隨時勾選/取消共享頁面範圍',
+  },
+  google: {
+    name: 'Google', glyph: '🌐',
+    desc: '帳號身份 · Drive（二期接入）',
+    perks: ['驗證你的身份用於面板個性化', 'v0.3 起：Drive 文檔接入資產畫廊', 'Testing 模式：僅測試名單內帳號可登錄'],
+    scopes: '當前僅 openid + email，不動你的雲盤',
+  },
+};
+let __loginState = null;
+async function renderLoginLanding() {
+  const host = document.getElementById('loginCards');
+  if (!host) return;
+  if (!__loginState) {
+    try { __loginState = await (await fetch('/api/connections')).json(); }
+    catch (e) { __loginState = { providers: {}, kv: false }; }
+  }
+  const st = __loginState;
+  const de2 = document.getElementById('demoEntry2');
+  if (de2 && window.__demoAvailable !== undefined) {
+    de2.innerHTML = window.__demoAvailable
+      ? '<a href="#" onclick="yamiLoadDemo();return false" style="color:var(--ink-3);font-size:13px;text-decoration:none;border-bottom:1px dashed var(--line)">暫不登錄，先看 demo 效果 →</a>'
+      : '';
+  }
+  const active = host.dataset.tab || 'github';
+  // 標籤 active 態
+  document.querySelectorAll('#loginTabs .lt-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === active));
+  const m = LOGIN_META[active];
+  const s = (st.providers || {})[active] || {};
+  let status, cta;
+  if (!st.kv) {
+    status = '⚠ 部署端還沒綁定 KV——到 Cloudflare「設置 → 綁定」添加 KV 命名空間，變量名必須是 KV，然後重新部署。';
+    cta = '<a class="lt-cta disabled">暫不可連接</a>';
+  } else if (!s.configured) {
+    status = '⚠ 缺環境變量：' + (s.missing || []).join(', ') + '。自查三步：① 變量加在「生產環境」區 ② 名字逐字核對 ③ 配完重新拖一次部署包。';
+    cta = '<a class="lt-cta disabled">暫不可連接</a>';
+  } else if (s.connected) {
+    status = '✅ 已連接 ' + esc(s.label || active) + '——<a href="#" onclick="go(\'overview\');return false" style="color:inherit">進入面板 →</a>';
+    cta = '<a class="lt-cta" href="/api/oauth/' + active + '/start">重新授權</a>';
+  } else {
+    status = '準備就緒 · ' + esc(m.scopes);
+    cta = '<a class="lt-cta" href="/api/oauth/' + active + '/start">連接 ' + esc(m.name) + ' →</a>';
+  }
+  host.dataset.tab = active;
+  host.innerHTML = '<div class="lt-card">'
+    + '<h3>' + m.glyph + ' ' + esc(m.name) + '</h3>'
+    + '<div class="sub">' + esc(m.desc) + '</div>'
+    + '<ul>' + m.perks.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul>'
+    + cta
+    + '<div class="lt-status">' + status + '</div>'
+    + '</div>';
+  host.querySelectorAll('#loginTabs .lt-tab').forEach(b => b.onclick = function () { host.dataset.tab = b.dataset.tab; renderLoginLanding(); });
+}
+
+/* ---------- 主题切换 ---------- */
+(function () {
+  const KEY = 'yamiTheme';
+  function apply(t) {
+    if (t === 'auto') { document.documentElement.removeAttribute('data-theme'); }
+    else { document.documentElement.setAttribute('data-theme', t); }
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+    const b = document.getElementById('themeToggle');
+    if (b) b.querySelector('.btxt').textContent = t === 'dark' ? '深色' : t === 'light' ? '淺色' : '主題';
+  }
+  let cur = 'auto';
+  try { cur = localStorage.getItem(KEY) || 'auto'; } catch (e) {}
+  apply(cur);
+  document.addEventListener('DOMContentLoaded', function () {
+    const b = document.getElementById('themeToggle');
+    if (b) b.addEventListener('click', function () {
+      const order = ['auto', 'light', 'dark'];
+      const now = document.documentElement.getAttribute('data-theme') || 'auto';
+      apply(order[(order.indexOf(now) + 1) % 3]);
+    });
+  });
+})();
+
+/* ---------- 分類建議複核流（v0.3 Suggest-Accept） ----------
+ * 規則引擎按倉庫描述自動建議分區（P/T/R/I/F），用戶逐條接受或改判。
+ * 覆蓋結果存 localStorage（yamiHub.boardOverrides），renderOverview 前套用。 */
+const YamiBoard = {
+  KEY: 'yamiHub.boardOverrides',
+  load() { try { return JSON.parse(localStorage.getItem(this.KEY) || '{}'); } catch (e) { return {}; } },
+  save(o) { try { localStorage.setItem(this.KEY, JSON.stringify(o)); } catch (e) {} },
+  set(name, board) { const o = this.load(); o[name] = board; this.save(o); },
+  get(name) { return this.load()[name] || null; },
+};
+
+let __suggestQueue = null;
+function suggestBoardOf(r) {
+  // 與 archify-live.classifyRepo 同思路，但產出五分區（P/T/R/I/F）
+  const hay = ((r.name || '') + ' ' + (r.one_liner || '') + ' ' + (r.description || '')).toLowerCase();
+  if (r.fork) return 'F';
+  if (/agent|skill|prompt|ocr|llm|rag|automat|tool|cli|plugin/.test(hay)) return 'T';
+  if (/study|learn|note|quant|trading|research|economics|tutorial/.test(hay)) return 'R';
+  if (/infra|deploy|docker|runner|ci|cd|dns|proxy|monitor|worker/.test(hay)) return 'I';
+  if (/panel|site|web|app|saas|platform|dashboard|blog|portfolio|system/.test(hay)) return 'P';
+  return 'T';
+}
+function openBoardSuggestions(repos) {
+  const overrides = YamiBoard.load();
+  __suggestQueue = repos.filter(r => !overrides[r.name]).slice(0, 12); // 一次最多 12 條建議
+  if (!__suggestQueue.length) return;
+  renderSuggestCard();
+}
+function renderSuggestCard() {
+  let host = document.getElementById('suggestCard');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'suggestCard';
+    host.style.cssText = 'position:fixed;right:20px;bottom:20px;width:340px;max-height:70vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-lg);padding:16px 18px;z-index:99;font-size:13px';
+    document.body.appendChild(host);
+  }
+  if (!__suggestQueue || !__suggestQueue.length) { host.remove(); return; }
+  const r = __suggestQueue[0];
+  const sug = suggestBoardOf(r);
+  const BOARDS = [['P','🟣 產品線'],['T','🟢 工具/Agent'],['R','🔵 研究/學習'],['I','🟠 基礎設施'],['F','🍴 Fork']];
+  host.innerHTML = '<div style="font-weight:700;margin-bottom:4px">🧠 分類建議 <span style="color:var(--ink-3);font-weight:400;font-size:11px">（規則引擎 · 你說了算）</span></div>'
+    + '<div style="background:var(--bg-soft);border-radius:10px;padding:10px 12px;margin-bottom:10px">'
+    + '<b>' + esc(r.name) + '</b><div style="color:var(--ink-3);font-size:12px;margin-top:2px">' + esc((r.one_liner || r.description || '').slice(0, 60)) + '</div></div>'
+    + '<div style="margin-bottom:8px">建議分區：<b>' + sug + '</b></div>'
+    + '<div style="display:flex;gap:6px;flex-wrap:wrap">'
+    + BOARDS.map(([k, label]) => k === sug
+        ? '<button class="bs-btn" data-b="' + k + '" style="background:var(--ink);color:var(--bg)">' + label + ' ✓</button>'
+        : '<button class="bs-btn" data-b="' + k + '">' + label + '</button>').join('')
+    + '</div>'
+    + '<div style="display:flex;justify-content:space-between;margin-top:10px">'
+    + '<button id="bsSkip" style="background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:12px">跳過</button>'
+    + '<span style="color:var(--ink-3);font-size:11px">' + __suggestQueue.length + ' 條待確認</span></div>'
+    + '<style>.bs-btn{font:inherit;font-size:12px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:transparent;cursor:pointer}.bs-btn:hover{border-color:var(--ink-3)}</style>';
+  host.querySelectorAll('.bs-btn').forEach(b => b.onclick = function () {
+    YamiBoard.set(r.name, this.dataset.b);
+    __suggestQueue.shift();
+    renderSuggestCard();
+    if (!__suggestQueue.length) { host.remove(); chipsRender(); paintAssets(); }
+  });
+  document.getElementById('bsSkip').onclick = function () { __suggestQueue.shift(); renderSuggestCard(); };
+}
+
+/* ---------- ArchLive 活体地图 ---------- */
+let __alMap = null, __alBooted = false;
+window.__invalidateMap = function () { __alBooted = false; __alMap = null; const host = document.getElementById('alStage'); if (host) host.innerHTML = ''; };
+function ArchLiveBoot() {
+  if (__alBooted) { ArchLivePaint(); return; }
+  __alBooted = true;
+  const repos = (PF.repositories || []);
+  document.getElementById('alRegen').addEventListener('click', () => { __alMap = ArchLive.buildMap(repos); ArchLivePaint(); });
+  document.getElementById('alAiToggle').addEventListener('click', () => {
+    const p = document.getElementById('alAiPanel');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  });
+  document.getElementById('alProbe').addEventListener('click', async () => {
+    const msg = document.getElementById('alAiMsg');
+    msg.textContent = '探测中…';
+    try {
+      const models = await ArchLive.Ollama.probe(document.getElementById('alOllamaBase').value.trim());
+      const sel = document.getElementById('alModelSel');
+      sel.innerHTML = models.length
+        ? models.map(m => '<option value="' + m + '">' + m + '</option>').join('')
+        : '<option value="">（本地没有任何模型 — 先 ollama pull 一个）</option>';
+      msg.textContent = models.length ? '找到 ' + models.length + ' 个本地模型 ✓' : 'Ollama 在线但没有模型：先运行 ollama pull qwen2.5:7b';
+    } catch (e) {
+      msg.innerHTML = '❌ ' + e.message + '<br>提示：https 面板连本地 Ollama 需要 ① 设置 OLLAMA_ORIGINS 环境变量包含本面板地址并重启 Ollama；② 浏览器地址栏允许"不安全内容"（Chrome: 地址栏右侧设置→不安全内容→允许）。用 localhost 域名部署的面板则开箱即用。';
+    }
+  });
+  document.getElementById('alRun').addEventListener('click', async () => {
+    const msg = document.getElementById('alAiMsg');
+    const model = document.getElementById('alModelSel').value;
+    if (!model) { msg.textContent = '先探测并选择一个模型'; return; }
+    msg.textContent = '本地 AI 判读中…（' + model + '，数据不离开你的机器）';
+    try {
+      const ai = await ArchLive.Ollama.interpret(model, repos, document.getElementById('alOllamaBase').value.trim());
+      __alMap = ArchLive.applyAI(ArchLive.buildMap(repos), ai);
+      document.getElementById('alAiBadge').textContent = 'LOCAL-AI · ' + model;
+      ArchLivePaint();
+      msg.textContent = '✓ 本地判读完成：' + (ai.title || '') + ' — ' + (ai.subtitle || '');
+    } catch (e) { msg.textContent = '❌ ' + e.message; }
+  });
+  __alMap = ArchLive.buildMap(repos);
+  ArchLivePaint();
+}
+function ArchLivePaint() {
+  const stage = document.getElementById('alStage');
+  if (!__alMap) {
+    stage.innerHTML = '<div style="text-align:center;padding:50px 20px;color:#94A3B8;font-family:monospace">'
+      + '<div style="font-size:40px">🗺️</div>'
+      + '<div style="margin-top:12px;font-size:13px">还没有数据 — 连接 GitHub 并同步后，这里会长出你的资产地图</div>'
+      + '<button onclick="go(\'connections\')" style="margin-top:16px;font-family:monospace;font-size:12px;padding:9px 18px;border-radius:10px;border:1px solid #22D3EE;background:transparent;color:#22D3EE;cursor:pointer">去连接 →</button></div>';
+    document.getElementById('alTitle').textContent = '空地图';
+    document.getElementById('alSub').textContent = '等待你的数据';
+    return;
+  }
+  stage.innerHTML = ArchLive.renderSVG(__alMap);
+  document.getElementById('alTitle').textContent = __alMap.title;
+  document.getElementById('alSub').textContent = (__alMap.subtitle || '') + ' · 泳道 ' + (__alMap.stats.lanes || 0) + ' · 渲染 ' + (__alMap.stats.rendered || 0) + '/' + (__alMap.stats.total || 0) + ' 倉庫';
+  document.getElementById('alAiBadge').textContent = __alMap.source.startsWith('local-ai') ? 'LOCAL-AI' : 'RULE-ENGINE';
+  const L = { frontend: '前端', backend: '业务', database: '数据', cloud: '基建', messagebus: 'AI 流', external: '外围' };
+  document.getElementById('alLegend').innerHTML = Object.entries(__alMap.stats.types || {})
+    .map(([t, c]) => '<span style="display:inline-flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:3px;background:' + ArchLive.PALETTE[t] + '"></span>' + (L[t] || t) + ' · ' + c + '</span>').join('');
+  // 導出導入（archify 契約：JSON 是真相源）
+  document.getElementById('alExpPng').onclick = function () { if (__alMap) ArchLive.exportPNG(__alMap, 2); };
+  document.getElementById('alExpSvg').onclick = function () { if (__alMap) ArchLive.exportSVG(__alMap); };
+  document.getElementById('alExpJson').onclick = function () { if (__alMap) ArchLive.exportJSON(__alMap); };
+  document.getElementById('alImpJson').onclick = function () { document.getElementById('alImpFile').click(); };
+  document.getElementById('alImpFile').onchange = function (ev) {
+    const f = ev.target.files[0];
+    if (!f) return;
+    const rd = new FileReader();
+    rd.onload = function () {
+      try {
+        __alMap = ArchLive.importJSON(String(rd.result));
+        document.getElementById('alAiBadge').textContent = 'IMPORTED';
+        ArchLivePaint();
+      } catch (e) { toast('導入失敗：' + e.message); }
+    };
+    rd.readAsText(f);
+  };
+
+  // 主路徑逐步播放：點 ▶ 依次點亮主路徑節點
+  const playBtnId = 'alPlayBtn';
+  let old = document.getElementById(playBtnId);
+  if (old) old.remove();
+  const pb = document.createElement('button');
+  pb.id = playBtnId;
+  pb.textContent = '▶ 播放主路徑';
+  pb.className = 'al-btn ai'; pb.style.marginLeft = '8px';
+  document.getElementById('alAiBadge').parentElement.appendChild(pb);
+  const mainNodes = [...stage.querySelectorAll('g.al-node')];
+  let playTimer = null;
+  pb.addEventListener('click', function () {
+    if (playTimer) { clearInterval(playTimer); playTimer = null; pb.textContent = '▶ 播放主路徑'; mainNodes.forEach(g => g.style.opacity = ''); return; }
+    let i = 0;
+    pb.textContent = '⏸ 暫停';
+    const dim = () => mainNodes.forEach((g, gi) => g.style.opacity = gi <= i ? '' : '.25');
+    dim();
+    playTimer = setInterval(function () {
+      i++;
+      if (i >= mainNodes.length) { clearInterval(playTimer); playTimer = null; pb.textContent = '▶ 播放主路徑'; mainNodes.forEach(g => g.style.opacity = ''); return; }
+      dim();
+    }, 900);
+  });
+  stage.querySelectorAll('.al-node[data-href]').forEach(el => {
+    if (el.dataset.href) el.addEventListener('click', () => window.open(el.dataset.href, '_blank', 'noopener'));
+  });
+}
+
 /* ---------- 平台連接（YamiHub） ---------- */
 const CONN_META = [
   { id: 'github', name: 'GitHub', desc: '倉庫資產 / OAuth 身份' },
@@ -1785,21 +2225,30 @@ function connBanner(msg, isErr) {
   b.textContent = msg; b.style.display = 'block';
   b.classList.toggle('show', true); if (!isErr) b.classList.add('show');
 }
+function paintKvDot(kv) {
+  const d = document.getElementById('kvDotInner'), t = document.getElementById('kvDotText');
+  if (!d) return;
+  d.style.background = kv ? 'var(--lime-deep,#58cc02)' : 'var(--line)';
+  if (t) t.textContent = kv ? 'KV' : '';
+  const s = document.getElementById('kvDot');
+  if (s) s.title = kv ? 'KV 已綁定 — 會話與令牌存儲就緒' : '未綁定 KV — Pages 設置 → 綁定添加（變量名 KV）';
+}
 async function renderConnections() {
   const host = document.getElementById('connCards');
   if (host.dataset.done !== '1') {
     try { CONN_STATE = await (await fetch('/api/connections')).json(); }
     catch (e) { CONN_STATE = { providers: {}, kv: false }; }
     host.dataset.done = '1';
+    paintKvDot(CONN_STATE.kv);
   }
   const st = CONN_STATE || { providers: {} };
   host.innerHTML = CONN_META.map(p => {
     const s = st.providers[p.id] || {};
     let sub, btn;
-    if (!st.kv) { sub = '未绑定 KV（变量名必须是 KV）'; btn = '<button disabled>连接</button>'; }
-    else if (!s.configured) { sub = '未配置环境变量：' + (s.missing || []).join('、'); btn = '<button disabled>连接</button>'; }
-    else if (s.connected) { sub = '已连接 ' + (s.label || p.id); btn = '<button data-disc="' + p.id + '">断开</button>'; }
-    else { sub = '未连接'; btn = '<button data-conn="' + p.id + '">连接</button>'; }
+    if (!st.kv) { sub = '未绑定 KV（变量名必须是 KV）'; btn = '<button class="btn-duo ghost" disabled>连接</button>'; }
+    else if (!s.configured) { sub = '未配置环境变量：' + (s.missing || []).join('、') + '（自查：①变量是否在「生产环境」区 ②名字逐字核对 ③配了之后有没有重新拖一次部署包）'; btn = '<button disabled>连接</button>'; }
+    else if (s.connected) { sub = '已连接 ' + esc(s.label || p.id); btn = '<button class="btn-duo ghost" data-disc="' + p.id + '">断开</button>'; }
+    else { sub = '未连接'; btn = '<button class="btn-duo" data-conn="' + p.id + '">连接</button>'; }
     return '<div class="spec"><h4>' + p.name + '</h4><p>' + p.desc + ' · ' + sub + '</p>' + btn + '</div>';
   }).join('');
   host.querySelectorAll('[data-conn]').forEach(b => b.addEventListener('click', () => { location.href = '/api/oauth/' + b.dataset.conn + '/start'; }));
@@ -1815,6 +2264,9 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
   out.textContent = '同步中…';
   try {
     const repos2 = await YamiLive.sync();
+    try { const pass = await YamiVault.save(repos2); YamiVault.showPassOnce(pass); } catch (e) {}
+    try { openBoardSuggestions(repos2); } catch (e) {}
+    window.__invalidateMap();
     renderOverview(repos2); chipsRender(); paintAssets(); initAlgo(repos2);
     out.textContent = '已拉取 ' + j.repositories.length + ' 个仓库（刷新页面恢复 demo 数据）';
     go('assets');
@@ -1822,7 +2274,19 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
 });
 
 (async function boot() {
-  PF = await (await fetch('public/data/portfolio.json')).json();
+  // 未连接 → 空面板（欢迎态 0）；demo 数据按需加载
+  let connected = false;
+  try {
+    const st = await (await fetch('/api/connections')).json();
+    connected = st.kv && Object.values(st.providers || {}).some(p => p && p.connected);
+  } catch (e) { connected = false; }
+  if (!connected) window.__forceLoginLanding = true;
+  try { const cfg = await (await fetch('/api/config')).json(); window.__demoAvailable = !!cfg.demoMode; } catch (e) { window.__demoAvailable = false; }
+  if (connected) {
+    PF = await (await fetch('public/data/portfolio.json')).json();
+  } else {
+    PF = { repositories: [], stats: { total: 0, public: 0, private: 0, forks: 0 }, top5_final_spi: [], auto_synced_at: null, by_board: {}, by_lifecycle: {}, by_role: {}, by_domain: {}, top5_risks: [] };
+  }
   try { TASKS = await (await fetch('public/data/tasks.json')).json(); } catch (e) {}
   try {
     STARS = await (await fetch('public/data/starred.json')).json();
@@ -1836,6 +2300,30 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
   });
   const repos = fmtRepos();
   const movedCount = window.Scoring ? Scoring.applyAll(repos) : 0;
+  // v0.2: 登錄首屏路由 / 保險箱還原 / 自動同步（在首屏渲染前完成路由決策）
+  (async function postBoot() {
+    if (window.__forceLoginLanding) { go('login'); return; }
+    if (window.__demoAvailable) { go('login'); return; }
+    // 已連接：嘗試從本地保險箱還原上次同步
+    const restored = await YamiVault.tryRestore();
+    if (restored) {
+      const r2 = YamiLive.apply(restored.repositories);
+      renderOverview(r2); chipsRender(); paintAssets(); initAlgo(r2);
+      window.__invalidateMap();
+      go('overview');
+      return;
+    }
+    // 無存檔 → 自動同步一次（已連接場景）
+    try {
+      const r2 = await YamiLive.sync();
+      const pass = await YamiVault.save(r2);
+      renderOverview(r2); chipsRender(); paintAssets(); initAlgo(r2);
+      YamiVault.showPassOnce(pass);
+      openBoardSuggestions(r2);
+      window.__invalidateMap();
+      go('overview');
+    } catch (e) { go('overview'); }
+  })();
   renderOverview(repos);
   chipsRender(); paintAssets();
   paintNotion(); paintTasks();
