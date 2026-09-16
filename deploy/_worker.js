@@ -462,6 +462,88 @@ async function handleFeed(env, url) {
   return json({ ok: true, sources: results, available: Object.keys(FEED_SOURCES).map((k) => ({ id: k, name: FEED_SOURCES[k].name, emoji: FEED_SOURCES[k].emoji })) });
 }
 
+/* ---------------- YamiFeed 每日精選推送（v0.2-2，WxPusher） ----------------
+ * 環境變量（可選）：
+ *   WXPUSHER_TOKEN  — WxPusher 應用 appToken（spt.xxxx 或 uid 推送二選一）
+ *   WXPUSHER_UID    — 用戶 UID（在 wxpusher.zjiecode.com 掃碼獲取）
+ *   GITHUB_TOKEN    — 可選，提高 GitHub API 限額
+ *   RSSHUB_BASE     — 可選，自建 RSSHub 實例地址
+ * 無這些變量時推送功能靜默關閉，面板其他功能不受影響。 */
+
+async function buildDailyDigest(env) {
+  // 從 KV 緩存取各源（feed 接口 30 分鐘前已聚合過）；沒有就現場拉
+  const digest = { title: "YamiHub 每日精選 · " + new Date().toISOString().slice(0, 10), sections: [] };
+  for (const key of ["gh", "hacker", "weibo", "zhihu"]) {
+    let rec = null;
+    if (env.KV) { try { rec = await env.KV.get("feed:" + key, "json"); } catch (e) {} }
+    if (!rec || !rec.items || !rec.items.length) {
+      try { await handleFeed(env, new URL("https://x/api/feed?sources=" + key)); rec = await env.KV.get("feed:" + key, "json"); } catch (e) {}
+    }
+    if (rec && rec.items && rec.items.length) {
+      digest.sections.push({
+        key, name: rec.name || key,
+        top: rec.items.slice(0, 5).map((x) => ({ title: x.title, url: x.url })),
+      });
+    }
+  }
+  return digest;
+}
+
+function digestToText(digest) {
+  let t = "📌 " + digest.title + "\n\n";
+  for (const s of digest.sections) {
+    t += "—— " + s.name + " ——\n";
+    s.top.forEach((x, i) => { t += (i + 1) + ". " + x.title.slice(0, 40) + "\n"; });
+    t += "\n";
+  }
+  t += "全文請到你的 YamiHub 面板查看 ↗";
+  return t.slice(0, 3800); // WxPusher 內容上限
+}
+
+async function pushWxPusher(env, content) {
+  const token = env.WXPUSHER_TOKEN;
+  const uid = env.WXPUSHER_UID;
+  if (!token || !uid) return { skipped: true, reason: "未配置 WXPUSHER_TOKEN / WXPUSHER_UID" };
+  const r = await fetch("https://wxpusher.zjiecode.com/api/send/message", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      appToken: token,
+      content,
+      summary: content.split("\n")[0].slice(0, 99),
+      contentType: 1, // 文本
+      uids: [uid],
+    }),
+  });
+  const j = await r.json();
+  if (!j.success) throw new Error("WxPusher: " + (j.msg || JSON.stringify(j)).slice(0, 120));
+  return { ok: true, msgId: j.data };
+}
+
+/* 手動觸發推送（帶 session 驗證，防濫用） */
+async function handlePush(request, env) {
+  const found = await getSession(env, request, false);
+  if (!found) return json({ error: "请先登录面板" }, 401);
+  const digest = await buildDailyDigest(env);
+  const text = digestToText(digest);
+  try {
+    const r = await pushWxPusher(env, text);
+    if (r.skipped) return json({ ok: false, skipped: true, reason: r.reason, digestPreview: text.slice(0, 400) });
+    return json({ ok: true, digestPreview: text.slice(0, 400) });
+  } catch (e) {
+    return json({ ok: false, error: String(e.message || e), digestPreview: text.slice(0, 400) }, 502);
+  }
+}
+
+/* Cron Trigger 入口（CF Pages 的 scheduled handler） */
+async function scheduled(event, env, ctx) {
+  env = cleanEnv(env);
+  if (!env.WXPUSHER_TOKEN || !env.WXPUSHER_UID) return; // 未配置靜默退出
+  const digest = await buildDailyDigest(env);
+  const text = digestToText(digest);
+  try { await pushWxPusher(env, text); } catch (e) { console.error("cron push failed:", e.message); }
+}
+
 /* ---------------- 入口 ---------------- */
 
 function cleanEnv(e) {
@@ -477,6 +559,7 @@ function cleanEnv(e) {
 }
 
 export default {
+  async scheduled(event, env, ctx) { await scheduled(event, env, ctx); },
   async fetch(request, env) {
     env = cleanEnv(env);
     const url = new URL(request.url);
@@ -514,6 +597,7 @@ export default {
 
       if (pathname === "/api/github/sync") return handleGithubSync(request, env);
       if (pathname === "/api/feed") return handleFeed(env, url);
+      if (pathname === "/api/feed/push" && request.method === "POST") return handlePush(request, env);
 
       return json({ error: "not found" }, 404);
     } catch (e) {
