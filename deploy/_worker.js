@@ -364,6 +364,104 @@ function rateLimited(ip) {
   return rec.n > RL.max;
 }
 
+/* ---------------- YamiFeed 熱榜聚合（v0.2-1） ----------------
+ * 數據源全部走公開接口：GitHub Trending 用官方搜尋 API，其餘走 RSSHub 公共實例或公開 JSON。
+ * 只在 KV 緩存「標題/鏈接/熱度」等元數據 30 分鐘，不存全文（版權合規）。 */
+
+const FEED_SOURCES = {
+  gh: {
+    name: "GitHub Trending",
+    emoji: "🐙",
+    async fetch(env) {
+      // 官方 API：最近 7 天創建、按星數排序（近似 trending）
+      const since = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+      const r = await fetch(`https://api.github.com/search/repositories?q=created:>${since}&sort=stars&order=desc&per_page=30`, {
+        headers: { accept: "application/vnd.github+json", "user-agent": "yamifeed", ...(env.GITHUB_TOKEN ? { authorization: `Bearer ${env.GITHUB_TOKEN}` } : {}) },
+      });
+      if (!r.ok) throw new Error("github " + r.status);
+      const j = await r.json();
+      return (j.items || []).map((x) => ({
+        title: x.full_name, desc: (x.description || "").slice(0, 120),
+        url: x.html_url, hot: x.stargazers_count || 0, tag: x.language || "—",
+      }));
+    },
+  },
+  weibo: {
+    name: "微博熱搜",
+    emoji: "🔥",
+    async fetch(env) {
+      const base = env.RSSHUB_BASE || "https://rsshub.app";
+      const r = await fetch(`${base}/weibo/search/hot`, { headers: { "user-agent": "yamifeed" } });
+      if (!r.ok) throw new Error("rsshub " + r.status);
+      const xml = await r.text();
+      return parseRssTitles(xml, "微博").slice(0, 20);
+    },
+  },
+  zhihu: {
+    name: "知乎熱榜",
+    emoji: "💡",
+    async fetch(env) {
+      const base = env.RSSHUB_BASE || "https://rsshub.app";
+      const r = await fetch(`${base}/zhihu/hotlist`, { headers: { "user-agent": "yamifeed" } });
+      if (!r.ok) throw new Error("rsshub " + r.status);
+      const xml = await r.text();
+      return parseRssTitles(xml, "知乎").slice(0, 20);
+    },
+  },
+  hacker: {
+    name: "Hacker News",
+    emoji: "🧑‍💻",
+    async fetch(env) {
+      const r = await fetch("https://hacker-news.firebaseio.com/v0/topstories.json");
+      if (!r.ok) throw new Error("hn " + r.status);
+      const ids = (await r.json()).slice(0, 20);
+      const items = await Promise.all(ids.map((id) =>
+        fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then((x) => x.json()).catch(() => null)));
+      return items.filter(Boolean).map((x) => ({
+        title: x.title, desc: "", url: x.url || `https://news.ycombinator.com/item?id=${x.id}`,
+        hot: x.score || 0, tag: "HN",
+      }));
+    },
+  },
+};
+
+/* 極簡 RSS 標題解析（免依賴，只取 <title> 與 <link>） */
+function parseRssTitles(xml, tag) {
+  const items = xml.split("<item").slice(1);
+  return items.map((it) => {
+    const t = (it.match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/) || [])[1] || "";
+    const l = (it.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || "";
+    return { title: decodeEntities(t).trim(), desc: "", url: l.trim(), hot: 0, tag };
+  }).filter((x) => x.title);
+}
+function decodeEntities(s) {
+  return s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+}
+
+async function handleFeed(env, url) {
+  const wanted = (url.searchParams.get("sources") || "gh,hacker").split(",").filter((x) => FEED_SOURCES[x]);
+  if (!wanted.length) return json({ error: "unknown sources" }, 400);
+  const results = {};
+  for (const key of wanted) {
+    const cacheKey = "feed:" + key;
+    let cached = null;
+    if (env.KV) { try { cached = await env.KV.get(cacheKey, "json"); } catch (e) {} }
+    if (cached && cached.at && Date.now() - new Date(cached.at).getTime() < 1800000) {
+      results[key] = cached;
+      continue;
+    }
+    try {
+      const items = await FEED_SOURCES[key].fetch(env);
+      const rec = { name: FEED_SOURCES[key].name, emoji: FEED_SOURCES[key].emoji, at: new Date().toISOString(), items };
+      results[key] = rec;
+      if (env.KV) { try { await env.KV.put(cacheKey, JSON.stringify(rec), { expirationTtl: 1800 }); } catch (e) {} }
+    } catch (e) {
+      results[key] = { name: FEED_SOURCES[key].name, emoji: FEED_SOURCES[key].emoji, error: String(e.message || e), items: cached ? cached.items : [] };
+    }
+  }
+  return json({ ok: true, sources: results, available: Object.keys(FEED_SOURCES).map((k) => ({ id: k, name: FEED_SOURCES[k].name, emoji: FEED_SOURCES[k].emoji })) });
+}
+
 /* ---------------- 入口 ---------------- */
 
 function cleanEnv(e) {
@@ -415,6 +513,7 @@ export default {
       if (d && request.method === "POST") return handleDisconnect(request, env, d[1]);
 
       if (pathname === "/api/github/sync") return handleGithubSync(request, env);
+      if (pathname === "/api/feed") return handleFeed(env, url);
 
       return json({ error: "not found" }, 404);
     } catch (e) {

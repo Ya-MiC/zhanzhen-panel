@@ -28,7 +28,8 @@
 <div class="backdrop" id="backdrop"></div>
 
 <aside class="sidebar" id="sidebar">
-  <div class="side-group">🧭 資產宇宙</div>  <div class="side-item active" data-page="overview"><span class="ic">🏠</span>總覽</div>  <div class="side-item" data-page="connections"><span class="ic">🔗</span>平台連接</div>  <div class="side-item" data-page="assets"><span class="ic">🗂</span>資產畫廊<span class="cnt" id="cntAssets">0</span></div>  <div class="side-item" data-page="maps"><span class="ic">🕸️</span>資產地圖</div>  <div class="side-item" data-page="tasks"><span class="ic">🎯</span>任務 · DDL</div>  <div class="side-group">🔗 外部平台</div>  <div class="side-item" data-page="notion"><span class="ic">🧩</span>多平台入口</div>  <div class="side-group">🧠 智能 · 治理</div>
+  <div class="side-group">🧭 資產宇宙</div>  <div class="side-item active" data-page="overview"><span class="ic">🏠</span>總覽</div>  <div class="side-item" data-page="connections"><span class="ic">🔗</span>平台連接</div>  <div class="side-item" data-page="assets"><span class="ic">🗂</span>資產畫廊<span class="cnt" id="cntAssets">0</span></div>  <div class="side-item" data-page="maps"><span class="ic">🕸️</span>資產地圖</div>  <div class="side-item" data-page="tasks"><span class="ic">🎯</span>任務 · DDL</div>
+  <div class="side-item" data-page="feed"><span class="ic">📡</span>資訊 · 熱榜</div>  <div class="side-group">🔗 外部平台</div>  <div class="side-item" data-page="notion"><span class="ic">🧩</span>多平台入口</div>  <div class="side-group">🧠 智能 · 治理</div>
   <div class="side-item" data-page="algorithm"><span class="ic">🧮</span>評分算法</div>
   <div class="side-item" data-page="decisions"><span class="ic">🤖</span>自動化<span class="cnt">3</span></div>
   <div class="side-item" data-page="charter"><span class="ic">📜</span>治理章程</div>
@@ -39,6 +40,16 @@
 </aside>
 
 <main class="main">
+  <!-- ================= 資訊 · 熱榜（YamiFeed v0.2） ================= -->
+  <section class="page" id="page-feed">
+    <div class="page-head">
+      <h1>📡 資訊 · 熱榜</h1>
+      <div class="sub">多源聚合 · 30 分鐘緩存 · 只收標題與鏈接（版權合規）</div>
+    </div>
+    <div id="feedTabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"></div>
+    <div id="feedBody" class="spec-grid">載入中…</div>
+  </section>
+
   <!-- ================= 登錄首屏（未連接時的第一屏） ================= -->
   <section class="page" id="page-login">
     <div style="max-width:720px;margin:6vh auto 0;padding:0 20px;text-align:center">
@@ -240,7 +251,7 @@
       <a class="spec" href="https://github.com/Ya-MiC/ya-mic-agent-skills" target="_blank" rel="noopener">
         <h4>🧩 ya-mic-agent-skills</h4><p>三份原始治理 Skill 的備份與索引。</p><span class="go">打開倉庫 ↗</span></a>
       <a class="spec" href="https://github.com/" target="_blank" rel="noopener">
-        <h4>🌳 action-tree · 戰略根 🔒</h4><p>湛箴產品線戰略總綱與工程規範（私有）。</p><span class="go">打開倉庫 ↗</span></a>
+        <h4>🌳 戰略根倉庫 🔒</h4><p>產品線戰略總綱與工程規範（私有）。</p><span class="go">連接後可見 ↗</span></a>
     </div>
     <h2 class="section-title">🪷 Notion 工作區</h2>
     <div class="section-sub">你的頁面與數據庫 · 授權時勾選的內容決定可見邊界</div>
@@ -344,9 +355,9 @@ FinalSPI = max(0, SPI − ForkPenalty)</div>
     <h2 class="section-title">單一真相源</h2>
     <div class="spec-grid">
       <div class="spec"><h4>🐙 ya-mic-os</h4><p>全域資產治理、決策紀錄、公開總控 Pages（本站）。</p></div>
-      <div class="spec"><h4>hermes</h4><p>全景索引、倉庫/收藏搜尋與目錄。</p></div>
-      <div class="spec"><h4>dsh</h4><p>AI 工具規範、Skills、同步接線的唯一真相源。</p></div>
-      <div class="spec"><h4>action-tree</h4><p>湛箴產品線戰略總綱、業務規格與架構決策。</p></div>
+      <div class="spec"><h4>全景索引倉</h4><p>全景索引、倉庫/收藏搜尋與目錄。</p></div>
+      <div class="spec"><h4>技能真相源倉</h4><p>AI 工具規範、Skills、同步接線的唯一真相源。</p></div>
+      <div class="spec"><h4>戰略文檔倉</h4><p>產品線戰略總綱、業務規格與架構決策。</p></div>
       <div class="spec"><h4>audit-os</h4><p>審計產品工程 Backlog、規則引擎與驗證。</p></div>
       <div class="spec"><h4>Notion 工作區</h4><p>頁面、數據庫、任務——授權後自動同步。</p></div>
     </div>
@@ -395,7 +406,7 @@ FinalSPI = max(0, SPI − ForkPenalty)</div>
     <div class="legend" id="legendLearn"></div>
     <div class="rules-card">
       <ol class="big-list">
-        <li class="clickable" data-board="A"><span class="n">A</span><div><b>🟣 湛箴・審計智能體（17 個）</b><br><span>核心產品線：中小企業審計 SaaS。action-tree 戰略根 → zhanzhen 7 件套實作。</span></div></li>
+        <li class="clickable" data-board="A"><span class="n">A</span><div><b>🟣 產品線（P）</b><br><span>面向真实用户的完整产品——面板、SaaS、App、站点。</span></div></li>
         <li class="clickable" data-board="B"><span class="n">B</span><div><b>🟢 Agent 系統（8 個）</b><br><span>你做的是 Agent 不只是 Skill：dsh 真相源、runtime、插件、索引、狀態記錄。</span></div></li>
         <li class="clickable" data-board="C"><span class="n">C</span><div><b>🔵 量化・金融（6 個）</b><br><span>量化交易、金融終端、經濟學研究、全球情報——金融方向。</span></div></li>
         <li class="clickable" data-board="D"><span class="n">D</span><div><b>🟠 基礎設施・網路（13 個）</b><br><span>Cloudflare Workers、訂閱聚合、DNS、VPS、邊緣存取。</span></div></li>
@@ -456,14 +467,14 @@ FinalSPI = max(0, SPI − ForkPenalty)</div>
 <script>
 let PF = null, TASKS = null, STARS = null, PRIV = null;
 const BOARD_META = {
-  A: { emoji: '🟣', color: 'var(--a)', hex: '#ce82ff', name: '湛箴・審計智能體', mean: '中小企業審計 SaaS 產品線（action-tree 戰略根 → zhanzhen 7 件套）' },
+  A: { emoji: '🟣', color: 'var(--a)', hex: '#ce82ff', name: '產品線', mean: '面向真实用户的完整产品——面板、SaaS、App、站点' },
   B: { emoji: '🟢', color: 'var(--b)', hex: '#58cc02', name: 'Agent 系統', mean: '不只 Skill：dsh 真相源、runtime、插件、索引、Agent 狀態' },
   C: { emoji: '🔵', color: 'var(--c)', hex: '#1cb0f6', name: '量化・金融', mean: '量化交易、金融終端、經濟學研究、全球情報' },
   D: { emoji: '🟠', color: 'var(--d)', hex: '#ff9600', name: '基礎設施・網路', mean: 'Cloudflare Workers、訂閱聚合、DNS、VPS、邊緣存取' },
   E: { emoji: '🚦', color: 'var(--e)', hex: '#a0a4a2', name: '治理・人工裁決', mean: '曾用途不明 → 2026-08-30 已全部裁決 ✓' },
 };
 const DOM2BOARD = { 'PRODUCT-SAAS': 'A', 'RECORD-HANDOVER': 'A', 'PLUGIN-SDK-TEMPLATE': 'B', 'WEBSITE-CONTENT': 'B', 'QUANT-FINANCE': 'C', 'DATA-RESEARCH': 'C', 'DEVICE-SYSTEM-SETUP': 'D', 'AUTOMATION': 'D', 'HUMAN-REVIEW': 'E', 'STUDY-PORTFOLIO': 'C' };
-const A_TEAM = ['action-tree','zhanzhen','zhanzhen-server','audit-os','audit-os-mobile','invoice-ocr-system','zhanzhen-handover','zhanzhen-web'];
+const A_TEAM = [];
 const LC_CN = { maintained: '穩定可用', 'human-review': '已裁決✓', active: '投入中', record: '歷史保存', mvp: '驗證中', reusable: '可重用', study: '學習', experiment: '實驗' };
 const FACTORS = [['C','能力圈',.14],['P','複利性',.14],['L','槓桿性',.14],['S','戰略一致',.12],['R','逆轉重要',.10],['M','護城河',.10],['D','差異化',.10],['Q','可理解性',.08],['E','道德合規',.08]];
 const RISKS = [['T','維護負擔',.40],['U','不確定性',.35]];
@@ -479,7 +490,7 @@ const DECISIONS_15 = [
 ];
 const NOTION_PAGES = [
   ['🏠', 'Notion · Command Center', '總控台：核心產品線、主索引、五區導向、治理計畫、Human Queue 狀態', '3c9a6ce79bd4819d81c4e16219eca012', '#163300'],
-  ['🟣', 'Notion · A 湛箴・審計智能體', '8 個倉庫索引 + 治理狀態 + Issue 追蹤 + 本週治理焦點', '3c9a6ce79bd48125baa3fe52164bce97', '#7c3aed'],
+  ['🟣', 'Notion · A 產品線', '8 個倉庫索引 + 治理狀態 + Issue 追蹤 + 本週治理焦點', '3c9a6ce79bd48125baa3fe52164bce97', '#7c3aed'],
   ['🟢', 'Notion · B Agent 系統', '11 個資產分層：核心規範 / 索引 / 產品工具 / 狀態記錄 / 外部 fork', '3c9a6ce79bd481c18648d71b210b7818', '#46a302'],
   ['🔵', 'Notion · C 量化・金融', '8 個學習資產：上游授權、回測假設、合規邊界待核驗', '3c9a6ce79bd4815eb26fec700cf32c1e', '#1899d6'],
   ['🟠', 'Notion · D 基礎設施・網路', '10 個：代理、訂閱、Worker、DNS、Zero Trust；安全規則優先', '3c9a6ce79bd4814ba85bdacc3618d094', '#e08600'],
@@ -542,7 +553,7 @@ const STAR_USE = {
   'Panniantong/Agent-Reach': '給 Agent 加「看整個互聯網」的眼睛，配合 hermes 索引',
   'K-Dense-AI/scientific-agent-skills': '科研技能包：經濟學研究（economics-11.29）直接可用',
   'HKUDS/DeepTutor': '終身個性化導師：給經濟學學習開一條陪練線',
-  'EthanYoQ/Invoice-Downloader': '與 invoice-ocr-system 對齊：郵箱批量收發票→OCR→歸檔，可整合',
+  'EthanYoQ/Invoice-Downloader': '郵箱批量收發票→OCR→歸檔類工具',
   'KaguraNanaga/docformat-gui': '與你的 docformat-gui 同源：比對上游更新，擇優維護一個',
   'anthropics/financial-services': '官方金融行業方案：湛箴金融合規場景的直接參考',
   'easychen/opc-methodology': '一人企業方法論：湛箴 SaaS 商業化路線的參照系',
@@ -580,6 +591,7 @@ function go(page) {
   document.getElementById('backdrop').classList.remove('show');
   window.scrollTo({ top: 0 });
   if (page === 'maps') { renderMaps(); ArchLiveBoot(); }
+  if (page === 'feed') renderFeed();
   if (page === 'login') renderLoginLanding();
   if (page === 'connections') renderConnections();
 }
@@ -774,21 +786,21 @@ function paintNotion() {
 /* ---------- maps ---------- */
 const MAPS = {
   m1: { code: `graph TD
-  user(["🐙 Ya-MiC 的目標<br>審計 SaaS + Agent 複利"])
-  subgraph CORE["核心資產 · 唯一真相源"]
-    at["action-tree<br>戰略總綱 🔒"]:::astA
-    dsh["dsh<br>技能真相源"]:::astB
-    hermes["hermes<br>全景索引"]:::astB
+  user(["🐙 Ya-MiC 的目標<br>產品 + Agent 複利"])
+  subgraph CORE["核心資產"]
+    at["戰略文檔<br>🔒"]:::astA
+    dsh["技能真相源"]:::astB
+    hermes["全景索引"]:::astB
     os["ya-mic-os<br>總控面板（本站）"]:::astB
   end
-  subgraph ZH["🟣 A 湛箴・審計智能體"]
-    zz["zhanzhen 審計平台 v1"]:::astA
-    zs["zhanzhen-server 🔒"]:::astA
-    zw["zhanzhen-web CF 前端"]:::astA
-    ao["audit-os 規則引擎"]:::astA
-    aom["audit-os-mobile APK"]:::astA
-    ioc["invoice-ocr-system"]:::astA
-    zh2["zhanzhen-handover"]:::astA
+  subgraph ZH["🟣 A 產品線"]
+    zz["審計平台 v1"]:::astA
+    zs["後端服務 🔒"]:::astA
+    zw["CF 前端"]:::astA
+    ao["規則引擎"]:::astA
+    aom["移動端 APK"]:::astA
+    ioc["發票 OCR"]:::astA
+    zh2["業務移交"]:::astA
   end
   subgraph SB["🟢 B Agent 系統"]
     pl["deepseek-harness · argo · archify<br>awesome-dsh-plugin · dsh-stock-watch…"]:::astB
@@ -818,7 +830,7 @@ const MAPS = {
   infra -.支撐.-> zs
   st -.吸收候選.-> dsh
   hr -.歸檔.-> os`,
-    links: ['action-tree','dsh','hermes','ya-mic-os','zhanzhen','zhanzhen-server','zhanzhen-web','audit-os','audit-os-mobile','invoice-ocr-system','zhanzhen-handover','deepseek-harness'] },
+    links: [] },
   m2: { code: `flowchart LR
   A["🔍 連接倉庫"]:::astB --> B["🧮 SPI<br>分類 + 評分"]:::astB
   B --> C{"U ≥ 6 ?"}:::astD
@@ -831,15 +843,15 @@ const MAPS = {
   H -.下一輪.-> A`,
     links: [] },
   m3: { code: `graph TD
-  spec["action-tree<br>戰略總綱 + 工程規範 🔒"]:::astA
+  spec["戰略文檔<br>戰略總綱 + 工程規範 🔒"]:::astA
   subgraph ZH["🟣 湛箴 · 憑證到報告的完整審計作業"]
-    zz["zhanzhen<br>v1 平台框架<br>FastAPI + Vue3"]:::astA
-    zs["zhanzhen-server<br>FastAPI + PG + MinIO + Redis 🔒"]:::astA
-    zw["zhanzhen-web<br>CF Pages 靜態前端"]:::astA
-    aom["audit-os-mobile<br>離線規則引擎 APK"]:::astA
+    zz["審計平台<br>v1 平台框架<br>FastAPI + Vue3"]:::astA
+    zs["後端服務<br>FastAPI + PG + MinIO + Redis 🔒"]:::astA
+    zw["審計前端<br>CF Pages 靜態前端"]:::astA
+    aom["移動端APK<br>離線規則引擎 APK"]:::astA
     ao["audit-os<br>12 條規則 + SHA-256 證據鏈"]:::astA
-    ioc["invoice-ocr-system<br>RapidOCR + Rust 監聽"]:::astA
-    zh2["zhanzhen-handover<br>業務移交全集"]:::astA
+    ioc["發票OCR<br>RapidOCR + Rust 監聽"]:::astA
+    zh2["業務移交<br>業務移交全集"]:::astA
   end
   rep(["📄 可追溯審計報告<br>註冊會計師簽署後生效"]):::astStar
   spec -->|ENGINEERING_SPEC| zz
@@ -851,7 +863,7 @@ const MAPS = {
   ao -->|風險報告| rep
   aom -.採集包上傳.-> zs
   zh2 -.交付.-> rep`,
-    links: ['action-tree','zhanzhen','zhanzhen-server','zhanzhen-web','audit-os','audit-os-mobile','invoice-ocr-system','zhanzhen-handover'] },
+    links: ['戰略文檔','審計平台','後端服務','審計前端','audit-os','移動端APK','發票OCR','業務移交'] },
   m4: { code: `graph TD
   dsh["dsh<br>中央技能與規範庫<br>唯一真相源"]:::astB
   up["deepseek-harness<br>Agent runtime 上游"]:::astB
@@ -1044,19 +1056,19 @@ const MAPS2 = {
   m1: { w: 1240, h: 900, build: () => {
     let b = '';
     b += G(40, 140, 1160, 150, '核心資產 · 唯一真相源');
-    b += N(520, 24, 300, 'CORE', '🐙 Ya-MiC 的目標', '審計 SaaS + Agent 複利');
-    b += N(70, 196, 240, 'A', 'action-tree 🔒', '戰略總綱 · 工程規範', 'https://github.com/');
+    b += N(520, 24, 300, 'CORE', '🐙 Ya-MiC 的目標', '產品 + Agent 複利');
+    b += N(70, 196, 240, 'A', '戰略文檔 🔒', '戰略總綱 · 工程規範', 'https://github.com/');
     b += N(370, 196, 240, 'B', 'dsh', '中央技能真相源', 'https://github.com/');
     b += N(670, 196, 240, 'B', 'hermes', '全景索引', 'https://github.com/');
     b += N(950, 196, 230, 'B', 'ya-mic-os', '總控面板（本站）', 'https://github.com/Ya-MiC/yami-hub');
-    b += G(40, 350, 600, 430, '🟣 A 湛箴・審計智能體');
-    b += N(70, 404, 250, 'A', 'zhanzhen v1', '審計平台框架', 'https://github.com/Ya-MiC/zhanzhen');
-    b += N(70, 494, 250, 'A', 'zhanzhen-server 🔒', 'FastAPI + PG + MinIO + Redis', 'https://github.com/Ya-MiC/zhanzhen-server');
-    b += N(70, 584, 250, 'A', 'invoice-ocr-system', '發票 OCR · 可整合', 'https://github.com/Ya-MiC/invoice-ocr-system');
-    b += N(360, 404, 250, 'A', 'zhanzhen-web', 'CF Pages 靜態前端', 'https://github.com/Ya-MiC/zhanzhen-web');
+    b += G(40, 350, 600, 430, '🟣 A 產品線');
+    b += N(70, 404, 250, 'A', '審計平台 v1', '審計平台框架', 'https://github.com/Ya-MiC/審計平台');
+    b += N(70, 494, 250, 'A', '後端服務 🔒', 'FastAPI + PG + MinIO + Redis', 'https://github.com/Ya-MiC/後端服務');
+    b += N(70, 584, 250, 'A', '發票OCR', '發票 OCR · 可整合', 'https://github.com/Ya-MiC/發票OCR');
+    b += N(360, 404, 250, 'A', '審計前端', 'CF Pages 靜態前端', 'https://github.com/Ya-MiC/審計前端');
     b += N(360, 494, 250, 'A', 'audit-os', '12 規則 + SHA-256 證據鏈', 'https://github.com/Ya-MiC/audit-os');
-    b += N(360, 584, 250, 'A', 'audit-os-mobile', '離線規則引擎 APK', 'https://github.com/Ya-MiC/audit-os-mobile');
-    b += N(215, 690, 250, 'A', 'zhanzhen-handover', '業務移交全集', 'https://github.com/Ya-MiC/zhanzhen-handover');
+    b += N(360, 584, 250, 'A', '移動端APK', '離線規則引擎 APK', 'https://github.com/Ya-MiC/移動端APK');
+    b += N(215, 690, 250, 'A', '業務移交', '業務移交全集', 'https://github.com/Ya-MiC/業務移交');
     b += G(680, 350, 520, 170, '🟢 B Agent 系統');
     b += N(710, 404, 220, 'B', 'deepseek-harness', 'runtime 上游', 'https://github.com/Ya-MiC/deepseek-harness');
     b += N(950, 404, 220, 'B', '插件與技能群', 'argo · archify · 盯盤…', 'https://github.com/Ya-MiC/awesome-dsh-plugin');
@@ -1157,15 +1169,15 @@ const MAPS2 = {
   } },
   m3: { w: 1240, h: 690, build: () => {
     let b = '';
-    b += N(470, 30, 300, 'A', 'action-tree 🔒', '戰略總綱 + 工程規範', 'https://github.com/');
+    b += N(470, 30, 300, 'A', '戰略文檔 🔒', '戰略總綱 + 工程規範', 'https://github.com/');
     b += G(40, 170, 1160, 560, '🟣 湛箴 · 憑證到報告的完整審計作業');
-    b += N(80, 224, 260, 'A', 'zhanzhen v1', '平台框架 FastAPI + Vue3', 'https://github.com/Ya-MiC/zhanzhen');
-    b += N(80, 330, 260, 'A', 'zhanzhen-server 🔒', 'FastAPI + PG + MinIO + Redis', 'https://github.com/Ya-MiC/zhanzhen-server');
-    b += N(400, 330, 260, 'A', 'zhanzhen-web', 'CF Pages 靜態前端', 'https://github.com/Ya-MiC/zhanzhen-web');
-    b += N(720, 330, 240, 'A', 'audit-os-mobile', '離線規則引擎 APK', 'https://github.com/Ya-MiC/audit-os-mobile');
+    b += N(80, 224, 260, 'A', '審計平台 v1', '平台框架 FastAPI + Vue3', 'https://github.com/Ya-MiC/審計平台');
+    b += N(80, 330, 260, 'A', '後端服務 🔒', 'FastAPI + PG + MinIO + Redis', 'https://github.com/Ya-MiC/後端服務');
+    b += N(400, 330, 260, 'A', '審計前端', 'CF Pages 靜態前端', 'https://github.com/Ya-MiC/審計前端');
+    b += N(720, 330, 240, 'A', '移動端APK', '離線規則引擎 APK', 'https://github.com/Ya-MiC/移動端APK');
     b += N(400, 440, 260, 'A', 'audit-os', '12 規則 + SHA-256 證據鏈', 'https://github.com/Ya-MiC/audit-os');
-    b += N(80, 440, 260, 'A', 'invoice-ocr-system', 'RapidOCR + Rust 監聽', 'https://github.com/Ya-MiC/invoice-ocr-system');
-    b += N(720, 440, 240, 'A', 'zhanzhen-handover', '業務移交全集', 'https://github.com/Ya-MiC/zhanzhen-handover');
+    b += N(80, 440, 260, 'A', '發票OCR', 'RapidOCR + Rust 監聽', 'https://github.com/Ya-MiC/發票OCR');
+    b += N(720, 440, 240, 'A', '業務移交', '業務移交全集', 'https://github.com/Ya-MiC/業務移交');
     b += N(790, 600, 380, 'STAR', '📄 可追溯審計報告', '註冊會計師簽署後生效');
     b += E(620, 88, 210, 224, { label: 'ENGINEERING_SPEC' });
     b += E(620, 88, 840, 330, { label: '客戶端規範 §6' });
@@ -1281,7 +1293,7 @@ const MAPS2 = {
 };
 const MAP_TYPE = {
   m1: ['🏗️ 依賴總圖', '誰依賴誰：核心資產為根，產品線／技能／基建掛靠其下', ['核心資產唯一真相源', '湛箴 7 件套全鏈', '治理歸檔收尾']],
-  m3: ['🏗️ 產品線架構圖', '湛箴從戰略到交付的完整鏈路', ['戰略根 action-tree', '三端：後端/前端/移動端', '證據鏈審計報告']],
+  m3: ['🏗️ 產品線架構圖', '湛箴從戰略到交付的完整鏈路', ['戰略根 戰略文檔', '三端：後端/前端/移動端', '證據鏈審計報告']],
   m4: ['🕸️ 生態關係圖', 'dsh 為核心的技能生態網', ['上游 runtime', '插件與技能群', 'Starred 吸收候選']],
   m5: ['🌐 網路拓撲圖', '節點從來源到客戶端的流向', ['節點來源', '訂閱聚合轉換', '邊緣與安全']],
   m6: ['🗂️ Starred 分類圖', 'Starred 按領域分區（連接後按你的資料生成）', ['連接 GitHub', '同步資料', '全部節點可點 ↗']],
@@ -1880,6 +1892,34 @@ function yamiPatchOverview() {
 const _go = go;
 go = function(page) { _go(page); if (page === 'overview') yamiPatchOverview(); };
 
+
+/* ---------- YamiFeed 熱榜渲染 ---------- */
+let FEED_STATE = null, FEED_TAB = "gh";
+async function renderFeed() {
+  const tabs = document.getElementById('feedTabs');
+  const body = document.getElementById('feedBody');
+  if (!FEED_STATE) {
+    try { FEED_STATE = await (await fetch('/api/feed?sources=gh,weibo,zhihu,hacker')).json(); }
+    catch (e) { FEED_STATE = { sources: {}, available: [] }; }
+  }
+  const avail = FEED_STATE.available || Object.keys(FEED_STATE.sources || {}).map(k => ({ id: k, name: k }));
+  tabs.innerHTML = avail.map(s =>
+    '<button class="lt-tab' + (FEED_TAB === s.id ? ' active' : '') + '" data-src="' + s.id + '">' + (s.emoji || '📡') + ' ' + esc(s.name) + '</button>').join('');
+  tabs.querySelectorAll('[data-src]').forEach(b => b.onclick = function () { FEED_TAB = this.dataset.src; renderFeed(); });
+  const s = (FEED_STATE.sources || {})[FEED_TAB];
+  if (!s) { body.innerHTML = '<div class="spec"><h4>暫無數據</h4><p>該源尚未載入，點上方標籤切換其他源。</p></div>'; return; }
+  if (s.error) {
+    body.innerHTML = '<div class="spec"><h4>' + esc(s.name) + ' · 源暫時不可用</h4><p>' + esc(s.error) + '</p>'
+      + '<p style="color:var(--ink-3);font-size:12.5px">提示：微博/知乎走 RSSHub 公共實例，公共實例有頻率限制。可在環境變量 RSSHUB_BASE 配置你自建的 RSSHub 地址。</p></div>';
+    return;
+  }
+  body.innerHTML = (s.items || []).map(function (it, i) {
+    return '<a class="spec" href="' + esc(it.url) + '" target="_blank" rel="noopener">'
+      + '<h4>' + (i + 1) + '. ' + esc(it.title.length > 46 ? it.title.slice(0, 45) + '…' : it.title) + '</h4>'
+      + '<p>' + esc((it.desc || '').slice(0, 80)) + (it.hot ? ' · 🔥 ' + it.hot : '') + '</p>'
+      + '<span class="go">打開原文 ↗</span></a>';
+  }).join('');
+}
 
 /* ---------- Toast 通知 ---------- */
 function toast(msg, kind) {
