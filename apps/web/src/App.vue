@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+import { useTheme } from "./composables/useTheme";
 
 type PageKey =
   | "home"
@@ -26,7 +27,6 @@ type ChatMessage = {
 
 const STORAGE_FILES = "zhanzhen-panel-files-v1";
 const STORAGE_TASKS = "zhanzhen-panel-tasks-v1";
-const STORAGE_THEME = "zhanzhen-panel-theme-v1";
 const STORAGE_CHAT = "zhanzhen-panel-chat-v1";
 
 const pages: Array<{ id: PageKey; icon: string; label: string }> = [
@@ -39,7 +39,7 @@ const pages: Array<{ id: PageKey; icon: string; label: string }> = [
 ];
 
 const currentPage = ref<PageKey>("home");
-const isDark = ref(false);
+const { isDark, toggleTheme, restore: restoreTheme } = useTheme();
 const fileInput = ref<HTMLInputElement | null>(null);
 const files = ref<LocalFile[]>([]);
 const selectedFileId = ref<string | null>(null);
@@ -275,16 +275,10 @@ function useTaskForWriting() {
   showToast("已進入寫作工坊。下一個功能將先實作「大綱先行」。");
 }
 
-function toggleTheme() {
-  isDark.value = !isDark.value;
-  localStorage.setItem(STORAGE_THEME, isDark.value ? "dark" : "light");
-}
-
 function restoreLocalData() {
   try {
     const storedFiles = localStorage.getItem(STORAGE_FILES);
     const storedTasks = localStorage.getItem(STORAGE_TASKS);
-    const storedTheme = localStorage.getItem(STORAGE_THEME);
     const storedChat = localStorage.getItem(STORAGE_CHAT);
 
     if (storedFiles) {
@@ -297,7 +291,7 @@ function restoreLocalData() {
     }
 
     if (storedTasks) savedTasks.value = JSON.parse(storedTasks);
-    if (storedTheme) isDark.value = storedTheme === "dark";
+    restoreTheme();
     if (storedChat) chatMessages.value = JSON.parse(storedChat);
   } catch {
     showToast("本地資料讀取失敗；你仍可正常建立新的文件與任務。");
