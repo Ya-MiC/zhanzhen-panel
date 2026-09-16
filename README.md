@@ -42,3 +42,8 @@
 - `deploy/` 發行版：MIT
 - 其餘目錄（工作台骨架）：暫定 MIT，正式發布前復核
 - 致謝：ya-mic-os / archify / dashi-taskboard / OAuth 標準族，詳見 `deploy/THIRD-PARTY-NOTICES.md`
+
+
+## 🖥 桌面版（Tauri 封裝）
+
+想把它變成雙擊即用的桌面 EXE？看 **[deploy/TAURI-GUIDE.md](deploy/TAURI-GUIDE.md)**：裝 Rust → 一條命令打包 → GitHub Releases 分發（v2rayN 模式，多平台用戶直接下載）。
