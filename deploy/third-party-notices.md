@@ -13,7 +13,7 @@
 
 **运行时零第三方包。** 具体而言：
 
-- **前端**：`index.html` + `assets/os2.css` + `assets/scoring.js` 为原生 HTML / CSS / JavaScript，继承自 ya-mic-os（MIT，同作者），未使用 React / Vue / Tailwind 等框架；资产地图为手绘 SVG 引擎（archify 方法论），无 mermaid 运行时依赖。
+- **前端**：`index.html` + `assets/os2.css` + `assets/scoring.js` 为原生 HTML / CSS / JavaScript，继承自 前置版本（MIT，同作者），未使用 React / Vue / Tailwind 等框架；资产地图为手绘 SVG 引擎（archify 方法论），无 mermaid 运行时依赖。
 - **后端**：`_worker.js` 为原生 ES Module 单文件，零 npm 依赖。
 - **加密**：使用 Web 标准内建 `crypto.subtle`（AES-256-GCM + PBKDF2-SHA256），非第三方库。
 
@@ -23,7 +23,7 @@
 
 | 来源 | 借鉴了什么 |
 | --- | --- |
-| **ya-mic-os**（Ya-MiC 自有仓库，MIT） | 本面板的直接前身：完整 UI 设计系统（os2.css）、SPI 资产评分引擎（scoring.js）、资产地图 SVG 自绘引擎、「口令仅在浏览器本地解密」的数据边界（private.enc：AES-256-GCM + PBKDF2 250k） |
+| **前置私有版本**（Ya-MiC 自有，MIT） | 本面板的直接前身：完整 UI 设计系统（os2.css）、SPI 资产评分引擎（scoring.js）、资产地图 SVG 自绘引擎、「口令仅在浏览器本地解密」的数据边界（private.enc：AES-256-GCM + PBKDF2 250k） |
 | **dashi-taskboard / Codex Taskboard**（chuspeeism，Apache-2.0） | 看板形态参考：项目/议题/状态流（todo → in_progress → in_review → done）的任务组织方式，用于 YamiHub 任务页的看板化方向；本项目未复制其代码 |
 | **archify**（tt-a1i/archify，MIT；Ya-MiC/archify 为 fork） | 活体资产地图引擎（assets/archify-live.js）直接采用其设计系统：midnight 语义色板、mono 字体层级、SRC 证据信标、主路径 ≤12 节点不变量、自动路由与"语义色永不装饰"规则。引擎为本项目原创实现（零 archify 代码复制），方法论与视觉词汇致谢 archify |
 | **OAuth 2.0 标准族**（IETF：RFC 6749 / RFC 7636 PKCE / RFC 6750） | 授权码流程、state 一次性防 CSRF、PKCE（S256）——按标准自行实现 |

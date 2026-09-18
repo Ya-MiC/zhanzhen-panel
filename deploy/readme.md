@@ -10,7 +10,7 @@
 
 | 文件 | 作用 |
 | --- | --- |
-| `index.html` | **完整面板**（移植自 ya-mic-os 并产品化）：总览 / 资产画廊 / 资产地图 / 任务 / 平台连接 / 评分算法 / 治理页 |
+| `index.html` | **完整面板**（移植自 前置版本 并产品化）：总览 / 资产画廊 / 资产地图 / 任务 / 平台连接 / 评分算法 / 治理页 |
 | `_worker.js` | 唯一服务端：三家 OAuth（state 一次性 + PKCE）+ `/api/github/sync` 实时同步 |
 | `assets/os2.css` · `assets/scoring.js` | 面板样式系统与评分引擎（权重实验室可实时改权重重算） |
 | `public/data/*` | **未登录时的 demo 预览数据**（10 个虚构 `demo-*` 仓库，属于虚构账号 demo-user，不属于任何真人） |
@@ -160,16 +160,16 @@
 
 美学遵循 archify（tt-a1i，MIT）设计系统：midnight 暗色画布、语义色永不装饰、mono 字体、SRC 证据信标、单主路径短侧枝自动路由。
 
-## 已知待打磨（v0.2 排期）
+## 已知待打磨（v0.3 排期）
 
-- 地图节点标签重叠的长仓库名截断策略、超大仓库数（>60）的分页渲染
-- 侧栏分组（GitHub 工作区/Notion 工作区/治理）按产品逻辑重构，不再绑定原作者个人工作流叙事
-- 同步结果本地加密持久化 + 任务页看板化（参考 dashi-taskboard 状态流）+ Notion/Google 数据视图
+- ~~侧栏分组按产品逻辑重构~~ ✅ 已完成：資產宇宙 / 外部平台 / 智能·治理，分區規則通用化（P產品線/T工具/R研究/I基建/Fork）
+- ~~同步结果本地加密持久化~~ ✅ 已完成：本地保險箱（AES-256-GCM，口令自動生成）+ 自動同步
+- ~~地图节点标签重叠~~ ✅ 已完成：archify v2 泳道佈局（統一網格 118/224×64/24），長名截斷策略內建；超大倉庫數（>60）的分頁渲染仍在排期
+- 任務頁看板化（参考 dashi-taskboard 狀態流）+ Notion/Google 數據視圖 + YamiFeed 熱榜模塊（見 YAMIFEED-DESIGN.md）
 
 ## 致谢
 
-运行时零第三方依赖；设计血统与思想致谢（ya-mic-os / dashi-taskboard / archify / OAuth 标准族 / 各平台官方文档）见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
-
+运行时零第三方依赖；设计血统与思想致谢（前置版本 / dashi-taskboard / archify / OAuth 标准族 / 各平台官方文档）见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
 
 ## 📡 資訊 · 熱榜（YamiFeed）
 
@@ -181,7 +181,7 @@
 | --- | --- |
 | `GITHUB_TOKEN` | 可選，提高 GitHub API 限額（5000/h） |
 | `RSSHUB_BASE` | 可選，自建 RSSHub 實例（默認公共 rsshub.app，偶爾限流） |
-| `WXPUSHER_TOKEN` | WxPusher 應用 appToken（[wxpusher.zjiecode.com](https://wxpusher.zjiecode.com) 創建） |
+| `WXPUSHER_TOKEN` | WxPusher 應用 appToken（wxpusher.zjiecode.com 創建） |
 | `WXPUSHER_UID` | 掃碼關注後獲得的用戶 UID |
 
 配置 WxPusher 後：連接頁「📨 試發每日精選」一鍵測試；配好 CF Pages Cron Trigger（`0 8 * * *`）每天早 8 點自動把熱榜精選推到微信。推送只含「標題+鏈接」，版權合規。

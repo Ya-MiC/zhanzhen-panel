@@ -1,6 +1,6 @@
 {
   "taxonomy_version": "TAXONOMY-V2-demo",
-  "taxonomy_note": "YamiHub demo 数据 — 非真实资产；字段结构与 ya-mic-os portfolio.json 完全一致",
+  "taxonomy_note": "YamiHub demo 数据 — 非真实资产；字段结构与 前置版本 portfolio.json 完全一致",
   "generated_at": "2026-09-14T04:57:12.269Z",
   "source_run": "DEMO-2026-09-14-001",
   "stats": {

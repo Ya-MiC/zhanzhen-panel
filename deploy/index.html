@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>YamiHub · Portfolio OS（ya-mic-os 迭代）</title>
+<title>YamiHub · Portfolio OS（v0.3）</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="stylesheet" href="assets/os2.css?v=43">
 <script src="assets/scoring.js?v=43">
@@ -243,7 +243,7 @@
     <div class="section-sub">資產卡片、評分、同步與部署狀態都在這裡</div>
     <div class="spec-grid">
       <a class="spec" href="https://github.com/Ya-MiC/yami-hub" target="_blank" rel="noopener">
-        <h4>🐙 ya-mic-os · 總控（本站）</h4><p>全域資產治理、評分面板、裁決存檔、Pages 部署。</p><span class="go">打開倉庫 ↗</span></a>
+        <h4>🐙 YamiHub 面板（本站）</h4><p>全域資產治理、評分面板、裁決存檔、Pages 部署。</p><span class="go">打開倉庫 ↗</span></a>
       <a class="spec" href="https://github.com/" target="_blank" rel="noopener">
         <h4>🧭 hermes · 全景索引</h4><p>所有倉庫 / fork / 收藏的策展導航。</p><span class="go">打開倉庫 ↗</span></a>
       <a class="spec" href="https://github.com/" target="_blank" rel="noopener">
@@ -337,7 +337,7 @@ FinalSPI = max(0, SPI − ForkPenalty)</div>
       <a class="spec" href="https://docs.github.com/actions" target="_blank" rel="noopener">
         <h4>⚖️ 裁決自動回收</h4><p>你在 Human Review Issue 留一個字母（A–E），機器人自動讀取並寫入面板數據。</p><span class="go">查看工作流 ↗</span></a>
       <a class="spec" href="https://docs.github.com/actions" target="_blank" rel="noopener">
-        <h4>🚀 Pages 自動部署</h4><p>main 分支每次更新，自動脫敏檢查並發布到 ya-mic.github.io/ya-mic-os。</p><span class="go">查看工作流 ↗</span></a>
+        <h4>🚀 Pages 自動部署</h4><p>main 分支每次更新，自動脫敏檢查並發布到 ya-mic.github.io/前置版本。</p><span class="go">查看工作流 ↗</span></a>
       <a class="spec" href="docs/EXECUTION-FLOW.md" target="_blank" rel="noopener">
         <h4>📖 執行流程總表</h4><p>誰做什麼、在哪裡發生、你只需要做什麼——Pages/Issues/Actions 分工一頁說清。</p><span class="go">打開文檔 ↗</span></a>
     </div>
@@ -354,7 +354,7 @@ FinalSPI = max(0, SPI − ForkPenalty)</div>
     </div>
     <h2 class="section-title">單一真相源</h2>
     <div class="spec-grid">
-      <div class="spec"><h4>🐙 ya-mic-os</h4><p>全域資產治理、決策紀錄、公開總控 Pages（本站）。</p></div>
+      <div class="spec"><h4>🐙 前置版本</h4><p>全域資產治理、決策紀錄、公開總控 Pages（本站）。</p></div>
       <div class="spec"><h4>全景索引倉</h4><p>全景索引、倉庫/收藏搜尋與目錄。</p></div>
       <div class="spec"><h4>技能真相源倉</h4><p>AI 工具規範、Skills、同步接線的唯一真相源。</p></div>
       <div class="spec"><h4>戰略文檔倉</h4><p>產品線戰略總綱、業務規格與架構決策。</p></div>
@@ -445,7 +445,7 @@ FinalSPI = max(0, SPI − ForkPenalty)</div>
   </section>
 
   <div class="foot">
-    <div>🐙 YamiHub · Portfolio OS（ya-mic-os 迭代）· <b>v0.1</b></div>
+    <div>🐙 YamiHub · Portfolio OS（v0.3）· <b>v0.1</b></div>
     <div>自動發現新倉/星標 · 動態評分 · 裁決自動回收 · 數據每 6 小時同步 · <a href="https://github.com/Ya-MiC/yami-hub" style="font-weight:800" target="_blank" rel="noopener">Source</a></div>
   </div>
 </main>
@@ -546,7 +546,7 @@ const STAR_USE = {
   'asgeirtj/system_prompts_leaks': '在 dsh 開 research/ 目錄，每週提煉 3 條頂級提示詞模式進你的技能庫',
   'mvanhorn/last30days-skill': '裝進 dsh web：每週自動產出《過去 30 天趨勢》研究報告',
   'chuspeeism/dashi-ppt-skill': '湛箴審計報告 → 一鍵轉可編輯 PPT 提案（客戶演示）',
-  'tt-a1i/archify': '為 ya-mic-os 面板與湛箴架構生成可驗證圖表（與本站地圖互補）',
+  'tt-a1i/archify': '為 前置版本 面板與湛箴架構生成可驗證圖表（與本站地圖互補）',
   'TauricResearch/TradingAgents': '多 Agent 金融交易框架：作為你 C 區量化系統的骨架藍本',
   'microsoft/qlib': '量化回測底座選型之一；與 nautilus_trader 二選一深入',
   'nautechsystems/nautilus_trader': 'Rust 級回測/實盤引擎：性能首選，先跑通 demo 數據',
@@ -791,7 +791,7 @@ const MAPS = {
     at["戰略文檔<br>🔒"]:::astA
     dsh["技能真相源"]:::astB
     hermes["全景索引"]:::astB
-    os["ya-mic-os<br>總控面板（本站）"]:::astB
+    os["前置版本<br>總控面板（本站）"]:::astB
   end
   subgraph ZH["🟣 A 產品線"]
     zz["審計平台 v1"]:::astA
@@ -876,7 +876,7 @@ const MAPS = {
   end
   subgraph IDX["索引與狀態"]
     h["hermes 全景索引"]:::astB
-    os["ya-mic-os 總控"]:::astB
+    os["前置版本 總控"]:::astB
     st8["openclaw 狀態記錄"]:::astE
   end
   subgraph STAR["⭐ Starred 吸收候選"]
@@ -895,7 +895,7 @@ const MAPS = {
   s1 -.吸收候選.-> dsh
   s2 -.吸收候選.-> dsh
   s3 -.吸收候選.-> dsh`,
-    links: ['dsh','deepseek-harness','argo','archify','dsh-stock-watch','awesome-dsh-plugin','open-design','hermes','ya-mic-os'] },
+    links: ['dsh','deepseek-harness','argo','archify','dsh-stock-watch','awesome-dsh-plugin','open-design','hermes','前置版本'] },
   m5: { code: `graph LR
   subgraph SRC["🟠 節點來源"]
     n1["serv00-play<br>argo+vmess/hy2"]:::astD
@@ -1060,7 +1060,7 @@ const MAPS2 = {
     b += N(70, 196, 240, 'A', '戰略文檔 🔒', '戰略總綱 · 工程規範', 'https://github.com/');
     b += N(370, 196, 240, 'B', 'dsh', '中央技能真相源', 'https://github.com/');
     b += N(670, 196, 240, 'B', 'hermes', '全景索引', 'https://github.com/');
-    b += N(950, 196, 230, 'B', 'ya-mic-os', '總控面板（本站）', 'https://github.com/Ya-MiC/yami-hub');
+    b += N(950, 196, 230, 'B', '前置版本', '總控面板（本站）', 'https://github.com/Ya-MiC/yami-hub');
     b += G(40, 350, 600, 430, '🟣 A 產品線');
     b += N(70, 404, 250, 'A', '審計平台 v1', '審計平台框架', 'https://github.com/Ya-MiC/審計平台');
     b += N(70, 494, 250, 'A', '後端服務 🔒', 'FastAPI + PG + MinIO + Redis', 'https://github.com/Ya-MiC/後端服務');
@@ -1149,7 +1149,7 @@ const MAPS2 = {
       ['🧮 分類+評分', 'SPI 引擎', 'B', 'https://github.com/Ya-MiC/yami-hub'],
       ['🚦 人類裁決', 'U≥6 → 30秒', 'D', 'https://github.com/Ya-MiC/yami-hub/issues?q=label%3Ahuman-review'],
       ['📥 寫入', 'portfolio.json', 'A', 'https://github.com/Ya-MiC/yami-hub/blob/main/data/portfolio.json'],
-      ['🗂 八面板', '+ 儀表盤', 'A', 'https://ya-mic.github.io/ya-mic-os/'],
+      ['🗂 八面板', '+ 儀表盤', 'A', 'https://ya-mic.github.io/前置版本/'],
       ['🚀 Pages', '自動部署', 'C', 'https://docs.github.com/actions'],
       ['⏱ 自動同步', '每 6 小時', 'D', 'https://docs.github.com/actions'],
     ];
@@ -1203,7 +1203,7 @@ const MAPS2 = {
     b += N(340, 304, 230, 'B', 'awesome-dsh-plugin', '插件精選清單', 'https://github.com/Ya-MiC/awesome-dsh-plugin');
     b += G(640, 160, 560, 240, '索引與狀態');
     b += N(670, 214, 230, 'B', 'hermes', '全景索引', 'https://github.com/');
-    b += N(940, 214, 230, 'B', 'ya-mic-os', '總控（本站）', 'https://github.com/Ya-MiC/yami-hub');
+    b += N(940, 214, 230, 'B', '前置版本', '總控（本站）', 'https://github.com/Ya-MiC/yami-hub');
     b += N(670, 304, 230, 'E', 'openclaw 狀態群', '配置 · 記憶 · 心跳', 'https://github.com/Ya-MiC/openclaw-kugua-state');
     b += G(640, 440, 560, 300, '⭐ Starred 吸收候選');
     b += N(670, 494, 240, 'STAR', 'distilly ★24k', '工作流 → Skills', 'https://github.com/titanwings/distilly');

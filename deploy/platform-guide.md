@@ -62,7 +62,7 @@ C:\Users\cao41\.openclaw-autoclaw\workspace\projects\yami-hub\
 │   └── fix-*.mjs            歷次改造腳本（改造史記錄）
 │
 └── _private\                你的真實數據（絕不進公開倉庫，.gitignore 已防呆）
-    └── _reference\          ya-mic-os 原始參考（73 個真實倉庫數據等）
+    └── _reference\          前置版本 原始參考（73 個真實倉庫數據等）
 ```
 
 **一句話版**：

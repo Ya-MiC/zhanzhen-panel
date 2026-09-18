@@ -13,7 +13,7 @@
 
 | 層 | 來源 | 狀態 |
 | --- | --- | --- |
-| UI 設計系統 / 面板骨架 | ya-mic-os（Ya-MiC 私有倉庫，MIT）的產品化迭代 | 移植 + 產品化改造 |
+| UI 設計系統 / 面板骨架 | 前置版本（Ya-MiC 私有倉庫，MIT）的產品化迭代 | 移植 + 產品化改造 |
 | 資產地圖引擎 | `assets/archify-live.js` 為原創實現，視覺方法論遵循 archify（tt-a1i，MIT） | 本項目自有 |
 | OAuth 後端 | `deploy/_worker.js` 原創，按 OAuth 2.0 標準族（RFC 6749/7636/6750）實現 | 本項目自有 |
 | 看板形態參考 | dashi-taskboard（chuspeeism，Apache-2.0）的狀態流思想 | 思想參考，零代碼 |
