@@ -1,0 +1,55 @@
+name: 🐛 Bug 回報
+description: 功能表現和預期不一致
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感謝回報！請先搜尋現有 issue 避免重複。
+        提交前請確認：使用最新版本、已閱讀 deploy/README.md 的出錯速查表。
+  - type: dropdown
+    id: module
+    attributes:
+      label: 出問題的模塊
+      options:
+        - 面板登入（OAuth）
+        - 資產畫廊 / 總覽
+        - 資產地圖
+        - 資訊 · 熱榜（YamiFeed）
+        - 微信推送
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 重現步驟
+      placeholder: |
+        1. 打開 ...
+        2. 點擊 ...
+        3. 看到 ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 預期行為
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 實際行為
+    validations:
+      required: true
+  - type: dropdown
+    id: deploy
+    attributes:
+      label: 部署方式
+      options:
+        - Cloudflare Pages（拖放上傳）
+        - Cloudflare Pages（Git 集成）
+        - 本地 wrangler pages dev
+        - 其他
+    validations:
+      required: true

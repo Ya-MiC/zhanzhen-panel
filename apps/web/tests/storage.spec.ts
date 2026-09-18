@@ -1,73 +1,97 @@
-// storage.spec.ts — useStorage 單元測試（vitest，零外部依賴、零真實 AI）
-import { describe, it, expect, beforeEach } from "vitest";
+// apps/web/tests/storage.spec.ts — 存儲契約測試（node:test 零依賴，修 CI 紅燈）
+// v2：vitest → node:test + node:assert（Node 20 內建，CI 免裝 vitest）
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
 import { LocalStorageAdapter } from "../src/composables/useStorage";
 
-// jsdom-free：手寫 localStorage mock（Node 環境無 window）
 class MockLS {
   private m = new Map<string, string>();
-  getItem(k: string) { return this.m.has(k) ? this.m.get(k)! : null; }
+  getItem(k: string): string | null { return this.m.has(k) ? this.m.get(k)! : null; }
   setItem(k: string, v: string) { this.m.set(k, String(v)); }
   removeItem(k: string) { this.m.delete(k); }
-  key(i: number) { return [...this.m.keys()][i] ?? null; }
-  get length() { return this.m.size; }
+  key(i: number): string | null { return [...this.m.keys()][i] ?? null; }
+  get length(): number { return this.m.size; }
+  clear() { this.m.clear(); }
 }
-// @ts-expect-error 測試環境注入
-globalThis.localStorage = new MockLS();
+(globalThis as unknown as { localStorage: MockLS }).localStorage = new MockLS();
 
-describe("LocalStorageAdapter", () => {
-  let ad: LocalStorageAdapter;
-  beforeEach(() => { ad = new LocalStorageAdapter(); localStorage.clear(); });
-
-  it("set 寫入帶 envelope（version+updatedAt+data）", async () => {
+describe("LocalStorageAdapter 存儲契約", () => {
+  it("set 寫入帶 envelope（version=1 + updatedAt + data）", async () => {
+    const ad = new LocalStorageAdapter();
     await ad.set("zhanzhen-panel-files-v1", [{ id: "d1" }]);
     const raw = JSON.parse(localStorage.getItem("zhanzhen-panel-files-v1")!);
-    expect(raw.version).toBe(1);
-    expect(raw.updatedAt).toBeTruthy();
-    expect(raw.data).toEqual([{ id: "d1" }]);
+    assert.equal(raw.version, 1);
+    assert.ok(raw.updatedAt);
+    assert.deepEqual(raw.data, [{ id: "d1" }]);
   });
 
-  it("get 讀 envelope 拆包返回 data", async () => {
+  it("get 讀 envelope 自動拆包返回 data", async () => {
+    const ad = new LocalStorageAdapter();
     await ad.set("k1", { hello: "world" });
-    expect(await ad.get("k1")).toEqual({ hello: "world" });
+    assert.deepEqual(await ad.get<{ hello: string }>("k1"), { hello: "world" });
   });
 
-  it("v0.1 裸格式向後兼容直通", async () => {
+  it("v0.1 裸格式（無 envelope）向後兼容直通", async () => {
+    const ad = new LocalStorageAdapter();
     localStorage.setItem("zhanzhen-panel-files-v1", JSON.stringify([{ id: "legacy" }]));
     const v = await ad.get<{ id: string }[]>("zhanzhen-panel-files-v1");
-    expect(v![0].id).toBe("legacy");
+    assert.equal(v![0].id, "legacy");
   });
 
-  it("壞 JSON 返回 null 不拋不覆蓋", async () => {
+  it("壞 JSON：get 返回 null 不拋錯、原文保留不覆蓋", async () => {
+    const ad = new LocalStorageAdapter();
     localStorage.setItem("bad", "{broken");
-    expect(await ad.get("bad")).toBeNull();
-    expect(localStorage.getItem("bad")).toBe("{broken"); // 原文保留
+    assert.equal(await ad.get("bad"), null);
+    assert.equal(localStorage.getItem("bad"), "{broken");
   });
 
   it("remove 清除鍵", async () => {
+    const ad = new LocalStorageAdapter();
     await ad.set("k2", 1);
     await ad.remove("k2");
-    expect(await ad.get("k2")).toBeNull();
+    assert.equal(await ad.get("k2"), null);
   });
 
   it("export 全量含 app 標識與時間戳", async () => {
+    const ad = new LocalStorageAdapter();
     await ad.set("a", 1);
     const dump = JSON.parse(await ad.export());
-    expect(dump.app).toBe("zhanzhen-panel");
-    expect(dump.exportedAt).toBeTruthy();
-    expect(dump.data.a.data).toBe(1);
+    assert.equal(dump.app, "zhanzhen-panel");
+    assert.ok(dump.exportedAt);
+    assert.equal(dump.data.a.data, 1);
   });
 
-  it("import merge 寫入有效鍵、跳過損壞項", async () => {
-    const json = JSON.stringify({ app: "zhanzhen-panel", data: { x: { version: 1, data: [1, 2] }, bad: { _corrupted: true } } });
+  it("import merge：有效鍵寫入、_corrupted 跳過", async () => {
+    const ad = new LocalStorageAdapter();
+    const json = JSON.stringify({
+      app: "zhanzhen-panel",
+      data: {
+        x: { version: 1, updatedAt: "t", data: [1, 2] },
+        bad: { _corrupted: true },
+      },
+    });
     const r = await ad.import(json, "merge");
-    expect(r.imported).toBe(1);
-    expect(r.skipped).toBe(1);
-    expect(await ad.get("x")).toEqual([1, 2]);
+    assert.equal(r.imported, 1);
+    assert.equal(r.skipped, 1);
+    assert.deepEqual(await ad.get<number[]>("x"), [1, 2]);
   });
 
-  it("import 無 data 字段拋錯且不動現有數據", async () => {
+  it("import 缺 data 字段：拋錯且現有數據不動", async () => {
+    const ad = new LocalStorageAdapter();
     await ad.set("keep", "原值");
-    await expect(ad.import(JSON.stringify({ foo: 1 }), "merge")).rejects.toThrow("data 字段");
-    expect(await ad.get("keep")).toBe("原值");
+    await assert.rejects(ad.import(JSON.stringify({ foo: 1 }), "merge"), /data 字段/);
+    assert.equal(await ad.get("keep"), "原值");
+  });
+
+  it("import replace：清空後寫入", async () => {
+    const ad = new LocalStorageAdapter();
+    await ad.set("old", "舊數據");
+    const json = JSON.stringify({
+      app: "zhanzhen-panel",
+      data: { "new-key": { version: 1, updatedAt: "t", data: "新" } },
+    });
+    await ad.import(json, "replace");
+    assert.equal(await ad.get("old"), null);
+    assert.equal(await ad.get("new-key"), "新");
   });
 });

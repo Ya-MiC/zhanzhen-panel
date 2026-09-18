@@ -1,0 +1,24 @@
+name: ✨ 功能建議
+description: 希望新增或改進某個功能
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 想解決什麼問題
+      placeholder: 描述你遇到的困難，而不是直接提方案
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: 你期望的方案
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 這屬於哪個範圍
+      options:
+        - label: 面板 UI / 交互
+        - label: 數據源 / 聚合
+        - label: 安全 / 隱私
+        - label: 部署 / 文檔

@@ -1,106 +1,20 @@
-# =========================
-# 湛箴面板：絕不提交的敏感資料
-# =========================
-
-# 環境變數與 API 金鑰
+# 新增檔案
+node_modules/
+dist/
+.wrangler/
 .env
 .env.*
 !.env.example
-*.key
-*.pem
-*.p12
-*.pfx
-secrets/
-credentials/
-config/local.*
+*.log
 
-# 真實業務資料與使用者本地文件
-local-data/
-private-data/
-customer-data/
-client-data/
-uploads/
-workspace/
-workspaces/
-documents/
-reports/
-audit-files/
-evidence/
-exports/
-backups/
-
-# Office / PDF：預設忽略，只有脫敏測試樣本才能放入 fixtures
-*.doc
-*.docx
-*.xls
-*.xlsx
-*.ppt
-*.pptx
-*.pdf
-*.csv
-
-# 若需要提交脫敏測試檔案，請只放在這個資料夾
-!tests/fixtures/
-!tests/fixtures/**
-!tests/fixtures/**/*.docx
-!tests/fixtures/**/*.xlsx
-!tests/fixtures/**/*.pdf
-!tests/fixtures/**/*.csv
-
-# 本地資料庫、向量資料庫、快取
-*.db
-*.sqlite
-*.sqlite3
-*.sqlite-wal
-*.sqlite-shm
-*.duckdb
-*.vector
-data/
-storage/
-cache/
-tmp/
-temp/
-
-# Node / Vue / Vite 編譯產物
-node_modules/
-dist/
-dist-ssr/
-.vite/
-.nuxt/
-.output/
-coverage/
-*.tsbuildinfo
-
-# Tauri / Rust 編譯產物
-target/
-src-tauri/target/
-src-tauri/gen/
-*.app
-*.exe
-*.msi
-*.apk
-*.aab
-*.dmg
-*.deb
-*.rpm
-
-# IDE 與作業系統檔案
-.vscode/
-.idea/
-*.iml
+# 忽略系統檔
 .DS_Store
 Thumbs.db
-desktop.ini
 
-# 日誌
-*.log
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# 忽略 IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
 
-# Python 快取（未來文件解析服務可能會用）
-__pycache__/
-*.py[cod]
-.venv/
-venv/
+# 忽略本地臨時
+*.local
