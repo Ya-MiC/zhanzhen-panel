@@ -1,11 +1,11 @@
-// apps/web/tests/storage.spec.ts — 存儲契約測試（node:test 零依賴，修 CI 紅燈）
-// v2：vitest → node:test + node:assert（Node 20 內建，CI 免裝 vitest）
+// apps/web/tests/storage.spec.ts — 存儲契約測試（顯式 import node:test，與 node 類型兼容）
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { LocalStorageAdapter } from "../src/composables/useStorage";
 
 class MockLS {
-  private m = new Map<string, string>();
+  m: Map<string, string>;
+  constructor() { this.m = new Map(); }
   getItem(k: string): string | null { return this.m.has(k) ? this.m.get(k)! : null; }
   setItem(k: string, v: string) { this.m.set(k, String(v)); }
   removeItem(k: string) { this.m.delete(k); }
@@ -13,7 +13,7 @@ class MockLS {
   get length(): number { return this.m.size; }
   clear() { this.m.clear(); }
 }
-(globalThis as unknown as { localStorage: MockLS }).localStorage = new MockLS();
+(globalThis as any).localStorage = new MockLS();
 
 describe("LocalStorageAdapter 存儲契約", () => {
   it("set 寫入帶 envelope（version=1 + updatedAt + data）", async () => {
